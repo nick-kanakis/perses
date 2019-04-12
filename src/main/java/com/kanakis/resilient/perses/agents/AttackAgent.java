@@ -16,6 +16,9 @@ public class AttackAgent {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         server.registerMBean(ts, on);
 
+        Thread.sleep(1000);
+        ts.transformClass("com.kanakis.resilient.perses.targetApp.Person", "sayHello", "fault");
+
         // Set this property so the installer knows we're already here
         System.setProperty("chaos.agent.installed", "true");
         System.out.println("AgentMain Installed");

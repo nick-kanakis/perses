@@ -16,12 +16,8 @@ public class TransformerService implements TransformerServiceMBean {
         this.instrumentation = instrumentation;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see com.heliosapm.shorthandexamples.TransformerServiceMBean#transformClass(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
-    public void transformClass(String className, String methodName) {
+    public void transformClass(String className, String methodName, String attackMode) {
         Class<?> targetClazz = null;
         ClassLoader targetClassLoader = null;
         // first see if we can locate the class through normal means
@@ -29,7 +25,7 @@ public class TransformerService implements TransformerServiceMBean {
         try {
             targetClazz = Class.forName(className);
             targetClassLoader = targetClazz.getClassLoader();
-            transform(targetClazz, targetClassLoader, methodName);
+            transform(targetClazz, targetClassLoader, methodName, attackMode);
             System.out.println("End transformClass");
             return;
         } catch (Exception ex) { /* Nope */ }
@@ -38,7 +34,7 @@ public class TransformerService implements TransformerServiceMBean {
             if(clazz.getName().equals(className)) {
                 targetClazz = clazz;
                 targetClassLoader = targetClazz.getClassLoader();
-                transform(targetClazz, targetClassLoader, methodName);
+                transform(targetClazz, targetClassLoader, methodName, attackMode);
                 System.out.println("End transformClass 2");
                 return;
             }
@@ -51,9 +47,10 @@ public class TransformerService implements TransformerServiceMBean {
      * @param clazz The class to transform
      * @param classLoader The classloader the class was loaded from
      * @param methodName The method name to instrument
+     * @param attackMode The type of attack to be injected
      */
-    protected void transform(Class<?> clazz, ClassLoader classLoader, String methodName) {
-        ChaosTransformer dt = new ChaosTransformer(classLoader, clazz.getName(), methodName);
+    protected void transform(Class<?> clazz, ClassLoader classLoader, String methodName, String attackMode) {
+        ChaosTransformer dt = new ChaosTransformer(classLoader, clazz.getName(), methodName,  AttackMode.getAttackMode(attackMode));
         System.out.println("Start transform");
         instrumentation.addTransformer(dt, true);
         System.out.println("End transform");

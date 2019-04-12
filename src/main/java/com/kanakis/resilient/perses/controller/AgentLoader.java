@@ -1,5 +1,6 @@
 package com.kanakis.resilient.perses.controller;
 
+import com.kanakis.resilient.perses.agents.AttackMode;
 import com.kanakis.resilient.perses.agents.ChaosTransformer;
 import com.kanakis.resilient.perses.agents.ModifyMethod;
 import com.kanakis.resilient.perses.agents.TransformerService;
@@ -90,7 +91,7 @@ public class AgentLoader {
                         Manifest mf = new Manifest(bais);
                         fos = new FileOutputStream(tmpFile, false);
                         jos = new JarOutputStream(fos, mf);
-                        addClassesToJar(jos, AttackAgent.class, ChaosTransformer.class, ModifyMethod.class, TransformerService.class, TransformerServiceMBean.class);
+                        addClassesToJar(jos, AttackAgent.class, ChaosTransformer.class, ModifyMethod.class, TransformerService.class, TransformerServiceMBean.class, AttackMode.class);
                         jos.flush();
                         jos.close();
                         fos.flush();
