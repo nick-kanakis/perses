@@ -9,11 +9,7 @@ import com.kanakis.resilient.perses.agents.TransformerServiceMBean;
 import com.kanakis.resilient.perses.targetApp.Person;
 import com.sun.tools.attach.VirtualMachine;
 
-import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,29 +25,29 @@ import java.util.zip.ZipEntry;
 
 public class AgentLoader {
 
-    /** The created agent jar file name */
+    /**
+     * The created agent jar file name
+     */
     protected static final AtomicReference<String> agentJar = new AtomicReference<String>(null);
 
     public static void run(String[] args) {
-        String applicationName = "MyApp";
-
+        String applicationName = "AppLauncher";
 
         //iterate all jvms and get the first one that matches our application name
-//        Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
-//                .stream()
-//                .filter(jvm -> {
-//                    System.out.println("jvm: "+ jvm.displayName());
-//                    return jvm.displayName().contains(applicationName);
-//                })
-//                .findFirst().get().id());
-//
-//        if(!jvmProcessOpt.isPresent()) {
-//            System.out.println("Target Application not found");
-//            return;
-//        }
+        Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
+                .stream()
+                .filter(jvm -> {
+                    System.out.println("jvm: " + jvm.displayName());
+                    return jvm.displayName().contains(applicationName);
+                })
+                .findFirst().get().id());
+
+        if (!jvmProcessOpt.isPresent()) {
+            System.out.println("Target Application not found");
+            return;
+        }
         String agentFileName = createAgent();
-        //String jvmPid = jvmProcessOpt.get();
-        String jvmPid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+        String jvmPid = jvmProcessOpt.get();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
 
         try {
@@ -62,9 +58,9 @@ public class AgentLoader {
             System.out.println("Instrumentation Deployed:" + ManagementFactory.getPlatformMBeanServer().isRegistered(on));
 
             Person person = new Person();
-            for(int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 person.sayHello(i);
-                person.sayHello("" + (i*-1));
+                person.sayHello("" + (i * -1));
                 Thread.currentThread().join(5000);
             }
         } catch (Exception e) {
@@ -73,9 +69,9 @@ public class AgentLoader {
     }
 
     private static String createAgent() {
-        if(agentJar.get()==null) {
-            synchronized(agentJar) {
-                if(agentJar.get()==null) {
+        if (agentJar.get() == null) {
+            synchronized (agentJar) {
+                if (agentJar.get() == null) {
                     FileOutputStream fos = null;
                     JarOutputStream jos = null;
                     try {
@@ -100,7 +96,10 @@ public class AgentLoader {
                     } catch (Exception e) {
                         throw new RuntimeException("Failed to write Agent installer Jar", e);
                     } finally {
-                        if(fos!=null) try { fos.close(); } catch (Exception e) {}
+                        if (fos != null) try {
+                            fos.close();
+                        } catch (Exception e) {
+                        }
                     }
 
                 }
@@ -111,12 +110,13 @@ public class AgentLoader {
 
     /**
      * Writes the passed classes to the passed JarOutputStream
-     * @param jos the JarOutputStream
+     *
+     * @param jos     the JarOutputStream
      * @param clazzes The classes to write
      * @throws IOException on an IOException
      */
-    protected static void addClassesToJar(JarOutputStream jos, Class<?>...clazzes) throws IOException {
-        for(Class<?> clazz: clazzes) {
+    protected static void addClassesToJar(JarOutputStream jos, Class<?>... clazzes) throws IOException {
+        for (Class<?> clazz : clazzes) {
             jos.putNextEntry(new ZipEntry(clazz.getName().replace('.', '/') + ".class"));
             jos.write(getClassBytes(clazz));
             jos.flush();
@@ -126,6 +126,7 @@ public class AgentLoader {
 
     /**
      * Returns the bytecode bytes for the passed class
+     *
      * @param clazz The class to get the bytecode for
      * @return a byte array of bytecode for the passed class
      */
@@ -136,7 +137,7 @@ public class AgentLoader {
             ByteArrayOutputStream baos = new ByteArrayOutputStream(is.available());
             byte[] buffer = new byte[8092];
             int bytesRead = -1;
-            while((bytesRead = is.read(buffer))!=-1) {
+            while ((bytesRead = is.read(buffer)) != -1) {
                 baos.write(buffer, 0, bytesRead);
             }
             baos.flush();
@@ -144,7 +145,12 @@ public class AgentLoader {
         } catch (Exception e) {
             throw new RuntimeException("Failed to read class bytes for [" + clazz.getName() + "]", e);
         } finally {
-            if(is!=null) { try { is.close(); } catch (Exception e) {} }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception e) {
+                }
+            }
         }
     }
 

@@ -6,15 +6,15 @@ import javassist.CtMethod;
 public enum AttackMode {
     LATENCY {
         @Override
-        public CtMethod generateCode(CtMethod method,long timeToSleep) throws CannotCompileException {
-            String assaultCode = "try { Thread.sleep(" + timeToSleep + "l);} catch (InterruptedException e) {}}" ;
+        public CtMethod generateCode(CtMethod method, long timeToSleep) throws CannotCompileException {
+            String assaultCode = "try { Thread.sleep(" + timeToSleep + "l);} catch (InterruptedException e) {}";
             method.insertBefore(assaultCode);
 
             return method;
         }
 
         @Override
-        public CtMethod generateCode(CtMethod method) throws CannotCompileException{
+        public CtMethod generateCode(CtMethod method) throws CannotCompileException {
             //default delay is 20 sec
             String assaultCode = "try { Thread.sleep(20000l);} catch (InterruptedException e) {}";
             method.insertBefore(assaultCode);
@@ -23,19 +23,17 @@ public enum AttackMode {
         }
 
     },
-
     FAULT {
         @Override
-        public CtMethod generateCode(CtMethod method) throws CannotCompileException{
-            String assaultCode = "throw new ArithmeticException(\"This is an injected exception by Perses\");";
+        public CtMethod generateCode(CtMethod method) throws CannotCompileException {
+            String assaultCode = "throw new OutOfMemoryError(\"This is an injected exception by Perses\");";
             method.setBody(assaultCode);
 
             return method;
         }
 
         @Override
-        public CtMethod generateCode(CtMethod method, long timeToSleep) throws CannotCompileException{
-            // should not have been called, calling generateCode()
+        public CtMethod generateCode(CtMethod method, long timeToSleep) throws CannotCompileException {
             return generateCode(method);
         }
     };
@@ -46,6 +44,7 @@ public enum AttackMode {
     }
 
     public abstract CtMethod generateCode(CtMethod method) throws CannotCompileException;
+
     public abstract CtMethod generateCode(CtMethod method, long timeToSleep) throws CannotCompileException;
 
 }

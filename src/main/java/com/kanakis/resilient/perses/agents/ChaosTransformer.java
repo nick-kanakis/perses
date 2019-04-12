@@ -22,21 +22,26 @@ public class ChaosTransformer implements ClassFileTransformer {
      * The attack to be selected
      */
     protected AttackMode attackMode;
+    /**
+     * If attack is latency this is the delay
+     */
+    protected long latency;
 
 
     /**
      * Creates a new DemoTransformer
      *
-     * @param classLoader     The classloader to match
-     * @param className       The binary class name of the class to transform
-     * @param methodName      The method name
-     * @param attackMode      The type of attack to be injected
+     * @param classLoader The classloader to match
+     * @param className   The binary class name of the class to transform
+     * @param methodName  The method name
+     * @param attackMode  The type of attack to be injected
      */
-    public ChaosTransformer(ClassLoader classLoader, String className, String methodName, AttackMode attackMode) {
+    public ChaosTransformer(ClassLoader classLoader, String className, String methodName, AttackMode attackMode, long latency) {
         this.className = className.replace('.', '/');
         this.classLoader = classLoader;
         this.methodName = methodName;
         this.attackMode = attackMode;
+        this.latency = latency;
     }
 
     /**
@@ -51,7 +56,7 @@ public class ChaosTransformer implements ClassFileTransformer {
         System.out.println("Examining class [" + className + "]");
         if (className.equals(this.className) && loader.equals(classLoader)) {
             System.out.println("Instrumenting class [" + className + "]");
-            byte[] result = ModifyMethod.instrument(className, methodName, loader, classfileBuffer, attackMode);
+            byte[] result = ModifyMethod.instrument(className, methodName, loader, classfileBuffer, attackMode, latency);
             System.out.println("Done..!!!");
             return result;
         }
