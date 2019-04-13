@@ -9,7 +9,12 @@ import com.kanakis.resilient.perses.agents.TransformerServiceMBean;
 import com.kanakis.resilient.perses.targetApp.Person;
 import com.sun.tools.attach.VirtualMachine;
 
+import javax.management.JMX;
+import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,10 +57,16 @@ public class AgentLoader {
 
         try {
             VirtualMachine jvm = VirtualMachine.attach(jvmPid);
+            if ("true".equals(jvm.getSystemProperties().getProperty("chaos.agent.installed"))) {
+                System.out.println("Agent is already attached...");
+                return;
+            }
             jvm.loadAgent(agentFileName);
             System.out.println("Agent Loaded");
             ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
             System.out.println("Instrumentation Deployed:" + ManagementFactory.getPlatformMBeanServer().isRegistered(on));
+
+            manipulateMbean(jvm);
 
             Person person = new Person();
             for (int i = 0; i < 1000; i++) {
@@ -150,6 +161,40 @@ public class AgentLoader {
                     is.close();
                 } catch (Exception e) {
                 }
+            }
+        }
+    }
+
+    private static void manipulateMbean(VirtualMachine jvm) throws Exception {
+
+        String connectorAddress = jvm.getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress", null);
+        if (connectorAddress == null) {
+            // It's not, so install the management agent
+            String javaHome = jvm.getSystemProperties().getProperty("java.home");
+            File managementAgentJarFile = new File(javaHome + File.separator + "lib" + File.separator + "management-agent.jar");
+            jvm.loadAgent(managementAgentJarFile.getAbsolutePath());
+            connectorAddress = jvm.getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress", null);
+            // Now it's installed
+        }
+        // Now connect and transform the classnames provided in the remaining args.
+        JMXConnector connector = null;
+        try {
+            // This is the ObjectName of the MBean registered when loaded.jar was installed.
+            ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
+            // Here we're connecting to the target JVM through the management agent
+            connector = JMXConnectorFactory.connect(new JMXServiceURL(connectorAddress));
+            MBeanServerConnection server = connector.getMBeanServerConnection();
+
+            TransformerServiceMBean transformerServiceMBean = JMX.newMBeanProxy(server, on, TransformerServiceMBean.class);
+            transformerServiceMBean.transformClass("com.kanakis.resilient.perses.targetApp.Person", "sayHello", "fault", 30000);
+
+        } catch (
+                Exception ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            if (connector != null) try {
+                connector.close();
+            } catch (Exception e) {
             }
         }
     }

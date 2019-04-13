@@ -17,13 +17,8 @@ public class AttackAgent {
         server.registerMBean(ts, on);
 
         Thread.sleep(500);
-        ts.transformClass("com.kanakis.resilient.perses.targetApp.Person", "sayHello", "latency", 30000);
 
-        // todo: check the chaos.agent.installed property before attaching the agent
-        // Set this property so the installer knows we're already here
         System.setProperty("chaos.agent.installed", "true");
         System.out.println("AgentMain Installed");
     }
-
-
 }

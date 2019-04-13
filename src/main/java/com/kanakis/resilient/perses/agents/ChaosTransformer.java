@@ -27,7 +27,6 @@ public class ChaosTransformer implements ClassFileTransformer {
      */
     protected long latency;
 
-
     /**
      * Creates a new DemoTransformer
      *
