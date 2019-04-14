@@ -8,7 +8,8 @@ public class TransformerService implements TransformerServiceMBean {
     /**
      * The JVM's instrumentation instance
      */
-    protected final Instrumentation instrumentation;
+    private final Instrumentation instrumentation;
+
 
     /**
      * Creates a new TransformerService
@@ -19,51 +20,63 @@ public class TransformerService implements TransformerServiceMBean {
         this.instrumentation = instrumentation;
     }
 
+
     @Override
-    public void transformClass(String className, String methodName, String attackMode, long latency) {
-        Class<?> targetClazz = null;
-        ClassLoader targetClassLoader = null;
-        // first see if we can locate the class through normal means
-        try {
-            targetClazz = Class.forName(className);
-            targetClassLoader = targetClazz.getClassLoader();
-            transform(targetClazz, targetClassLoader, methodName, attackMode, latency);
-            return;
-        } catch (Exception ex) { /* Nope */ }
-        // now try the hard/slow way
-        for (Class<?> clazz : instrumentation.getAllLoadedClasses()) {
-            if (clazz.getName().equals(className)) {
-                targetClazz = clazz;
-                targetClassLoader = targetClazz.getClassLoader();
-                transform(targetClazz, targetClassLoader, methodName, attackMode, latency);
-                return;
-            }
-        }
-        throw new RuntimeException("Failed to locate class [" + className + "]");
+    public void throwException(String className, String methodName) {
+        TransformProperties properties = new TransformProperties(methodName, OperationMode.FAULT);
+        transform(className, properties);
+    }
+
+    @Override
+    public void addLatency(String className, String methodName, long latency) {
+        TransformProperties properties = new TransformProperties(methodName, OperationMode.LATENCY, latency);
+        transform(className, properties);
+    }
+
+    @Override
+    public void restoreMethod(String className, String methodName) {
+        TransformProperties properties = new TransformProperties(methodName, OperationMode.RESTORE);
+        transform(className, properties);
     }
 
     /**
-     * Registers a transformer and executes the transform
+     * Registers a transformer and executes the transformation
      *
-     * @param clazz       The class to transform
-     * @param classLoader The classloader the class was loaded from
-     * @param methodName  The method name to instrument
-     * @param attackMode  The type of attack to be injected
-     * @param latency     If attack is latency this is the delay
+     * @param className The binary name of the target class
      */
-    protected void transform(Class<?> clazz, ClassLoader classLoader, String methodName, String attackMode, long latency) {
-        ChaosTransformer dt = new ChaosTransformer(classLoader, clazz.getName(), methodName, AttackMode.getAttackMode(attackMode), latency);
-        System.out.println("Start transform");
+    private void transform(String className, TransformProperties properties) {
+        Class<?> clazz = locateClass(className);
+        ClassLoader classLoader = clazz.getClassLoader();
+        ChaosTransformer dt = new ChaosTransformer(classLoader, clazz.getName(), properties);
         instrumentation.addTransformer(dt, true);
-        System.out.println("End transform");
         try {
-            System.out.println("Start retransformClasses");
             instrumentation.retransformClasses(clazz);
-            System.out.println("End retransformClasses");
         } catch (Exception ex) {
             throw new RuntimeException("Failed to transform [" + clazz.getName() + "]", ex);
         } finally {
             instrumentation.removeTransformer(dt);
         }
+    }
+
+    /**
+     * Locate target class to be transformed
+     *
+     * @param className The binary name of the target class
+     */
+    private Class<?> locateClass(String className) {
+        Class<?> targetClazz = null;
+        // first see if we can locate the class through normal means
+        try {
+            targetClazz = Class.forName(className);
+            return targetClazz;
+        } catch (Exception ex) { /* Nope */ }
+        // now try the hard/slow way
+        for (Class<?> clazz : instrumentation.getAllLoadedClasses()) {
+            if (clazz.getName().equals(className)) {
+                targetClazz = clazz;
+                return targetClazz;
+            }
+        }
+        throw new RuntimeException("Failed to locate class [" + className + "]");
     }
 }

@@ -12,19 +12,15 @@ public class ModifyMethod {
      * Creates a new ModifyMethodTest
      *
      * @param className   The internal form class name to modify
-     * @param methodName  The name of the method to transform
      * @param classLoader The intrumentation provided classloader
      * @param byteCode    The pre-transform byte code
-     * @param attackMode  The attack type
-     * @param latency     The delay if attack is latency
+     * @param properties  The transformation metadata
      * @return the modified byte code if successful, otherwise returns the original unmodified byte code
      */
     public static byte[] instrument(String className,
-                                    String methodName,
                                     ClassLoader classLoader,
                                     byte[] byteCode,
-                                    AttackMode attackMode,
-                                    long latency) {
+                                    TransformProperties properties) {
         String binName = className.replace('/', '.');
         try {
             ClassPool cPool = new ClassPool(true);
@@ -33,9 +29,10 @@ public class ModifyMethod {
             CtClass ctClazz = cPool.get(binName);
             int modifies = 0;
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
-                if (method.getName().equals(methodName)) {
+                if (method.getName().equals(properties.getMethodName())) {
                     ctClazz.removeMethod(method);
-                    ctClazz.addMethod(attackMode.generateCode(method, latency));
+                    CtMethod modifiedMethod = properties.getMode().generateCode(method, properties);
+                    ctClazz.addMethod(modifiedMethod);
                     modifies++;
                 }
             }

@@ -16,8 +16,6 @@ public class AttackAgent {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         server.registerMBean(ts, on);
 
-        Thread.sleep(500);
-
         System.setProperty("chaos.agent.installed", "true");
         System.out.println("AgentMain Installed");
     }

@@ -9,38 +9,28 @@ public class ChaosTransformer implements ClassFileTransformer {
     /**
      * The normal form class name of the class to transform
      */
-    protected String className;
+    private String className;
     /**
      * The class loader of the class
      */
-    protected ClassLoader classLoader;
+    private ClassLoader classLoader;
+
     /**
-     * The method name
+     *  The transformation metadata
      */
-    protected String methodName;
-    /**
-     * The attack to be selected
-     */
-    protected AttackMode attackMode;
-    /**
-     * If attack is latency this is the delay
-     */
-    protected long latency;
+    private TransformProperties properties;
 
     /**
      * Creates a new DemoTransformer
      *
      * @param classLoader The classloader to match
      * @param className   The binary class name of the class to transform
-     * @param methodName  The method name
-     * @param attackMode  The type of attack to be injected
+     * @param properties  The transformation metadata
      */
-    public ChaosTransformer(ClassLoader classLoader, String className, String methodName, AttackMode attackMode, long latency) {
+    public ChaosTransformer(ClassLoader classLoader, String className, TransformProperties properties) {
         this.className = className.replace('.', '/');
         this.classLoader = classLoader;
-        this.methodName = methodName;
-        this.attackMode = attackMode;
-        this.latency = latency;
+        this.properties = properties;
     }
 
     /**
@@ -55,7 +45,7 @@ public class ChaosTransformer implements ClassFileTransformer {
         System.out.println("Examining class [" + className + "]");
         if (className.equals(this.className) && loader.equals(classLoader)) {
             System.out.println("Instrumenting class [" + className + "]");
-            byte[] result = ModifyMethod.instrument(className, methodName, loader, classfileBuffer, attackMode, latency);
+            byte[] result = ModifyMethod.instrument(className, loader, classfileBuffer, properties);
             System.out.println("Done..!!!");
             return result;
         }

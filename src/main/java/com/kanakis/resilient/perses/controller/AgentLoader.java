@@ -1,8 +1,9 @@
 package com.kanakis.resilient.perses.controller;
 
-import com.kanakis.resilient.perses.agents.AttackMode;
+import com.kanakis.resilient.perses.agents.OperationMode;
 import com.kanakis.resilient.perses.agents.ChaosTransformer;
 import com.kanakis.resilient.perses.agents.ModifyMethod;
+import com.kanakis.resilient.perses.agents.TransformProperties;
 import com.kanakis.resilient.perses.agents.TransformerService;
 import com.kanakis.resilient.perses.agents.AttackAgent;
 import com.kanakis.resilient.perses.agents.TransformerServiceMBean;
@@ -71,8 +72,7 @@ public class AgentLoader {
             Person person = new Person();
             for (int i = 0; i < 1000; i++) {
                 person.sayHello(i);
-                person.sayHello("" + (i * -1));
-                Thread.currentThread().join(5000);
+                Thread.currentThread().join(1000);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -98,7 +98,13 @@ public class AgentLoader {
                         Manifest mf = new Manifest(bais);
                         fos = new FileOutputStream(tmpFile, false);
                         jos = new JarOutputStream(fos, mf);
-                        addClassesToJar(jos, AttackAgent.class, ChaosTransformer.class, ModifyMethod.class, TransformerService.class, TransformerServiceMBean.class, AttackMode.class);
+                        addClassesToJar(jos, AttackAgent.class,
+                                ChaosTransformer.class,
+                                ModifyMethod.class,
+                                TransformerService.class,
+                                TransformerServiceMBean.class,
+                                OperationMode.class,
+                                TransformProperties.class);
                         jos.flush();
                         jos.close();
                         fos.flush();
@@ -186,7 +192,10 @@ public class AgentLoader {
             MBeanServerConnection server = connector.getMBeanServerConnection();
 
             TransformerServiceMBean transformerServiceMBean = JMX.newMBeanProxy(server, on, TransformerServiceMBean.class);
-            transformerServiceMBean.transformClass("com.kanakis.resilient.perses.targetApp.Person", "sayHello", "fault", 30000);
+            transformerServiceMBean.addLatency("com.kanakis.resilient.perses.targetApp.Person", "sayHello", 10000);
+            //transformerServiceMBean.throwException("com.kanakis.resilient.perses.targetApp.Person", "sayHello");
+            // transformerServiceMBean.restoreMethod("com.kanakis.resilient.perses.targetApp.Person", "sayHello");
+
 
         } catch (
                 Exception ex) {
