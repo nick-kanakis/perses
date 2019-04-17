@@ -1,7 +1,7 @@
 package com.kanakis.resilient.perses.targetApp;
 
-public class Person {
-    public void sayHello(int x) {
+public class TargetClass {
+    public void targetMethod() {
         System.out.println("Hello");
     }
 }

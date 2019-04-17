@@ -7,7 +7,6 @@ import com.kanakis.resilient.perses.agents.TransformProperties;
 import com.kanakis.resilient.perses.agents.TransformerService;
 import com.kanakis.resilient.perses.agents.AttackAgent;
 import com.kanakis.resilient.perses.agents.TransformerServiceMBean;
-import com.kanakis.resilient.perses.targetApp.Person;
 import com.sun.tools.attach.VirtualMachine;
 
 import javax.management.JMX;
@@ -34,46 +33,49 @@ public class AgentLoader {
     /**
      * The created agent jar file name
      */
-    protected static final AtomicReference<String> agentJar = new AtomicReference<String>(null);
+    private static final AtomicReference<String> agentJar = new AtomicReference<>(null);
 
-    public static void run(String[] args) {
-        String applicationName = "AppLauncher";
 
-        //iterate all jvms and get the first one that matches our application name
-        Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
-                .stream()
-                .filter(jvm -> {
-                    System.out.println("jvm: " + jvm.displayName());
-                    return jvm.displayName().contains(applicationName);
-                })
-                .findFirst().get().id());
+    /**
+     * Creates a java agent jar and attach it to the target application
+     *
+     * @param applicationName application to attach the agent
+     * @return Return the MBean that is used to manipulate the agent with metadata
+     */
+    public static MBeanWrapper run(String applicationName, String jvmPid) {
 
-        if (!jvmProcessOpt.isPresent()) {
-            System.out.println("Target Application not found");
-            return;
+        if (jvmPid.isEmpty()) {
+            Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
+                    .stream()
+                    .filter(jvm -> {
+                        System.out.println("jvm: " + jvm.displayName());
+                        return jvm.displayName().contains(applicationName);
+                    })
+                    .findFirst().get().id());
+
+            if (!jvmProcessOpt.isPresent()) {
+                System.out.println("Target Application not found");
+                return null;
+            }
+            jvmPid = jvmProcessOpt.get();
         }
+
         String agentFileName = createAgent();
-        String jvmPid = jvmProcessOpt.get();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
 
         try {
             VirtualMachine jvm = VirtualMachine.attach(jvmPid);
             if ("true".equals(jvm.getSystemProperties().getProperty("chaos.agent.installed"))) {
                 System.out.println("Agent is already attached...");
-                return;
+                return getMBean(jvm);
             }
             jvm.loadAgent(agentFileName);
             System.out.println("Agent Loaded");
             ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
             System.out.println("Instrumentation Deployed:" + ManagementFactory.getPlatformMBeanServer().isRegistered(on));
 
-            manipulateMbean(jvm);
+            return getMBean(jvm);
 
-            Person person = new Person();
-            for (int i = 0; i < 1000; i++) {
-                person.sayHello(i);
-                Thread.currentThread().join(1000);
-            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -132,7 +134,7 @@ public class AgentLoader {
      * @param clazzes The classes to write
      * @throws IOException on an IOException
      */
-    protected static void addClassesToJar(JarOutputStream jos, Class<?>... clazzes) throws IOException {
+    private static void addClassesToJar(JarOutputStream jos, Class<?>... clazzes) throws IOException {
         for (Class<?> clazz : clazzes) {
             jos.putNextEntry(new ZipEntry(clazz.getName().replace('.', '/') + ".class"));
             jos.write(getClassBytes(clazz));
@@ -147,7 +149,7 @@ public class AgentLoader {
      * @param clazz The class to get the bytecode for
      * @return a byte array of bytecode for the passed class
      */
-    public static byte[] getClassBytes(Class<?> clazz) {
+    private static byte[] getClassBytes(Class<?> clazz) {
         InputStream is = null;
         try {
             is = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + ".class");
@@ -171,41 +173,18 @@ public class AgentLoader {
         }
     }
 
-    private static void manipulateMbean(VirtualMachine jvm) throws Exception {
-
-        String connectorAddress = jvm.getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress", null);
-        if (connectorAddress == null) {
-            // It's not, so install the management agent
-            String javaHome = jvm.getSystemProperties().getProperty("java.home");
-            File managementAgentJarFile = new File(javaHome + File.separator + "lib" + File.separator + "management-agent.jar");
-            jvm.loadAgent(managementAgentJarFile.getAbsolutePath());
-            connectorAddress = jvm.getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress", null);
-            // Now it's installed
-        }
-        // Now connect and transform the classnames provided in the remaining args.
-        JMXConnector connector = null;
-        try {
-            // This is the ObjectName of the MBean registered when loaded.jar was installed.
-            ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
-            // Here we're connecting to the target JVM through the management agent
-            connector = JMXConnectorFactory.connect(new JMXServiceURL(connectorAddress));
-            MBeanServerConnection server = connector.getMBeanServerConnection();
-
-            TransformerServiceMBean transformerServiceMBean = JMX.newMBeanProxy(server, on, TransformerServiceMBean.class);
-            transformerServiceMBean.addLatency("com.kanakis.resilient.perses.targetApp.Person", "sayHello", 10000);
-            //transformerServiceMBean.throwException("com.kanakis.resilient.perses.targetApp.Person", "sayHello");
-            // transformerServiceMBean.restoreMethod("com.kanakis.resilient.perses.targetApp.Person", "sayHello");
-
-
-        } catch (
-                Exception ex) {
-            ex.printStackTrace(System.err);
-        } finally {
-            if (connector != null) try {
-                connector.close();
-            } catch (Exception e) {
-            }
-        }
+    /**
+     * Return the MBean that is used to manipulate the agent
+     *
+     * @param jvm the VirtualMachine
+     * @throws Exception
+     */
+    private static MBeanWrapper getMBean(VirtualMachine jvm) throws Exception {
+        String connectorAddress = jvm.startLocalManagementAgent();
+        JMXConnector connector = JMXConnectorFactory.connect(new JMXServiceURL(connectorAddress));
+        ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
+        MBeanServerConnection server = connector.getMBeanServerConnection();
+        return new MBeanWrapper(JMX.newMBeanProxy(server, on, TransformerServiceMBean.class), connector);
     }
 
 }

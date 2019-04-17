@@ -1,0 +1,4 @@
+com/kanakis/resilient/perses/restore/TestRestore.class
+com/kanakis/resilient/perses/fault/TestFault.class
+com/kanakis/resilient/perses/latency/TestLatency.class
+com/kanakis/resilient/perses/targetApp/TargetClass.class

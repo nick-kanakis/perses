@@ -5,13 +5,13 @@ public class TransformProperties {
     private OperationMode mode;
     private long latency;
 
-    public TransformProperties(String methodName, OperationMode mode, long latency) {
+    TransformProperties(String methodName, OperationMode mode, long latency) {
         this.methodName = methodName;
         this.mode = mode;
         this.latency = latency;
     }
 
-    public TransformProperties(String methodName, OperationMode mode) {
+    TransformProperties(String methodName, OperationMode mode) {
         this.methodName = methodName;
         this.mode = mode;
         this.latency = 0;
