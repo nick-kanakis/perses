@@ -1,4 +1,4 @@
-package com.kanakis.resilient.agent;
+package com.kanakis.resilient.perses.agent;
 
 public class TransformProperties {
     private String methodName;

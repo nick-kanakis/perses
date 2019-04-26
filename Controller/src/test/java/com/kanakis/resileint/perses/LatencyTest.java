@@ -15,7 +15,7 @@ public class LatencyTest {
     private static MBeanWrapper mBeanWrapper;
 
     @BeforeClass
-    public static void init() {
+    public static void init() throws IOException {
         mBeanWrapper = AgentLoader.run("", ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
     }
 

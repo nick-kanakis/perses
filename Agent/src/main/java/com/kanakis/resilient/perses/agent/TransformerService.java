@@ -1,7 +1,5 @@
-package com.kanakis.resilient.agent;
+package com.kanakis.resilient.perses.agent;
 
-
-import javassist.ClassPool;
 
 import java.lang.instrument.Instrumentation;
 

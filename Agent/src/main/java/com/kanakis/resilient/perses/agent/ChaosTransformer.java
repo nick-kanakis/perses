@@ -1,4 +1,4 @@
-package com.kanakis.resilient.agent;
+package com.kanakis.resilient.perses.agent;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;

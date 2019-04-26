@@ -1,7 +1,7 @@
 package com.kanakis.resilient.perses.core;
 
 
-import com.kanakis.resilient.agent.TransformerServiceMBean;
+import com.kanakis.resilient.perses.agent.TransformerServiceMBean;
 
 import javax.management.remote.JMXConnector;
 import java.io.IOException;

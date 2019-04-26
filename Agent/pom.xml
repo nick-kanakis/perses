@@ -32,13 +32,13 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <outputDirectory>../Controller/</outputDirectory>
+                    <outputDirectory>../</outputDirectory>
                     <finalName>uber-perses-agent</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifestEntries>
-                            <Agent-Class>com.kanakis.resilient.agent.AttackAgent</Agent-Class>
-                            <Premain-Class>com.kanakis.resilient.agent.AttackAgent</Premain-Class>
+                            <Agent-Class>com.kanakis.resilient.perses.agent.AttackAgent</Agent-Class>
+                            <Premain-Class>com.kanakis.resilient.perses.agent.AttackAgent</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>

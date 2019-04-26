@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class Perses {
     //todo: Micronaut & Kotlin
@@ -17,7 +19,7 @@ public class Perses {
     @Bean
     public MBeanWrapper getMBean(
             @Value("${targetApplicationName:}") String targetAppName,
-            @Value("${targetApplicationId:}") String targetAppId) {
+            @Value("${targetApplicationId:}") String targetAppId) throws IOException {
         return AgentLoader.run(targetAppName, targetAppId);
     }
 }
