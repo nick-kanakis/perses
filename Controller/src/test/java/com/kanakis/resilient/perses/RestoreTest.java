@@ -36,11 +36,27 @@ public class RestoreTest {
 
     @Test
     public void should_not_delay_after_method_restored() {
-        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", 3000);
+        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", 1000);
         mBeanWrapper.restoreMethod("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
         final long time = LatencyTest.timed(new TargetClass()::targetMethod);
 
         Assert.assertTrue(time < 1000 );
+    }
 
+    @Test
+    public void should_not_throw_exception_after_method_restored_when_called_defined_signature() {
+        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z");
+        mBeanWrapper.restoreMethod("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z");
+        TargetClass c = new TargetClass();
+        c.targetMethod();
+    }
+
+    @Test
+    public void should_not_delay_after_method_restored_when_called_defined_signature() {
+        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z", 1000);
+        mBeanWrapper.restoreMethod("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z");
+        final long time = LatencyTest.timed(new TargetClass()::targetMethod);
+
+        Assert.assertTrue(time < 1000 );
     }
 }

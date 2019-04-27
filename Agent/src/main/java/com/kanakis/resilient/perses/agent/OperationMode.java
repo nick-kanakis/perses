@@ -4,7 +4,7 @@ import javassist.CannotCompileException;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 
-public interface OperationMode {
+interface OperationMode {
 
     /**
      * Generates a new {@link javassist.CtMethod} modified based on passed properties.

@@ -4,7 +4,7 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-public class ChaosTransformer implements ClassFileTransformer {
+class ChaosTransformer implements ClassFileTransformer {
 
     private String className;
     private ClassLoader classLoader;
@@ -35,7 +35,7 @@ public class ChaosTransformer implements ClassFileTransformer {
         System.out.println("Examining class [" + className + "]");
         if (className.equals(this.className) && loader.equals(classLoader)) {
             System.out.println("Instrumenting class [" + className + "]");
-            return ModifyMethod.instrument(className, loader, classfileBuffer, properties);
+            return MethodManipulation.instrument(className, loader, classfileBuffer, properties);
         }
         return classfileBuffer;
     }

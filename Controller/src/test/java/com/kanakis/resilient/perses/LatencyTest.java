@@ -27,10 +27,18 @@ public class LatencyTest {
 
     @Test
     public void should_add_latency() {
-        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", 3000);
+        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", 1000);
         final long time = timed(new TargetClass()::targetMethod);
 
-        Assert.assertTrue(time > 3000 && time < 5000);
+        Assert.assertTrue(time >= 1000 && time < 2000);
+    }
+
+    @Test
+    public void should_add_latency_when_called_defined_signature() {
+        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z", 1000);
+        final long time = timed(new TargetClass()::targetMethod);
+
+        Assert.assertTrue(time >= 1000 && time < 2000);
     }
 
     public static long timed(Runnable runnable) {

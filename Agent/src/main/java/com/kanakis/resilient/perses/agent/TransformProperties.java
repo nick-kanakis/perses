@@ -5,17 +5,23 @@ package com.kanakis.resilient.perses.agent;
  */
 class TransformProperties {
     private String methodName;
+    private String signature;
     private OperationMode mode;
     private long latency;
 
-    TransformProperties(String methodName, OperationMode mode, long latency) {
+    TransformProperties(String methodName, String signature, OperationMode mode, long latency) {
         this.methodName = methodName;
+        this.signature = signature;
         this.mode = mode;
         this.latency = latency;
     }
 
     String getMethodName() {
         return methodName;
+    }
+
+    String getSignature() {
+        return signature;
     }
 
     OperationMode getMode() {

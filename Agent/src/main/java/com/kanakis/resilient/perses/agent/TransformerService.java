@@ -1,9 +1,9 @@
 package com.kanakis.resilient.perses.agent;
 
-
 import java.lang.instrument.Instrumentation;
+import java.util.List;
 
-public class TransformerService implements TransformerServiceMBean {
+class TransformerService implements TransformerServiceMBean {
 
     /**
      * The JVM's instrumentation instance
@@ -22,8 +22,25 @@ public class TransformerService implements TransformerServiceMBean {
     }
 
     @Override
+    public void throwException(String className, String methodName, String signature) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .setSignature(signature)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
     public void addLatency(String className, String methodName, long latency) {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
+                .setLatency(latency)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
+    public void addLatency(String className, String methodName, long latency, String signature) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
+                .setSignature(signature)
                 .setLatency(latency)
                 .createTransformProperties();
         transform(className, properties);
@@ -34,6 +51,21 @@ public class TransformerService implements TransformerServiceMBean {
         TransformProperties properties =  new TransformPropertiesBuilder(methodName, new RestoreMode())
                 .createTransformProperties();
         transform(className, properties);
+    }
+
+    @Override
+    public void restoreMethod(String className, String methodName, String signature) {
+        TransformProperties properties =  new TransformPropertiesBuilder(methodName, new RestoreMode())
+                .setSignature(signature)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
+    public List<MethodProperties> getInvokedMethods(String className, String methodName) throws Throwable {
+        Class<?> clazz = locateClass(className);
+        ClassLoader classLoader = clazz.getClassLoader();
+        return MethodManipulation.getInvokedMethods(className, classLoader, methodName);
     }
 
     /**

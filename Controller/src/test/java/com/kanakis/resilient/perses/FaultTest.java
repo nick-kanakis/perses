@@ -39,4 +39,13 @@ public class FaultTest {
         TargetClass c = new TargetClass();
         c.targetMethod();
     }
+
+    @Test
+    public void should_throw_RuntimeException_when_called_defined_signature() {
+        expectedEx.expect(OutOfMemoryError.class);
+        expectedEx.expectMessage("This is an injected exception by Perses");
+        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z");
+        TargetClass c = new TargetClass();
+        c.targetMethod();
+    }
 }

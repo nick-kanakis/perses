@@ -5,7 +5,7 @@ import javax.management.ObjectName;
 import java.lang.instrument.Instrumentation;
 import java.lang.management.ManagementFactory;
 
-public class AttackAgent {
+class AttackAgent {
 
     public static void agentmain(String agentArguments, Instrumentation instrumentation) throws Exception {
         System.out.println("Installing AgentMain...");
