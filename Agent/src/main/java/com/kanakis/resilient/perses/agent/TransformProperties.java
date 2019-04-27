@@ -1,6 +1,9 @@
 package com.kanakis.resilient.perses.agent;
 
-public class TransformProperties {
+/**
+ * Contains all properties that are needed for the transformation of a method.
+ */
+class TransformProperties {
     private String methodName;
     private OperationMode mode;
     private long latency;
@@ -11,21 +14,15 @@ public class TransformProperties {
         this.latency = latency;
     }
 
-    TransformProperties(String methodName, OperationMode mode) {
-        this.methodName = methodName;
-        this.mode = mode;
-        this.latency = 0;
-    }
-
-    public String getMethodName() {
+    String getMethodName() {
         return methodName;
     }
 
-    public OperationMode getMode() {
+    OperationMode getMode() {
         return mode;
     }
 
-    public long getLatency() {
+    long getLatency() {
         return latency;
     }
 }

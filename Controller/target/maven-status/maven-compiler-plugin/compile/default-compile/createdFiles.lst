@@ -1,0 +1,5 @@
+com/kanakis/resilient/perses/core/AgentLoader.class
+com/kanakis/resilient/perses/controller/RestAPI.class
+com/kanakis/resilient/perses/core/AttackProperties.class
+com/kanakis/resilient/perses/core/MBeanWrapper.class
+com/kanakis/resilient/perses/Perses.class

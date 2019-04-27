@@ -1,6 +1,6 @@
-package com.kanakis.resileint.perses;
+package com.kanakis.resilient.perses;
 
-import com.kanakis.resileint.perses.targetApp.TargetClass;
+import com.kanakis.resilient.perses.targetApp.TargetClass;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import org.junit.AfterClass;
@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-
-import static com.kanakis.resileint.perses.LatencyTest.timed;
 
 
 public class RestoreTest {
@@ -30,17 +28,17 @@ public class RestoreTest {
 
     @Test
     public void should_not_throw_exception_after_method_restored() {
-        mBeanWrapper.throwException("com.kanakis.resileint.perses.targetApp.TargetClass", "targetMethod");
-        mBeanWrapper.restoreMethod("com.kanakis.resileint.perses.targetApp.TargetClass", "targetMethod");
+        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
+        mBeanWrapper.restoreMethod("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
         TargetClass c = new TargetClass();
         c.targetMethod();
     }
 
     @Test
     public void should_not_delay_after_method_restored() {
-        mBeanWrapper.addLatency("com.kanakis.resileint.perses.targetApp.TargetClass", "targetMethod", 3000);
-        mBeanWrapper.restoreMethod("com.kanakis.resileint.perses.targetApp.TargetClass", "targetMethod");
-        final long time = timed(new TargetClass()::targetMethod);
+        mBeanWrapper.addLatency("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", 3000);
+        mBeanWrapper.restoreMethod("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
+        final long time = LatencyTest.timed(new TargetClass()::targetMethod);
 
         Assert.assertTrue(time < 1000 );
 

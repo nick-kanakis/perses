@@ -1,0 +1,11 @@
+com/kanakis/resilient/perses/agent/OperationMode.class
+com/kanakis/resilient/perses/agent/ModifyMethod.class
+com/kanakis/resilient/perses/agent/FaultMode.class
+com/kanakis/resilient/perses/agent/TransformPropertiesBuilder.class
+com/kanakis/resilient/perses/agent/TransformProperties.class
+com/kanakis/resilient/perses/agent/LatencyMode.class
+com/kanakis/resilient/perses/agent/TransformerService.class
+com/kanakis/resilient/perses/agent/ChaosTransformer.class
+com/kanakis/resilient/perses/agent/RestoreMode.class
+com/kanakis/resilient/perses/agent/AttackAgent.class
+com/kanakis/resilient/perses/agent/TransformerServiceMBean.class

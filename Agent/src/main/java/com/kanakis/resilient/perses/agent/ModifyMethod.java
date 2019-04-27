@@ -6,10 +6,10 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.LoaderClassPath;
 
-public class ModifyMethod {
+class ModifyMethod {
 
     /**
-     * Creates a new ModifyMethodTest
+     * Finds and modifies the provided method
      *
      * @param className   The internal form class name to modify
      * @param classLoader The intrumentation provided classloader
@@ -17,7 +17,7 @@ public class ModifyMethod {
      * @param properties  The transformation metadata
      * @return the modified byte code if successful, otherwise returns the original unmodified byte code
      */
-    public static byte[] instrument(String className,
+    static byte[] instrument(String className,
                              ClassLoader classLoader,
                              byte[] byteCode,
                              TransformProperties properties) {

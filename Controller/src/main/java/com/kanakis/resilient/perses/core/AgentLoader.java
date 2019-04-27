@@ -68,7 +68,7 @@ public class AgentLoader {
         //The "Controller" is added to the canonical path when we run the unit test
         if(canonicalPath.endsWith("Controller"))
             canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "Controller".length());
-        return canonicalPath + "uber-perses-agent.jar";
+        return canonicalPath + "/uber-perses-agent.jar";
     }
 
     /**

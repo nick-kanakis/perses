@@ -16,4 +16,8 @@ public class AttackAgent {
         System.setProperty("chaos.agent.installed", "true");
         System.out.println("AgentMain Installed");
     }
+
+    public static void premain(String agentArguments, Instrumentation instrumentation) throws Exception {
+        agentmain(agentArguments, instrumentation);
+    }
 }

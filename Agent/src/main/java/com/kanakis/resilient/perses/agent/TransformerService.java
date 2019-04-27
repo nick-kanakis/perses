@@ -10,32 +10,29 @@ public class TransformerService implements TransformerServiceMBean {
      */
     private final Instrumentation instrumentation;
 
-
-    /**
-     * Creates a new TransformerService
-     *
-     * @param instrumentation The JVM's instrumentation instance
-     */
-    public TransformerService(Instrumentation instrumentation) {
+    TransformerService(Instrumentation instrumentation) {
         this.instrumentation = instrumentation;
     }
 
-
     @Override
     public void throwException(String className, String methodName) {
-        TransformProperties properties = new TransformProperties(methodName, new FaultMode());
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .createTransformProperties();
         transform(className, properties);
     }
 
     @Override
     public void addLatency(String className, String methodName, long latency) {
-        TransformProperties properties = new TransformProperties(methodName, new LatencyMode(), latency);
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
+                .setLatency(latency)
+                .createTransformProperties();
         transform(className, properties);
     }
 
     @Override
     public void restoreMethod(String className, String methodName) {
-        TransformProperties properties = new TransformProperties(methodName, new RestoreMode());
+        TransformProperties properties =  new TransformPropertiesBuilder(methodName, new RestoreMode())
+                .createTransformProperties();
         transform(className, properties);
     }
 
@@ -65,12 +62,11 @@ public class TransformerService implements TransformerServiceMBean {
      */
     private Class<?> locateClass(String className) {
         Class<?> targetClazz = null;
-        // first see if we can locate the class through normal means
         try {
             targetClazz = Class.forName(className);
             return targetClazz;
-        } catch (Exception ex) { /* Nope */ }
-        // now try the hard/slow way
+        } catch (Exception ex) { /* Do nothing */ }
+        // In case the class cannot be located by name search all
         for (Class<?> clazz : instrumentation.getAllLoadedClasses()) {
             if (clazz.getName().equals(className)) {
                 targetClazz = clazz;

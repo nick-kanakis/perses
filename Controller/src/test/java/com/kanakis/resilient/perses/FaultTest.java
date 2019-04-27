@@ -1,18 +1,23 @@
-package com.kanakis.resileint.perses;
+package com.kanakis.resilient.perses;
 
-import com.kanakis.resileint.perses.targetApp.TargetClass;
+import com.kanakis.resilient.perses.targetApp.TargetClass;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
-public class LatencyTest {
+public class FaultTest {
+
     private static MBeanWrapper mBeanWrapper;
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @BeforeClass
     public static void init() throws IOException {
@@ -25,18 +30,13 @@ public class LatencyTest {
             mBeanWrapper.close();
     }
 
+
     @Test
-    public void should_add_latency() {
-        mBeanWrapper.addLatency("com.kanakis.resileint.perses.targetApp.TargetClass", "targetMethod", 3000);
-        final long time = timed(new TargetClass()::targetMethod);
-
-        Assert.assertTrue(time > 3000 && time < 5000);
+    public void should_throw_RuntimeException() {
+        expectedEx.expect(OutOfMemoryError.class);
+        expectedEx.expectMessage("This is an injected exception by Perses");
+        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
+        TargetClass c = new TargetClass();
+        c.targetMethod();
     }
-
-    public static long timed(Runnable runnable) {
-        long startTime = System.currentTimeMillis();
-        runnable.run();
-        return System.currentTimeMillis() - startTime;
-    }
-
 }
