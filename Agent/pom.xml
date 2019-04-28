@@ -33,7 +33,7 @@
                 </executions>
                 <configuration>
                     <outputDirectory>../</outputDirectory>
-                    <finalName>uber-perses-agent</finalName>
+                    <finalName>perses-agent</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifestEntries>
