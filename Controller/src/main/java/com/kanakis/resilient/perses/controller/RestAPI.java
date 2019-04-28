@@ -18,24 +18,25 @@ public class RestAPI {
         this.mBeanWrapper = mBeanWrapper;
     }
 
+    //todo: add signature versions
     @PostMapping("/failure")
     public void failure(@RequestBody AttackProperties properties) {
-        mBeanWrapper.throwException(properties.getClassName(), properties.getMethodName());
+        mBeanWrapper.throwException(properties);
     }
 
     @PostMapping("/latency")
     public void latency(@RequestBody AttackProperties properties) {
-        mBeanWrapper.addLatency(properties.getClassName(), properties.getMethodName(), properties.getLatency());
+        mBeanWrapper.addLatency(properties);
     }
 
     @PostMapping("/restore")
     public void restore(@RequestBody AttackProperties properties) {
-        mBeanWrapper.restoreMethod(properties.getClassName(), properties.getMethodName());
+        mBeanWrapper.restoreMethod(properties);
     }
 
     //todo: should be GET (?)
     @GetMapping("/getInvoked")
     public List<MethodProperties> getInvokedMethods(@RequestBody AttackProperties properties) throws Throwable {
-        return mBeanWrapper.getInvokedMethods(properties.getClassName(), properties.getMethodName());
+        return mBeanWrapper.getInvokedMethods(properties);
     }
 }

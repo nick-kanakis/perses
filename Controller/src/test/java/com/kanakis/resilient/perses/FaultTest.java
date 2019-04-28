@@ -1,5 +1,6 @@
 package com.kanakis.resilient.perses;
 
+import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.targetApp.TargetClass;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
@@ -35,16 +36,27 @@ public class FaultTest {
     public void should_throw_RuntimeException() {
         expectedEx.expect(OutOfMemoryError.class);
         expectedEx.expectMessage("This is an injected exception by Perses");
-        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod");
+
+        AttackProperties properties = new AttackProperties();
+        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setMethodName("targetMethod");
+
+        mBeanWrapper.throwException(properties);
         TargetClass c = new TargetClass();
         c.targetMethod();
     }
 
     @Test
-    public void should_throw_RuntimeException_when_called_defined_signature() {
+    public void should_throw_RuntimeException_when_called_with_defined_signature() {
         expectedEx.expect(OutOfMemoryError.class);
         expectedEx.expectMessage("This is an injected exception by Perses");
-        mBeanWrapper.throwException("com.kanakis.resilient.perses.targetApp.TargetClass", "targetMethod", "()Z");
+
+        AttackProperties properties = new AttackProperties();
+        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setMethodName("targetMethod");
+        properties.setSignature("()Z");
+
+        mBeanWrapper.throwException(properties);
         TargetClass c = new TargetClass();
         c.targetMethod();
     }

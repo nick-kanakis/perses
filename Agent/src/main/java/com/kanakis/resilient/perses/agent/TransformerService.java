@@ -38,7 +38,7 @@ class TransformerService implements TransformerServiceMBean {
     }
 
     @Override
-    public void addLatency(String className, String methodName, long latency, String signature) {
+    public void addLatency(String className, String methodName, String signature, long latency) {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
                 .setSignature(signature)
                 .setLatency(latency)
@@ -65,7 +65,16 @@ class TransformerService implements TransformerServiceMBean {
     public List<MethodProperties> getInvokedMethods(String className, String methodName) throws Throwable {
         Class<?> clazz = locateClass(className);
         ClassLoader classLoader = clazz.getClassLoader();
+
         return MethodManipulation.getInvokedMethods(className, classLoader, methodName);
+    }
+
+    @Override
+    public List<MethodProperties> getInvokedMethods(String className, String methodName, String signature) throws Throwable {
+        Class<?> clazz = locateClass(className);
+        ClassLoader classLoader = clazz.getClassLoader();
+
+        return MethodManipulation.getInvokedMethods(className, classLoader, methodName, signature);
     }
 
     /**

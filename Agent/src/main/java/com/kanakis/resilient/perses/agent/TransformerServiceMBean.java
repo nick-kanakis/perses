@@ -31,13 +31,12 @@ public interface TransformerServiceMBean {
 
     /**
      * Add latency to target method
-     *
-     * @param className  The binary name of the target class
+     *  @param className  The binary name of the target class
      * @param methodName The name of the method to transform
-     * @param latency    The delay if attack is latency
      * @param signature The signature of the method
+     * @param latency    The delay if attack is latency
      */
-    void addLatency(String className, String methodName, long latency, String signature);
+    void addLatency(String className, String methodName, String signature, long latency);
 
     /**
      * Disable attacks at target method
@@ -63,4 +62,13 @@ public interface TransformerServiceMBean {
      * @param methodName The name of the method to transform
      */
     List<MethodProperties> getInvokedMethods(String className, String methodName) throws Throwable;
+
+    /**
+     * Get Invoked methods
+     *
+     * @param className  The binary name of the target class
+     * @param methodName The name of the method to transform
+     * @param signature The signature of the method
+     */
+    List<MethodProperties> getInvokedMethods(String className, String methodName, String signature) throws Throwable;
 }

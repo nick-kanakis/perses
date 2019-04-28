@@ -51,9 +51,19 @@ class MethodManipulation {
         }
     }
 
+    /**
+     * Find all invoked methods by the provided method
+     *
+     * @param className The internal form target class name
+     * @param classLoader The intrumentation provided classloader
+     * @param methodName The target method name
+     * @param signature The target signature
+     * @return a {@link List} of the invoked methods.
+     */
     static List<MethodProperties> getInvokedMethods(String className,
-                                          ClassLoader classLoader,
-                                          String methodName) {
+                                                    ClassLoader classLoader,
+                                                    String methodName,
+                                                    String signature) {
         List<MethodProperties> invokedMethods = new ArrayList<>();
 
         String binName = className.replace('/', '.');
@@ -63,7 +73,9 @@ class MethodManipulation {
             //cPool.appendClassPath(new ByteArrayClassPath(binName, byteCode));
             CtClass ctClazz = cPool.get(binName);
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
-                if (method.getName().equals(methodName)) {
+                if (method.getName().equals(methodName) && (
+                        method.getSignature().matches(signature) ||
+                                method.getSignature().equals(signature))) {
                     method.instrument(
                             new ExprEditor() {
                                 public void edit(MethodCall m)
@@ -81,4 +93,7 @@ class MethodManipulation {
         }
     }
 
+    static List<MethodProperties> getInvokedMethods(String className, ClassLoader classLoader, String methodName) {
+        return getInvokedMethods(className, classLoader, methodName, ".*?");
+    }
 }

@@ -35,31 +35,46 @@ public class MBeanWrapper implements AutoCloseable {
     }
 
 
-    public void throwException(String className, String methodName) {
-        mBean.throwException(className, methodName);
+    public void throwException(AttackProperties properties) {
+        if (properties.getSignature() == null || properties.getSignature().isEmpty())
+            mBean.throwException(properties.getClassName(),
+                    properties.getMethodName());
+        else
+            mBean.throwException(properties.getClassName(),
+                    properties.getMethodName(),
+                    properties.getSignature());
     }
 
-    public void throwException(String className, String methodName, String signature) {
-        mBean.throwException(className, methodName, signature);
+    public void addLatency(AttackProperties properties) {
+        if (properties.getSignature() == null || properties.getSignature().isEmpty())
+            mBean.addLatency(properties.getClassName(),
+                    properties.getMethodName(),
+                    properties.getLatency());
+        else
+            mBean.addLatency(properties.getClassName(),
+                    properties.getMethodName(),
+                    properties.getSignature(),
+                    properties.getLatency());
+    }
+
+    public void restoreMethod(AttackProperties properties) {
+        if (properties.getSignature() == null || properties.getSignature().isEmpty())
+            mBean.restoreMethod(properties.getClassName(),
+                    properties.getMethodName());
+        else
+            mBean.restoreMethod(properties.getClassName(),
+                    properties.getMethodName(),
+                    properties.getSignature());
     }
 
 
-    public void addLatency(String className, String methodName, long latency) {
-        mBean.addLatency(className, methodName, latency);
-    }
-
-    public void addLatency(String className, String methodName, String signature, long latency) {
-        mBean.addLatency(className, methodName, latency, signature);
-    }
-
-    public void restoreMethod(String className, String methodName) {
-        mBean.restoreMethod(className, methodName);
-    }
-    public void restoreMethod(String className, String methodName, String signature) {
-        mBean.restoreMethod(className, methodName, signature);
-    }
-
-    public List<MethodProperties> getInvokedMethods(String className, String methodName) throws Throwable {
-        return mBean.getInvokedMethods(className, methodName);
+    public List<MethodProperties> getInvokedMethods(AttackProperties properties) throws Throwable {
+        if (properties.getSignature() == null || properties.getSignature().isEmpty())
+            return mBean.getInvokedMethods(properties.getClassName(),
+                    properties.getMethodName());
+        else
+            return mBean.getInvokedMethods(properties.getClassName(),
+                    properties.getMethodName(),
+                    properties.getSignature());
     }
 }
