@@ -1,4 +1,4 @@
-package com.kanakis.resilient.perses.targetApp;
+package com.kanakis.resilient.perses.testApp;
 
 public class TargetClass {
     public boolean targetMethod() {

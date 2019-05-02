@@ -1,7 +1,7 @@
 package com.kanakis.resilient.perses;
 
 import com.kanakis.resilient.perses.core.AttackProperties;
-import com.kanakis.resilient.perses.targetApp.TargetClass;
+import com.kanakis.resilient.perses.testApp.TargetClass;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import org.junit.AfterClass;
@@ -38,7 +38,7 @@ public class FaultTest {
         expectedEx.expectMessage("This is an injected exception by Perses");
 
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
 
         mBeanWrapper.throwException(properties);
@@ -52,7 +52,7 @@ public class FaultTest {
         expectedEx.expectMessage("This is an injected exception by Perses");
 
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
 

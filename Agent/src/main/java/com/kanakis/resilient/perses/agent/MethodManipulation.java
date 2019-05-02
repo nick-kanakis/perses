@@ -38,9 +38,11 @@ class MethodManipulation {
                 if (method.getName().equals(properties.getMethodName()) && (
                         method.getSignature().matches(properties.getSignature()) ||
                                 method.getSignature().equals(properties.getSignature()))) {
+                    System.out.println("Instrumenting method: "+ method.getName());
                     ctClazz.removeMethod(method);
                     CtMethod modifiedMethod = properties.getMode().generateCode(method, properties);
                     ctClazz.addMethod(modifiedMethod);
+                    System.out.println( "Method: "+ method.getName() + " instrumented");
                 }
             }
             return ctClazz.toBytecode();

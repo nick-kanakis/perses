@@ -24,6 +24,12 @@ public class AgentLoader {
      */
     public static MBeanWrapper run(String applicationName, String jvmPid) throws IOException {
 
+        if(jvmPid.isEmpty() && applicationName.isEmpty()) {
+            throw new IllegalArgumentException("Target pid and application name are null");
+        }
+
+        System.out.println("Provided Application NAme: "+ applicationName);
+        System.out.println("Provided pid: "+ jvmPid);
         if (jvmPid.isEmpty()) {
             Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
                     .stream()
@@ -39,9 +45,9 @@ public class AgentLoader {
             }
             jvmPid = jvmProcessOpt.get();
         }
-        AgentLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String agentAbsolutePath = getAbsolutePathOfAgent();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
+        System.out.println("Agent jar path: "+ agentAbsolutePath);
 
         try {
             VirtualMachine jvm = VirtualMachine.attach(jvmPid);
@@ -49,11 +55,9 @@ public class AgentLoader {
                 System.out.println("Agent is already attached...");
                 return getMBean(jvm);
             }
+            System.out.println("About to load agent");
             jvm.loadAgent(agentAbsolutePath);
             System.out.println("Agent Loaded");
-            ObjectName on = new ObjectName("transformer:service=ChaosTransformer");
-            System.out.println("Instrumentation Deployed:" + ManagementFactory.getPlatformMBeanServer().isRegistered(on));
-
             return getMBean(jvm);
 
         } catch (Exception e) {

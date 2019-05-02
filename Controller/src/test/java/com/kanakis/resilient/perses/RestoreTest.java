@@ -1,7 +1,7 @@
 package com.kanakis.resilient.perses;
 
 import com.kanakis.resilient.perses.core.AttackProperties;
-import com.kanakis.resilient.perses.targetApp.TargetClass;
+import com.kanakis.resilient.perses.testApp.TargetClass;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import org.junit.AfterClass;
@@ -30,7 +30,7 @@ public class RestoreTest {
     @Test
     public void should_not_throw_exception_after_method_restored() {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
 
         mBeanWrapper.throwException(properties);
@@ -42,7 +42,7 @@ public class RestoreTest {
     @Test
     public void should_not_delay_after_method_restored() {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setLatency(1000);
 
@@ -56,7 +56,7 @@ public class RestoreTest {
     @Test
     public void should_not_throw_exception_after_method_restored_when_called_with_defined_signature() {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
 
@@ -69,7 +69,7 @@ public class RestoreTest {
     @Test
     public void should_not_delay_after_method_restored_when_when_called_with_defined_signature() {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
         properties.setLatency(1000);

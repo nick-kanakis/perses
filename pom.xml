@@ -14,14 +14,14 @@
     </modules>
 
     <properties>
-        <jdk.version>11</jdk.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <jdk.version>1.9</jdk.version>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.version>4.12</junit.version>
-        <javassist.version>3.12.1.GA</javassist.version>
+        <javassist.version>3.25.0-GA</javassist.version>
         <surefire.version>2.22.1</surefire.version>
     </properties>
 

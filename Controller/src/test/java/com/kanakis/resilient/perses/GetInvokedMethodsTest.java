@@ -4,9 +4,7 @@ import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
-import com.kanakis.resilient.perses.targetApp.TargetClass;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -34,25 +32,25 @@ public class GetInvokedMethodsTest {
     @Test
     public void should_get_invoked_methods() throws Throwable {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
 
         List<MethodProperties> res = mBeanWrapper.getInvokedMethods(properties);
 
-        MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.targetApp.TargetClass", "helper", "()Z");
+        MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.testApp.TargetClass", "helper", "()Z");
         assertTrue(res.contains(expectedMethodProperties));
     }
 
     @Test
     public void should_get_invoked_methods_when_called_with_defined_signature() throws Throwable {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.targetApp.TargetClass");
+        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
 
         List<MethodProperties> res = mBeanWrapper.getInvokedMethods(properties);
 
-        MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.targetApp.TargetClass", "helper", "()Z");
+        MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.testApp.TargetClass", "helper", "()Z");
         assertTrue(res.contains(expectedMethodProperties));
     }
 
