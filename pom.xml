@@ -10,7 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>Agent</module>
-        <module>Controller</module>
+        <module>Injector</module>
+        <module>PersesUI</module>
     </modules>
 
     <properties>
