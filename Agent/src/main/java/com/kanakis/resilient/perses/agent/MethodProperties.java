@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class MethodProperties implements Serializable {
-    String className;
+    String classPath;
     String methodName;
     String signature;
 
-    public MethodProperties(String className, String methodName, String signature) {
-        this.className = className;
+    public MethodProperties(String classPath, String methodName, String signature) {
+        this.classPath = classPath;
         this.methodName = methodName;
         this.signature = signature;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClassPath() {
+        return classPath;
     }
 
     public String getMethodName() {
@@ -31,13 +31,13 @@ public class MethodProperties implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MethodProperties that = (MethodProperties) o;
-        return getClassName().equals(that.getClassName()) &&
+        return getClassPath().equals(that.getClassPath()) &&
                 getMethodName().equals(that.getMethodName()) &&
                 getSignature().equals(that.getSignature());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClassName(), getMethodName(), getSignature());
+        return Objects.hash(getClassPath(), getMethodName(), getSignature());
     }
 }

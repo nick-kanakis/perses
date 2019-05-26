@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perses UI</title>
+</head>
+<body>
+
+<script src="js/buttons.js"></script>
+<script src="js/searchBar.js"></script>
+<script src="js/treeview.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<div id='searchBarContainer'>
+    <input
+            type="text"
+            id="classPath-input"
+            placeholder="org.mypackage.HelloWorld"
+    />
+    <input
+            type="text"
+            id="methodName-input"
+            placeholder="myMethod"
+    />
+    <input
+            type="text"
+            id="signature-input"
+            placeholder="(java.lang.String)V"
+    />
+    <button id="searchBtn" onclick='searchMethod()'>
+    Search
+    </button>
+</div>
+<div id='treeViewContainer'>
+    <ul id="root-list" isExpanded = "false" >
+    </ul>
+</div>
+
+<div>
+    <div id='failureBtnContainer'>
+        <button id='failureBtn' onclick='injectFailure(this)'>
+            Failure
+        </button>
+    </div>
+    <div id='latencyContainer'>
+        <input
+                type="number"
+                id="latencyInput"
+                placeholder="latency in ms"
+        />
+        <button id='latencyBtn' onclick='injectLatency(this)'>
+            Latency
+        </button>
+    </div>
+    <div id='RestoreBtnContainer'>
+        <button id='restoreBtn' onclick='restoreMethod(this)'>
+            Restore
+        </button>
+    </div>
+</div>
+
+
+</body>

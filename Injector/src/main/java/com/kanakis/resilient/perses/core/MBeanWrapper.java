@@ -42,21 +42,21 @@ public class MBeanWrapper implements AutoCloseable {
 
     public void throwException(AttackProperties properties) {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
-            mBean.throwException(properties.getClassName(),
+            mBean.throwException(properties.getClassPath(),
                     properties.getMethodName());
         else
-            mBean.throwException(properties.getClassName(),
+            mBean.throwException(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature());
     }
 
     public void addLatency(AttackProperties properties) {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
-            mBean.addLatency(properties.getClassName(),
+            mBean.addLatency(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getLatency());
         else
-            mBean.addLatency(properties.getClassName(),
+            mBean.addLatency(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature(),
                     properties.getLatency());
@@ -64,10 +64,10 @@ public class MBeanWrapper implements AutoCloseable {
 
     public void restoreMethod(AttackProperties properties) {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
-            mBean.restoreMethod(properties.getClassName(),
+            mBean.restoreMethod(properties.getClassPath(),
                     properties.getMethodName());
         else
-            mBean.restoreMethod(properties.getClassName(),
+            mBean.restoreMethod(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature());
     }
@@ -75,10 +75,10 @@ public class MBeanWrapper implements AutoCloseable {
 
     public List<MethodProperties> getInvokedMethods(AttackProperties properties) throws Throwable {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
-            return mBean.getInvokedMethods(properties.getClassName(),
+            return mBean.getInvokedMethods(properties.getClassPath(),
                     properties.getMethodName());
         else
-            return mBean.getInvokedMethods(properties.getClassName(),
+            return mBean.getInvokedMethods(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature());
     }

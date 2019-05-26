@@ -34,7 +34,7 @@ public class GetInvokedMethodsTest {
     @Test
     public void should_get_invoked_methods() throws Throwable {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
 
         List<MethodProperties> res = mBeanWrapper.getInvokedMethods(properties);
@@ -46,7 +46,7 @@ public class GetInvokedMethodsTest {
     @Test
     public void should_get_invoked_methods_when_called_with_defined_signature() throws Throwable {
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
 

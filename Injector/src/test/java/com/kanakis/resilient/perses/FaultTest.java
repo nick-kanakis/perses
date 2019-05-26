@@ -40,7 +40,7 @@ public class FaultTest {
         expectedEx.expectMessage("This is an injected exception by Perses");
 
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
 
         mBeanWrapper.throwException(properties);
@@ -54,7 +54,7 @@ public class FaultTest {
         expectedEx.expectMessage("This is an injected exception by Perses");
 
         AttackProperties properties = new AttackProperties();
-        properties.setClassName("com.kanakis.resilient.perses.testApp.TargetClass");
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetClass");
         properties.setMethodName("targetMethod");
         properties.setSignature("()Z");
 

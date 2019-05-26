@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AttackProperties {
-    private String className;
+    private String classPath;
     private String methodName;
     private String signature;
     private long latency;
