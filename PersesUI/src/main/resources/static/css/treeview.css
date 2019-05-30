@@ -40,6 +40,19 @@ ul.tree li:last-child:before {
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    border-left: 2px cornflowerblue solid;
+    border-left: 6px solid #ccc;
+    background: #f9f9f9;
+
+}
+
+span.classPath {
+    color: rgba(85, 85, 85, 0.98);
+    font-style: oblique;
+    margin-left: 5px;
+}
+
+span.methodName {
+    color: #e21a00;
+    font-weight: bold;
 }
 

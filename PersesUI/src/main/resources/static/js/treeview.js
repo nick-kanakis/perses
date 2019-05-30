@@ -2,8 +2,18 @@ const addChildrenToRoot = (methodInfo) => {
     const rootLu = document.getElementById("root-list");
 
     const rootLi = document.createElement("li");
-    const textnode = document.createTextNode(methodInfo.classPath + '#' + methodInfo.methodName + '[' + methodInfo.signature + ']');
-    rootLi.appendChild(textnode);
+    const classPathSpan = document.createElement("span");
+    classPathSpan.setAttribute("class", "classPath");
+    const classPathTextNode = document.createTextNode('('+ methodInfo.classPath + ')');
+    classPathSpan.appendChild(classPathTextNode);
+    const methodNameSpan = document.createElement("span");
+    methodNameSpan.setAttribute("class", "methodName");
+    const methodNamTextNode = document.createTextNode(methodInfo.methodName);
+    methodNameSpan.appendChild(methodNamTextNode);
+
+    rootLi.appendChild(methodNameSpan);
+    rootLi.appendChild(classPathSpan);
+    rootLi.setAttribute("title", methodInfo.signature);
     rootLi.setAttribute('isExpanded', 'false');
 
     rootLu.removeChild(rootLu.firstChild);
@@ -26,14 +36,14 @@ const addChildrenToRoot = (methodInfo) => {
 };
 
 const addChildrenToNode = (parentLi, data) => {
-    if(parentLi.getAttribute('isExpanded')){
+    if (parentLi.getAttribute('isExpanded')) {
         const isExpanded = parentLi.getAttribute('isExpanded');
-        if(isExpanded === 'true') {
+        if (isExpanded === 'true') {
             parentLi.setAttribute('isExpanded', 'false');
             const children = parentLi.children;
             for (let i = 0; i < children.length; i++) {
                 const child = children[i];
-                if(child.tagName === 'UL') {
+                if (child.tagName === 'UL') {
                     parentLi.removeChild(child)
                 }
             }
@@ -49,8 +59,20 @@ const addChildrenToNode = (parentLi, data) => {
         console.log(methodInfo);
         const nestedLi = document.createElement("li");
         nestedUl.appendChild(nestedLi);
-        nestedLi.appendChild(document.createTextNode(methodInfo.classPath + '#' + methodInfo.methodName + '[' + methodInfo.signature + ']'));
+
+        const classPathSpan = document.createElement("span");
+        classPathSpan.setAttribute("class", "classPath");
+        const classPathTextNode = document.createTextNode('('+ methodInfo.classPath + ')');
+        classPathSpan.appendChild(classPathTextNode);
+        const methodNameSpan = document.createElement("span");
+        methodNameSpan.setAttribute("class", "methodName");
+        const methodNamTextNode = document.createTextNode(methodInfo.methodName);
+        methodNameSpan.appendChild(methodNamTextNode);
+
+        nestedLi.appendChild(methodNameSpan);
+        nestedLi.appendChild(classPathSpan);
         nestedLi.setAttribute('isExpanded', 'false');
+        nestedLi.setAttribute('title', methodInfo.signature);
         nestedLi.addEventListener("click", e => {
             updateInjectFailureBtn(methodInfo);
             updateInjectLatencyBtn(methodInfo);
