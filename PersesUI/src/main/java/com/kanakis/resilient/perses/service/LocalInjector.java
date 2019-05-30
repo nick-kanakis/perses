@@ -5,7 +5,6 @@ import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import com.sun.tools.attach.VirtualMachine;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
