@@ -5,9 +5,9 @@ const searchMethod = () => {
     const signature = document.getElementById("signature-input").value;
     const methodInfo = {
         url: '/getInvoked',
-        classPath:  classpath,
-        methodName: methodName,
-        signature: signature
+        classPath:  'com.kanakis.resilient.targetApp.Controller',//classpath,
+        methodName: 'index',//methodName,
+        signature: undefined//signature
     };
     getFromPerses(methodInfo).then(() => addChildrenToRoot(methodInfo)).
     catch(error => alert("Could not find method "+ error));

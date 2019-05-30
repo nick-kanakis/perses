@@ -1,0 +1,33 @@
+input.attack-input {
+    padding: 1em;
+    float: left;
+    font-size: 12px;
+    margin:1% 0 1% 4%;
+    width: 25%;
+    border: 1px solid #ccc;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+
+#searchBtn {
+    outline:none;
+    padding: 1em;
+    background-color: #11477e;
+    border: 0.16em solid rgba(255, 255, 255, 0);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    max-width: 250px;
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 2em;
+}
+
+#searchBtn:hover {
+    border-color: rgb(248, 247, 255);
+}

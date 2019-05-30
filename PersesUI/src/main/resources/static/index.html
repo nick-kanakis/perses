@@ -10,54 +10,74 @@
 <script src="js/treeview.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+<style>
+    @import url("css/buttons.css");
+    @import url("css/searchBar.css");
+    @import url("css/treeview.css");
+    @import url("css/header.css");
+</style>
+
+<div class="header">
+    <img src="/media/logo.png" alt="Perses">
+    <h2>Inject failure/latency to target application</h2>
+</div>
+
 
 <div id='searchBarContainer'>
     <input
             type="text"
             id="classPath-input"
+            class = "attack-input"
             placeholder="org.mypackage.HelloWorld"
     />
     <input
             type="text"
+            class = "attack-input"
             id="methodName-input"
             placeholder="myMethod"
     />
     <input
             type="text"
+            class = "attack-input"
             id="signature-input"
             placeholder="(java.lang.String)V"
     />
     <button id="searchBtn" onclick='searchMethod()'>
-    Search
+        Search
     </button>
 </div>
-<div id='treeViewContainer'>
-    <ul id="root-list" isExpanded = "false" >
-    </ul>
-</div>
 
-<div>
-    <div id='failureBtnContainer'>
-        <button id='failureBtn' onclick='injectFailure(this)'>
-            Failure
-        </button>
+<div class="attack-panel">
+    <div id='treeViewContainer'>
+        <p class="tree"><b>List of Methods called</b></p>
+        <ul id="root-list" isExpanded="false" class="tree">
+        </ul>
     </div>
-    <div id='latencyContainer'>
-        <input
-                type="number"
-                id="latencyInput"
-                placeholder="latency in ms"
-        />
-        <button id='latencyBtn' onclick='injectLatency(this)'>
-            Latency
-        </button>
-    </div>
-    <div id='RestoreBtnContainer'>
-        <button id='restoreBtn' onclick='restoreMethod(this)'>
-            Restore
-        </button>
+
+    <div class="buttons">
+        <div id='RestoreBtnContainer'>
+            <a id='restoreBtn'  class = 'button' onclick='restoreMethod(this)' style="background-color:#4e9af1">
+                Restore
+            </a>
+        </div>
+        <div id='failureBtnContainer'>
+            <a id='failureBtn' class = 'button' onclick='injectFailure(this)' style='background-color:#f14e4e'>
+                Failure
+            </a>
+        </div>
+
+        <div id='latencyContainer'>
+            <input
+                    type="text"
+                    id="latencyInput"
+                    placeholder="latency in ms"
+            />
+            <a id='latencyBtn'  class = 'button' onclick='injectLatency(this)' style="background-color:#f1bb4e">
+                Latency
+            </a>
+        </div>
     </div>
 </div>
-
 
 </body>
+

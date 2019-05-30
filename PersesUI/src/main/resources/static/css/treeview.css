@@ -1,0 +1,41 @@
+p.tree,
+ul.tree,
+ul.tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+ul.tree ul {
+    margin-left: 1.0em;
+}
+
+ul.tree li {
+    margin-left: 0.35em;
+    border-left: thin solid #000;
+    cursor: pointer;
+}
+
+ul.tree li:last-child {
+    border-left: none;
+}
+
+ul.tree li:before {
+    width: 0.9em;
+    height: 0.6em;
+    margin-right: 0.1em;
+    vertical-align: top;
+    border-bottom: thin solid #000;
+    content: "";
+    display: inline-block;
+}
+
+ul.tree li:last-child:before {
+    border-left: thin solid #000;
+}
+
+#treeViewContainer {
+    margin-top: 10px;
+    background-color: #e5eaff;
+}
