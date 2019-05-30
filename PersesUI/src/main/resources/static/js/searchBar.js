@@ -5,12 +5,12 @@ const searchMethod = () => {
     const signature = document.getElementById("signature-input").value;
     const methodInfo = {
         url: '/getInvoked',
-        classPath:  'com.kanakis.resilient.targetApp.Controller',//classpath,
-        methodName: 'index',//methodName,
-        signature: undefined//signature
+        classPath:  classpath,
+        methodName: methodName,
+        signature: signature
     };
     getFromPerses(methodInfo).then(() => addChildrenToRoot(methodInfo)).
-    catch(error => alert("Could not find method "+ error));
+    catch(e => resultNotOk(error));
 };
 
 const getFromPerses = (target) => {

@@ -6,11 +6,10 @@ const injectFailure = btn => {
         methodName: btn.getAttribute("methodName"),
         signature: btn.getAttribute("signature")
     };
-    PostToPerses(methodInfo)
+    postToPerses(methodInfo)
 };
 
 const injectLatency = btn => {
-    console.log(btn);
     const methodInfo = {
         url: '/latency',
         classPath:  btn.getAttribute("classpath"),
@@ -18,18 +17,17 @@ const injectLatency = btn => {
         signature: btn.getAttribute("signature"),
         latency: document.getElementById("latencyInput").value
     };
-    PostToPerses(methodInfo)
+    postToPerses(methodInfo)
 };
 
 const restoreMethod = btn => {
-    console.log(btn);
     const methodInfo = {
         url: '/restore',
         classPath:  btn.getAttribute("classpath"),
         methodName: btn.getAttribute("methodName"),
         signature: btn.getAttribute("signature")
     };
-    PostToPerses(methodInfo)
+    postToPerses(methodInfo)
 };
 
 const updateInjectFailureBtn = data => {
@@ -52,7 +50,7 @@ const updateInjectRestoreBtn = data => {
     restoreBtn.setAttribute("signature", data.signature);
 };
 
-function PostToPerses(target) {
+function postToPerses(target) {
     axios.post(target.url, {
         classPath: target.classPath,
         methodName: target.methodName,
@@ -60,9 +58,41 @@ function PostToPerses(target) {
         latency: target.latency
     }, {
         baseURL: 'http://localhost:8080'
-    }).then(() => {
-        alert("Attack was successful")
-    }).catch(() =>{
-        alert("Attack was unsuccessful")
+    }).then(r => {
+        resultOk();
+    }).catch(e =>{
+        resultNotOk(e);
     });
+}
+
+function resultOk() {
+    const resDiv = document.getElementById("attack-result");
+    removeChildNodes(resDiv);
+    const resultSpan = document.createElement("span");
+    resultSpan.setAttribute('id', 'ok-span');
+    resultSpan.setAttribute("style", "color:green; font-weight: bold;");
+    const msg = document.createTextNode("Request was successful");
+    resultSpan.appendChild(msg);
+    resDiv.appendChild(resultSpan);
+
+    setTimeout(() => {
+        resultSpan.remove();
+    }, 5000)
+}
+
+function resultNotOk(error) {
+    const resDiv = document.getElementById("attack-result");
+    removeChildNodes(resDiv);
+    const resultSpan = document.createElement("span");
+    resultSpan.setAttribute('id', 'error-span');
+    resultSpan.setAttribute("style", "color:red; font-weight: bold;");
+    const errorMsg = document.createTextNode(error.response.data.message);
+    resultSpan.appendChild(errorMsg);
+    resDiv.appendChild(resultSpan);
+}
+
+function removeChildNodes(node) {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
 }
