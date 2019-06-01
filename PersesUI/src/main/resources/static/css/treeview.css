@@ -52,7 +52,10 @@ span.classPath {
 }
 
 span.methodName {
-    color: #e21a00;
+    color: #2b49ba;
     font-weight: bold;
 }
 
+span.methodName.active {
+    color: #f12500;
+}

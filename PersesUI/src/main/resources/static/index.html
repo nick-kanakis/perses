@@ -24,27 +24,42 @@
 
 
 <div id='searchBarContainer'>
-    <input
-            type="text"
-            id="classPath-input"
-            class = "attack-input"
-            placeholder="org.mypackage.HelloWorld"
-    />
-    <input
-            type="text"
-            class = "attack-input"
-            id="methodName-input"
-            placeholder="myMethod"
-    />
-    <input
-            type="text"
-            class = "attack-input"
-            id="signature-input"
-            placeholder="(java.lang.String)V"
-    />
+    <div class="attack-input">
+        <label for="classPath-input">Classpath
+            <input
+                    type="text"
+                    id="classPath-input"
+                    class="attack-input"
+                    placeholder="org.mypackage.HelloWorld"
+            />
+        </label>
+    </div>
+    <div class="attack-input">
+        <label for="methodName-input">MethodName
+            <input
+                    type="text"
+                    class="attack-input"
+                    id="methodName-input"
+                    placeholder="myMethod"
+            />
+        </label>
+    </div>
+    <div class="attack-input">
+        <label for="signature-input">Signature *
+            <input
+                    type="text"
+                    class="attack-input"
+                    id="signature-input"
+                    placeholder="(java.lang.String)V"
+            />
+        </label>
+    </div>
     <button id="searchBtn" onclick='searchMethod()'>
         Search
     </button>
+    <span style = "color:red">
+        (*) = not mandatory
+    </span>
 </div>
 
 <div class="attack-panel">
@@ -56,12 +71,12 @@
 
     <div class="buttons">
         <div id='RestoreBtnContainer'>
-            <a id='restoreBtn'  class = 'button' onclick='restoreMethod(this)' style="background-color:#4e9af1">
+            <a id='restoreBtn' class='button' onclick='restoreMethod(this)' style="background-color:#4e9af1">
                 Restore
             </a>
         </div>
         <div id='failureBtnContainer'>
-            <a id='failureBtn' class = 'button' onclick='injectFailure(this)' style='background-color:#f14e4e'>
+            <a id='failureBtn' class='button' onclick='injectFailure(this)' style='background-color:#f14e4e'>
                 Failure
             </a>
         </div>
@@ -72,7 +87,7 @@
                     id="latencyInput"
                     placeholder="latency in ms"
             />
-            <a id='latencyBtn'  class = 'button' onclick='injectLatency(this)' style="background-color:#f1bb4e">
+            <a id='latencyBtn' class='button' onclick='injectLatency(this)' style="background-color:#f1bb4e">
                 Latency
             </a>
         </div>

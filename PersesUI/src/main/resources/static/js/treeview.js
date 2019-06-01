@@ -20,6 +20,7 @@ const addChildrenToRoot = (methodInfo) => {
     rootLu.appendChild(rootLi);
 
     rootLi.addEventListener("click", e => {
+        updateActiveNode(rootLi);
         updateInjectFailureBtn(methodInfo);
         updateInjectLatencyBtn(methodInfo);
         updateInjectRestoreBtn(methodInfo);
@@ -74,6 +75,7 @@ const addChildrenToNode = (parentLi, data) => {
         nestedLi.setAttribute('isExpanded', 'false');
         nestedLi.setAttribute('title', methodInfo.signature);
         nestedLi.addEventListener("click", e => {
+            updateActiveNode(nestedLi);
             updateInjectFailureBtn(methodInfo);
             updateInjectLatencyBtn(methodInfo);
             updateInjectRestoreBtn(methodInfo);
@@ -87,7 +89,17 @@ const addChildrenToNode = (parentLi, data) => {
                 .catch(error => alert("Could not find method " + error));
         });
     });
+};
 
-
+let activeNode;
+const updateActiveNode = (node) => {
+   if(activeNode !== node) {
+       console.log(node.firstChild);
+       if(activeNode) {
+           activeNode.firstChild.classList.remove("active");
+       }
+       node.firstChild.classList.add("active");
+       activeNode = node;
+   }
 };
 
