@@ -30,6 +30,23 @@ class TransformerService implements TransformerServiceMBean {
     }
 
     @Override
+    public void throwException(String className, String methodName, double rate) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .setRate(rate)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
+    public void throwException(String className, String methodName, String signature, double rate) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .setSignature(signature)
+                .setRate(rate)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
     public void addLatency(String className, String methodName, long latency) {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
                 .setLatency(latency)
@@ -42,6 +59,25 @@ class TransformerService implements TransformerServiceMBean {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
                 .setSignature(signature)
                 .setLatency(latency)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
+    public void addLatency(String className, String methodName, long latency, double rate) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
+                .setLatency(latency)
+                .setRate(rate)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
+    public void addLatency(String className, String methodName, String signature, long latency, double rate) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
+                .setSignature(signature)
+                .setLatency(latency)
+                .setRate(rate)
                 .createTransformProperties();
         transform(className, properties);
     }

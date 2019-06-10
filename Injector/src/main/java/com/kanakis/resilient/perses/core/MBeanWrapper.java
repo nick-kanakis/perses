@@ -43,23 +43,27 @@ public class MBeanWrapper implements AutoCloseable {
     public void throwException(AttackProperties properties) {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
             mBean.throwException(properties.getClassPath(),
-                    properties.getMethodName());
+                    properties.getMethodName(),
+                    properties.getRate());
         else
             mBean.throwException(properties.getClassPath(),
                     properties.getMethodName(),
-                    properties.getSignature());
+                    properties.getSignature(),
+                    properties.getRate());
     }
 
     public void addLatency(AttackProperties properties) {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
             mBean.addLatency(properties.getClassPath(),
                     properties.getMethodName(),
-                    properties.getLatency());
+                    properties.getLatency(),
+                    properties.getRate());
         else
             mBean.addLatency(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature(),
-                    properties.getLatency());
+                    properties.getLatency(),
+                    properties.getRate());
     }
 
     public void restoreMethod(AttackProperties properties) {

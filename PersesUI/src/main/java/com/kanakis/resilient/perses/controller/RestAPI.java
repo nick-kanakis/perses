@@ -35,7 +35,6 @@ public class RestAPI {
         injectorService.restoreMethod(properties);
     }
 
-    //todo: should be GET (?)
     @GetMapping("/getInvoked")
     public List<MethodProperties> getInvokedMethods(@RequestParam String classPath,
                                                     @RequestParam String methodName,

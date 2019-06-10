@@ -5,6 +5,7 @@ class TransformPropertiesBuilder {
     private String signature = ".*?"; //default to match everything
     private OperationMode mode;
     private long latency = 0;
+    private double rate = 1.0;
 
     TransformPropertiesBuilder(String methodName, OperationMode mode) {
         this.methodName = methodName;
@@ -21,7 +22,12 @@ class TransformPropertiesBuilder {
         return this;
     }
 
+    TransformPropertiesBuilder setRate(double rate) {
+        this.rate = rate;
+        return this;
+    }
+
     TransformProperties createTransformProperties() {
-        return new TransformProperties(methodName, signature, mode, latency);
+        return new TransformProperties(methodName, signature, mode, latency, rate);
     }
 }
