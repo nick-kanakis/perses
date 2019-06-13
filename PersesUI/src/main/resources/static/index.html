@@ -1,101 +1,214 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Perses UI</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Perses</title>
+	<link href="css/hacker.css" rel="stylesheet">
+	<link href="css/treeview.css" rel="stylesheet">
+
+	<style>
+		.tall-row {
+			margin-top: 40px;
+		}
+
+		.modal {
+			position: relative;
+			top: auto;
+			right: auto;
+			left: auto;
+			bottom: auto;
+			z-index: 1;
+			display: block;
+		}
+	</style>
 </head>
+
 <body>
 
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+					aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><img src="/media/logo.png" alt="Perses"></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="google.com" target="_blank">View on Github</a>
+				</li>
+				<li id="closeConnectionLi" class="hidden-lg">
+					<a href="#a" onclick="closeConnection();">Close Connection</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+</nav>
+
+
+<div class="container">
+
+	<!-- Jumbotron -->
+	<div class="jumbotron">
+		<h2>Inject failure/latency to target application</h2>
+		<p>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</p>
+	</div>
+
+	<!-- Inject failure -->
+	<div class="row tall-row" id="connectionSection">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading"><h3 class="panel-title">Create a Connection</h3></div>
+				<div class="panel-body">
+					<form class="bs-component">
+
+						<div class="panel panel-info">
+							<div class="panel-heading"><h3 class="panel-title">Local</h3></div>
+							<div class="panel-body">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label" for="appName-input">Application Name</label>
+										<input class="form-control" placeholder="Your App name" type="text" id="appName-input">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label" for="pid-input">PID</label>
+										<input class="form-control" placeholder="Your PID" type="text" id="pid-input">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="well well-sm" align="center">
+							OR
+						</div>
+
+						<div class="panel panel-info">
+							<div class="panel-heading"><h3 class="panel-title">Remote</h3></div>
+							<div class="panel-body">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label" for="appName-input">Host</label>
+										<input class="form-control" placeholder="Your Host" type="text" id="host-input">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label" for="pid-input">Port</label>
+										<input class="form-control" placeholder="Your Port" type="text" id="port-input">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<a href="javascript:createConnection();" class="btn btn-primary" id="connectBtn">Connect</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Inject failure -->
+	<div class="row tall-row hidden-lg" id="injectFailureSection">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading"><h3 class="panel-title">Inject failure</h3></div>
+				<div class="panel-body">
+					<form class="bs-component">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label class="control-label" for="classPath-input">Classpath*</label>
+								<input class="form-control" value="com.julio.test.components.SomeController" type="text"
+									   id="classPath-input">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="methodName-input">Method Name*</label>
+								<input class="form-control" value="allPeople" type="text" id="methodName-input">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="signature-input">Signature</label>
+								<input class="form-control" placeholder="(java.lang.String)V" type="text"
+									   id="signature-input">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<a href="javascript:searchMethod();" class="btn btn-primary" id="searchBtn">Search</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Called Methods -->
+	<div class="row tall-row attack-panel hidden-lg" id="calledMethodsSection">
+		<div class="col-lg-12">
+			<div class="alert alert-dismissible alert-success hidden-lg" id="success-message">
+			</div>
+			<div class="alert alert-dismissible alert-danger hidden-lg" id="error-message">
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h3 class="panel-title">List of called methods</h3></div>
+				<div class="panel-body">
+					<div id="treeViewContainer">
+						<ul class="list-group tree" id="root-list" isExpanded="false">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="col-md-8" style="padding-left: 0">
+				<a class="btn btn-warning" id="restoreBtn" onclick="restoreMethod(this)">Restore</a>
+				<a class="btn btn-danger" id="failureBtn" onclick="injectFailure(this)">Failure</a>
+			</div>
+			<div class="col-md-4" style="padding-right: 0">
+				<div class="input-group">
+					<input class="form-control" id="latencyInput" placeholder="latency in ms" type="text">
+					<span class="input-group-btn">
+						<a class="btn btn-primary" id="latencyBtn" onclick="injectLatency(this)">Latency</a>
+				  	</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row tall-row">
+		<div class="col-md-12">
+			<p>Created by <strong>Hans, Julio and Nick</strong> &copy; 2019 | Using <a
+					href="http://brobin.github.io/hacker-bootstrap/" target="_blank">Hacker Bootstrap</a></p>
+		</div>
+	</div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="js/buttons.js"></script>
 <script src="js/searchBar.js"></script>
 <script src="js/treeview.js"></script>
+<script src="js/connection.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<style>
-    @import url("css/buttons.css");
-    @import url("css/searchBar.css");
-    @import url("css/treeview.css");
-    @import url("css/header.css");
-</style>
-
-<div class="header">
-    <img src="/media/logo.png" alt="Perses">
-    <h2>Inject failure/latency to target application</h2>
-</div>
-
-
-<div id='searchBarContainer'>
-    <div class="attack-input">
-        <label for="classPath-input">Classpath
-            <input
-                    type="text"
-                    id="classPath-input"
-                    class="attack-input"
-                    placeholder="org.mypackage.HelloWorld"
-            />
-        </label>
-    </div>
-    <div class="attack-input">
-        <label for="methodName-input">MethodName
-            <input
-                    type="text"
-                    class="attack-input"
-                    id="methodName-input"
-                    placeholder="myMethod"
-            />
-        </label>
-    </div>
-    <div class="attack-input">
-        <label for="signature-input">Signature *
-            <input
-                    type="text"
-                    class="attack-input"
-                    id="signature-input"
-                    placeholder="(java.lang.String)V"
-            />
-        </label>
-    </div>
-    <button id="searchBtn" onclick='searchMethod()'>
-        Search
-    </button>
-    <span style = "color:red">
-        (*) = not mandatory
-    </span>
-</div>
-
-<div class="attack-panel">
-    <div id='treeViewContainer'>
-        <p class="tree"><b>List of called methods</b></p>
-        <ul id="root-list" isExpanded="false" class="tree">
-        </ul>
-    </div>
-
-    <div class="buttons">
-        <div id='RestoreBtnContainer'>
-            <a id='restoreBtn' class='button' onclick='restoreMethod(this)' style="background-color:#4e9af1">
-                Restore
-            </a>
-        </div>
-        <div id='failureBtnContainer'>
-            <a id='failureBtn' class='button' onclick='injectFailure(this)' style='background-color:#f14e4e'>
-                Failure
-            </a>
-        </div>
-
-        <div id='latencyContainer'>
-            <input
-                    type="text"
-                    id="latencyInput"
-                    placeholder="latency in ms"
-            />
-            <a id='latencyBtn' class='button' onclick='injectLatency(this)' style="background-color:#f1bb4e">
-                Latency
-            </a>
-        </div>
-    </div>
-</div>
-
-<div id="attack-result">
-</div>
+<script>
+	checkConnection();
+</script>
 
 </body>
-
+</html>

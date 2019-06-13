@@ -1,18 +1,19 @@
 const addChildrenToRoot = (methodInfo) => {
+	const section = document.getElementById("calledMethodsSection");
+	section.classList.remove("hidden-lg");
+
     const rootLu = document.getElementById("root-list");
+    console.log(rootLu);
 
     const rootLi = document.createElement("li");
-    const classPathSpan = document.createElement("span");
-    classPathSpan.setAttribute("class", "classPath");
-    const classPathTextNode = document.createTextNode('('+ methodInfo.classPath + ')');
-    classPathSpan.appendChild(classPathTextNode);
-    const methodNameSpan = document.createElement("span");
+    rootLi.setAttribute("class", "list-group-item");
+    const methodNameSpan = document.createElement("a");
+    methodNameSpan.setAttribute("href", "#a")
     methodNameSpan.setAttribute("class", "methodName");
-    const methodNamTextNode = document.createTextNode(methodInfo.methodName);
+    const methodNamTextNode = document.createTextNode(methodInfo.methodName + '('+ methodInfo.classPath + ')');
     methodNameSpan.appendChild(methodNamTextNode);
 
     rootLi.appendChild(methodNameSpan);
-    rootLi.appendChild(classPathSpan);
     rootLi.setAttribute("title", methodInfo.signature);
     rootLi.setAttribute('isExpanded', 'false');
 
@@ -59,19 +60,17 @@ const addChildrenToNode = (parentLi, data) => {
     data.forEach(methodInfo => {
         console.log(methodInfo);
         const nestedLi = document.createElement("li");
-        nestedUl.appendChild(nestedLi);
+        nestedLi.setAttribute("class", "list-group-item");
+        nestedLi.setAttribute("style", "border: 0");
 
-        const classPathSpan = document.createElement("span");
-        classPathSpan.setAttribute("class", "classPath");
-        const classPathTextNode = document.createTextNode('('+ methodInfo.classPath + ')');
-        classPathSpan.appendChild(classPathTextNode);
-        const methodNameSpan = document.createElement("span");
+        nestedUl.appendChild(nestedLi);
+        const methodNameSpan = document.createElement("a");
+        methodNameSpan.setAttribute("href", "#a")
         methodNameSpan.setAttribute("class", "methodName");
-        const methodNamTextNode = document.createTextNode(methodInfo.methodName);
+        const methodNamTextNode = document.createTextNode(methodInfo.methodName + '('+ methodInfo.classPath + ')');
         methodNameSpan.appendChild(methodNamTextNode);
 
         nestedLi.appendChild(methodNameSpan);
-        nestedLi.appendChild(classPathSpan);
         nestedLi.setAttribute('isExpanded', 'false');
         nestedLi.setAttribute('title', methodInfo.signature);
         nestedLi.addEventListener("click", e => {
@@ -94,11 +93,11 @@ const addChildrenToNode = (parentLi, data) => {
 let activeNode;
 const updateActiveNode = (node) => {
    if(activeNode !== node) {
-       console.log(node.firstChild);
+       console.log(node);
        if(activeNode) {
-           activeNode.firstChild.classList.remove("active");
+           activeNode.firstChild.classList.remove("list-group-item-danger");
        }
-       node.firstChild.classList.add("active");
+       node.firstChild.classList.add("list-group-item-danger");
        activeNode = node;
    }
 };

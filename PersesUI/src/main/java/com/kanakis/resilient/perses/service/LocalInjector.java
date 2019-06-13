@@ -4,6 +4,7 @@ import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.kanakis.resilient.perses.core.AgentLoader;
 import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
+import com.kanakis.resilient.perses.model.ConnectDTO;
 import com.sun.tools.attach.VirtualMachine;
 
 import java.util.List;

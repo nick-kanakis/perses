@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AttackProperties {
+
     private String classPath;
     private String methodName;
     private String signature;

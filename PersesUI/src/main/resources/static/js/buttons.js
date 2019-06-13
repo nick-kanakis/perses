@@ -1,12 +1,14 @@
 const injectFailure = btn => {
     console.log(btn);
+    const classPath = btn.getAttribute("classpath");
+	const methodName = btn.getAttribute("methodName");
     const methodInfo = {
         url: '/failure',
-        classPath:  btn.getAttribute("classpath"),
-        methodName: btn.getAttribute("methodName"),
+        classPath:  classPath,
+        methodName: methodName,
         signature: btn.getAttribute("signature")
     };
-    postToPerses(methodInfo)
+    postToPerses(methodInfo, "injectFailure");
 };
 
 const injectLatency = btn => {
@@ -17,7 +19,7 @@ const injectLatency = btn => {
         signature: btn.getAttribute("signature"),
         latency: document.getElementById("latencyInput").value
     };
-    postToPerses(methodInfo)
+    postToPerses(methodInfo, "injectLatency")
 };
 
 const restoreMethod = btn => {
@@ -27,7 +29,7 @@ const restoreMethod = btn => {
         methodName: btn.getAttribute("methodName"),
         signature: btn.getAttribute("signature")
     };
-    postToPerses(methodInfo)
+    postToPerses(methodInfo, "restoreMethod")
 };
 
 const updateInjectFailureBtn = data => {
@@ -35,7 +37,6 @@ const updateInjectFailureBtn = data => {
     failureBtn.setAttribute("classPath", data.classPath);
     failureBtn.setAttribute("methodName", data.methodName);
     failureBtn.setAttribute("signature", data.signature);
-
 };
 const updateInjectLatencyBtn = data => {
     const latencyBtn = document.getElementById("latencyBtn");
@@ -50,7 +51,7 @@ const updateInjectRestoreBtn = data => {
     restoreBtn.setAttribute("signature", data.signature);
 };
 
-function postToPerses(target) {
+function postToPerses(target, action) {
     axios.post(target.url, {
         classPath: target.classPath,
         methodName: target.methodName,
@@ -59,36 +60,48 @@ function postToPerses(target) {
     }, {
         baseURL: 'http://localhost:8777'
     }).then(r => {
-        resultOk();
+        resultOk(target, action);
     }).catch(e =>{
         resultNotOk(e);
     });
 }
 
-function resultOk() {
-    const resDiv = document.getElementById("attack-result");
-    removeChildNodes(resDiv);
-    const resultSpan = document.createElement("span");
-    resultSpan.setAttribute('id', 'ok-span');
-    resultSpan.setAttribute("style", "color:green; font-weight: bold;");
-    const msg = document.createTextNode("Request was successful");
-    resultSpan.appendChild(msg);
-    resDiv.appendChild(resultSpan);
+function resultOk(target, action) {
+	const messageAlert = document.getElementById("success-message");
+	messageAlert.innerHTML = '';
+	console.log(messageAlert);
+	const messageSpan = document.createElement("span");
+	let messageText = document.createTextNode('Failure injected in the method ' + target.classPath + '.' + target.methodName);
+	console.log(action);
+	if(action === "injectLatency"){
+		messageText = document.createTextNode('Latency injected in the method ' + target.classPath + '.' + target.methodName);
+	} else if(action === "restoreMethod"){
+		messageText = document.createTextNode('The default behavior of the methods was restored');
+	}
+
+	messageSpan.appendChild(messageText);
+	messageAlert.appendChild(messageSpan);
+	messageAlert.classList.remove("hidden-lg");
 
     setTimeout(() => {
-        resultSpan.remove();
+		messageAlert.classList.add("hidden-lg");
     }, 5000)
 }
 
 function resultNotOk(error) {
-    const resDiv = document.getElementById("attack-result");
-    removeChildNodes(resDiv);
-    const resultSpan = document.createElement("span");
-    resultSpan.setAttribute('id', 'error-span');
-    resultSpan.setAttribute("style", "color:red; font-weight: bold;");
-    const errorMsg = document.createTextNode(error.response.data.message);
-    resultSpan.appendChild(errorMsg);
-    resDiv.appendChild(resultSpan);
+	console.log(error);
+	const messageAlert = document.getElementById("error-message");
+	messageAlert.innerHTML = '';
+	console.log(messageAlert);
+	const messageSpan = document.createElement("span");
+	let messageText = document.createTextNode('You should select a method first');
+	messageSpan.appendChild(messageText);
+	messageAlert.appendChild(messageSpan);
+	messageAlert.classList.remove("hidden-lg");
+
+	setTimeout(() => {
+		messageAlert.classList.add("hidden-lg");
+	}, 5000)
 }
 
 function removeChildNodes(node) {

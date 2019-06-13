@@ -1,38 +1,43 @@
 package com.kanakis.resilient.perses.controller;
 
-import com.kanakis.resilient.perses.agent.MethodProperties;
-import com.kanakis.resilient.perses.core.AttackProperties;
-import com.kanakis.resilient.perses.service.InjectorService;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.kanakis.resilient.perses.agent.MethodProperties;
+import com.kanakis.resilient.perses.core.AttackProperties;
+import com.kanakis.resilient.perses.handler.InjectorHandler;
+import com.kanakis.resilient.perses.model.ConnectDTO;
+import com.kanakis.resilient.perses.service.ConnectionService;
 
 @RestController
 public class RestAPI {
-    private final InjectorService injectorService;
+    private final ConnectionService connectionService;
+    private final InjectorHandler injectorHandler;
 
-    public RestAPI(InjectorService injectorService) {
-        this.injectorService = injectorService;
+    public RestAPI(ConnectionService connectionService, InjectorHandler injectorHandler) {
+        this.connectionService = connectionService;
+        this.injectorHandler = injectorHandler;
     }
 
-    //todo: add signature versions
     @PostMapping("/failure")
     public void failure(@RequestBody AttackProperties properties) {
-        injectorService.throwException(properties);
+        injectorHandler.getInjectorService().throwException(properties);
     }
 
     @PostMapping("/latency")
     public void latency(@RequestBody AttackProperties properties) {
-        injectorService.addLatency(properties);
+        injectorHandler.getInjectorService().addLatency(properties);
     }
 
     @PostMapping("/restore")
     public void restore(@RequestBody AttackProperties properties) {
-        injectorService.restoreMethod(properties);
+        injectorHandler.getInjectorService().restoreMethod(properties);
     }
 
     @GetMapping("/getInvoked")
@@ -43,7 +48,22 @@ public class RestAPI {
         properties.setClassPath(classPath);
         properties.setMethodName(methodName);
         properties.setSignature(signature);
-        return injectorService.getInvokedMethods(properties);
+        return injectorHandler.getInjectorService().getInvokedMethods(properties);
+    }
+
+    @PostMapping("/connect")
+    public void connect(@RequestBody ConnectDTO properties) {
+        connectionService.createConnection(properties);
+    }
+
+    @DeleteMapping("/connect")
+    public void closeConnection() {
+        connectionService.closeConnection();
+    }
+
+    @GetMapping("/checkConnection")
+    public void checkConnection() {
+        connectionService.getCurrentConnection();
     }
 
 }

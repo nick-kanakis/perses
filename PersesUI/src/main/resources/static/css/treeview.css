@@ -1,61 +1,29 @@
-p.tree,
-ul.tree,
-ul.tree ul {
+ul.tree, ul.tree ul {
     list-style: none;
-    margin-left: 8px;
+    margin: 0;
     padding: 0;
-    cursor: pointer;
 }
-
 ul.tree ul {
-    margin-left: 1.0em;
+    margin-left: 10px;
 }
-
 ul.tree li {
-    margin-left: 0.35em;
-    border-left: thin solid #000;
-    cursor: pointer;
-}
-
-ul.tree li:last-child {
-    border-left: none;
-}
-
-ul.tree li:before {
-    width: 0.9em;
-    height: 0.6em;
-    margin-right: 0.1em;
-    vertical-align: top;
-    border-bottom: thin solid #000;
-    content: "";
-    display: inline-block;
-}
-
-ul.tree li:last-child:before {
-    border-left: thin solid #000;
-}
-
-#treeViewContainer {
-    margin-top: 10px;
-    text-decoration: none;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    border-left: 6px solid #ccc;
-    background: #f9f9f9;
-
-}
-
-span.classPath {
-    color: rgba(85, 85, 85, 0.98);
-    font-style: oblique;
-    margin-left: 5px;
-}
-
-span.methodName {
-    color: #2b49ba;
+    margin: 0;
+    padding: 0 7px;
+    line-height: 20px;
+    color: #369;
     font-weight: bold;
-}
+    border-left:1px solid rgb(100,100,100);
 
-span.methodName.active {
-    color: #f12500;
+}
+ul.tree li:before {
+    position:relative;
+    top:-0.3em;
+    height:1em;
+    width:12px;
+    color:white;
+    border-bottom:1px solid rgb(100,100,100);
+    content:"";
+    display:inline-block;
+    left:-7px;
+    border-left:1px solid rgb(100,100,100)
 }
