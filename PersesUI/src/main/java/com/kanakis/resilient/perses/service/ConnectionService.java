@@ -10,6 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.kanakis.resilient.perses.enums.InjectorType;
 import com.kanakis.resilient.perses.model.ConnectDTO;
@@ -33,10 +34,10 @@ public class ConnectionService {
         }
 
         try {
-            if (Objects.nonNull(properties.getAppName()) || Objects.nonNull(properties.getPid())) {
+            if (!StringUtils.isEmpty(properties.getAppName()) || !StringUtils.isEmpty(properties.getPid())) {
                 LocalInjector localInjector = new LocalInjector(properties.getAppName(), properties.getPid());
                 beanFactory.registerSingleton(InjectorType.LOCAL.getType(), localInjector);
-            } else if (Objects.nonNull(properties.getHost()) && Objects.nonNull(properties.getPort())) {
+            } else if (!StringUtils.isEmpty(properties.getHost()) && !StringUtils.isEmpty(properties.getPort())) {
                 RemoteInjector remoteInjector = new RemoteInjector(String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", properties.getHost(), properties.getPort()));
                 beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
             }
