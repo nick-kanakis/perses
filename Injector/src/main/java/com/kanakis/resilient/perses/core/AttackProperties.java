@@ -10,5 +10,6 @@ public class AttackProperties {
     private String signature;
     private long latency = 0;
     private double rate = 1.0;
+    private String exception = "OutOfMemoryError";
 
 }

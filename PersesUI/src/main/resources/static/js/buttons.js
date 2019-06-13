@@ -1,11 +1,16 @@
 const injectFailure = btn => {
     console.log(btn);
+	const rate = document.getElementById("rate-input").value;
+	const exception = document.getElementById("selectException").value;
+	console.log(exception);
     const classPath = btn.getAttribute("classpath");
 	const methodName = btn.getAttribute("methodName");
     const methodInfo = {
         url: '/failure',
         classPath:  classPath,
         methodName: methodName,
+		rate: rate,
+		exception: exception,
         signature: btn.getAttribute("signature")
     };
     postToPerses(methodInfo, "injectFailure");
@@ -56,7 +61,9 @@ function postToPerses(target, action) {
         classPath: target.classPath,
         methodName: target.methodName,
         signature: target.signature,
-        latency: target.latency
+        latency: target.latency,
+		rate: target.rate,
+		exception: target.exception
     }, {
         baseURL: 'http://localhost:8777'
     }).then(r => {

@@ -9,13 +9,15 @@ class TransformProperties {
     private OperationMode mode;
     private long latency;
     private double rate;
+    private String exception;
 
-    TransformProperties(String methodName, String signature, OperationMode mode, long latency, double rate) {
+    TransformProperties(String methodName, String signature, OperationMode mode, long latency, double rate, String exception) {
         this.methodName = methodName;
         this.signature = signature;
         this.mode = mode;
         this.latency = latency;
         this.rate = rate;
+        this.exception = exception;
     }
 
     String getMethodName() {
@@ -36,5 +38,10 @@ class TransformProperties {
 
     public double getRate() {
         return rate;
+    }
+
+
+    public String getException() {
+        return exception;
     }
 }

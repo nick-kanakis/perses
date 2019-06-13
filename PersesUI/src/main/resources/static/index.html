@@ -178,17 +178,48 @@
 			</div>
 		</div>
 		<div class="col-md-12">
-			<div class="col-md-8" style="padding-left: 0">
-				<a class="btn btn-warning" id="restoreBtn" onclick="restoreMethod(this)">Restore</a>
-				<a class="btn btn-danger" id="failureBtn" onclick="injectFailure(this)">Failure</a>
+			<div class="col-md-4" style="padding-left: 0">
+				<div class="input-group">
+					<select class="form-control" id="selectException">
+						<option>OutOfMemoryError</option>
+						<option>Exception</option>
+						<option>InterruptedException</option>
+						<option>ClassNotFoundException</option>
+						<option>IllegalAccessException</option>
+						<option>NoSuchFieldException</option>
+						<option>NoSuchMethodException</option>
+						<option>RuntimeException</option>
+						<option>ClassCastException</option>
+						<option>IllegalArgumentException</option>
+						<option>IllegalThreadStateException</option>
+						<option>NumberFormatException</option>
+						<option>IllegalStateException</option>
+						<option>IndexOutOfBoundsException</option>
+						<option>ArrayIndexOutOfBoundsException</option>
+						<option>StringIndexOutOfBoundsException</option>
+						<option>NullPointerException</option>
+						<option>SecurityException</option>
+						<option>UnsupportedOperationException</option>
+						<option>VirtualMachineError</option>
+						<option>StackOverflowError</option>
+						<option>UnknownError</option>
+					</select>
+					<input class="form-control" id="rate-input" placeholder="rate" value="1.0" type="text">
+					<span class="input-group-btn">
+						<a class="btn btn-danger" id="failureBtn" onclick="injectFailure(this)">Failure</a>
+				  	</span>
+				</div>
 			</div>
-			<div class="col-md-4" style="padding-right: 0">
+			<div class="col-md-4">
 				<div class="input-group">
 					<input class="form-control" id="latencyInput" placeholder="latency in ms" type="text">
 					<span class="input-group-btn">
 						<a class="btn btn-primary" id="latencyBtn" onclick="injectLatency(this)">Latency</a>
 				  	</span>
 				</div>
+			</div>
+			<div class="col-md-4" style="padding-right: 0" align="right">
+				<a class="btn btn-warning" id="restoreBtn" onclick="restoreMethod(this)">Restore</a>
 			</div>
 		</div>
 	</div>

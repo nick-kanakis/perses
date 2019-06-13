@@ -6,6 +6,7 @@ class TransformPropertiesBuilder {
     private OperationMode mode;
     private long latency = 0;
     private double rate = 1.0;
+    private String exception = "OutOfMemoryError";
 
     TransformPropertiesBuilder(String methodName, OperationMode mode) {
         this.methodName = methodName;
@@ -27,7 +28,12 @@ class TransformPropertiesBuilder {
         return this;
     }
 
+    TransformPropertiesBuilder setException(String exception) {
+        this.exception = exception;
+        return this;
+    }
+
     TransformProperties createTransformProperties() {
-        return new TransformProperties(methodName, signature, mode, latency, rate);
+        return new TransformProperties(methodName, signature, mode, latency, rate, exception);
     }
 }

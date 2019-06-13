@@ -47,6 +47,16 @@ class TransformerService implements TransformerServiceMBean {
     }
 
     @Override
+    public void throwException(String className, String methodName, String signature, double rate, String exception) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .setSignature(signature)
+                .setRate(rate)
+                .setException(exception)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
     public void addLatency(String className, String methodName, long latency) {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new LatencyMode())
                 .setLatency(latency)
