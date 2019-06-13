@@ -2,6 +2,8 @@ package com.kanakis.resilient.perses.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,8 +54,9 @@ public class RestAPI {
     }
 
     @PostMapping("/connect")
-    public void connect(@RequestBody ConnectDTO properties) {
+    public ResponseEntity<Void> connect(@RequestBody ConnectDTO properties) throws Exception {
         connectionService.createConnection(properties);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/connect")

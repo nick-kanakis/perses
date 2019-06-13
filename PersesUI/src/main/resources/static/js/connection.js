@@ -3,20 +3,21 @@ const createConnection = () => {
 	const pid = document.getElementById("pid-input").value;
 	const host = document.getElementById("host-input").value;
 	const port = document.getElementById("port-input").value;
-	if (!appName && !pid && !host && !port)
-		alert("You need to inform at least one configuration");
-	const methodInfo = {
-		url: '/connect',
-		appName: appName,
-		pid: pid,
-		host: host,
-		port: port
-	};
-	connect(methodInfo);
+	if (!appName && !pid && !host && !port){
+		connectionError("You need to inform at least one configuration")
+	} else {
+		const methodInfo = {
+			url: '/connect',
+			appName: appName,
+			pid: pid,
+			host: host,
+			port: port
+		};
+		connect(methodInfo);
+	}
 };
 
 const connect = (methodInfo) => {
-	console.log(methodInfo);
 	axios.post(methodInfo.url, {
 		appName: methodInfo.appName,
 		pid: methodInfo.pid,
@@ -25,9 +26,10 @@ const connect = (methodInfo) => {
 	}, {
 		baseURL: 'http://localhost:8777'
 	}).then(r => {
+		console.log(r);
 		openInjectFailureSection();
 	}).catch(e => {
-		resultNotOk(e);
+		connectionError("Was not possible to create a connection");
 	});
 };
 
@@ -47,7 +49,7 @@ const checkConnection = () => {
 	}).then(r => {
 		openInjectFailureSection();
 	}).catch(e => {
-		resultNotOk(e);
+		closeInjectFailureSection();
 	});
 };
 
@@ -67,4 +69,19 @@ const closeInjectFailureSection = () => {
 	conSection.classList.remove("hidden-lg");
 	const close = document.getElementById("closeConnectionLi");
 	close.classList.add("hidden-lg");
+}
+
+function connectionError(message) {
+	const messageAlert = document.getElementById("error-message");
+	messageAlert.innerHTML = '';
+	console.log(messageAlert);
+	const messageSpan = document.createElement("span");
+	let messageText = document.createTextNode(message);
+	messageSpan.appendChild(messageText);
+	messageAlert.appendChild(messageSpan);
+	messageAlert.classList.remove("hidden-lg");
+
+	setTimeout(() => {
+		messageAlert.classList.add("hidden-lg");
+	}, 5000)
 }

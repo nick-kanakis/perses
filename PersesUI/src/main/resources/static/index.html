@@ -43,7 +43,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a href="google.com" target="_blank">View on Github</a>
+					<a href="https://github.com/nicolasmanic/perses" target="_blank">View on Github</a>
 				</li>
 				<li id="closeConnectionLi" class="hidden-lg">
 					<a href="#a" onclick="closeConnection();">Close Connection</a>
@@ -61,6 +61,15 @@
 	<div class="jumbotron">
 		<h2>Inject failure/latency to target application</h2>
 		<p>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</p>
+	</div>
+
+	<div class="row tall-row">
+		<div class="col-lg-12">
+			<div class="alert alert-dismissible alert-success hidden-lg" id="success-message">
+			</div>
+			<div class="alert alert-dismissible alert-danger hidden-lg" id="error-message">
+			</div>
+		</div>
 	</div>
 
 	<!-- Inject failure -->
@@ -157,12 +166,6 @@
 
 	<!-- Called Methods -->
 	<div class="row tall-row attack-panel hidden-lg" id="calledMethodsSection">
-		<div class="col-lg-12">
-			<div class="alert alert-dismissible alert-success hidden-lg" id="success-message">
-			</div>
-			<div class="alert alert-dismissible alert-danger hidden-lg" id="error-message">
-			</div>
-		</div>
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">List of called methods</h3></div>

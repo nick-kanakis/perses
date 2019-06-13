@@ -1,12 +1,10 @@
 package com.kanakis.resilient.perses.service;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -27,22 +25,18 @@ public class ConnectionService {
         this.context = context;
     }
 
-    public void createConnection(ConnectDTO properties) {
+    public void createConnection(ConnectDTO properties) throws Exception {
 
-        if(getInjectorEntrySet().size() > 0){
+        if (getInjectorEntrySet().size() > 0) {
             throw new RuntimeException("You already have a opened connection, close it.");
         }
 
-        try {
-            if (!StringUtils.isEmpty(properties.getAppName()) || !StringUtils.isEmpty(properties.getPid())) {
-                LocalInjector localInjector = new LocalInjector(properties.getAppName(), properties.getPid());
-                beanFactory.registerSingleton(InjectorType.LOCAL.getType(), localInjector);
-            } else if (!StringUtils.isEmpty(properties.getHost()) && !StringUtils.isEmpty(properties.getPort())) {
-                RemoteInjector remoteInjector = new RemoteInjector(String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", properties.getHost(), properties.getPort()));
-                beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!StringUtils.isEmpty(properties.getAppName()) || !StringUtils.isEmpty(properties.getPid())) {
+            LocalInjector localInjector = new LocalInjector(properties.getAppName(), properties.getPid());
+            beanFactory.registerSingleton(InjectorType.LOCAL.getType(), localInjector);
+        } else if (!StringUtils.isEmpty(properties.getHost()) && !StringUtils.isEmpty(properties.getPort())) {
+            RemoteInjector remoteInjector = new RemoteInjector(String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", properties.getHost(), properties.getPort()));
+            beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
         }
     }
 
@@ -50,14 +44,14 @@ public class ConnectionService {
         return context.getBeansOfType(InjectorService.class).entrySet();
     }
 
-    public void closeConnection(){
+    public void closeConnection() {
         String value = getInjectorEntrySet().iterator().next().getKey();
         ((DefaultListableBeanFactory) beanFactory).destroySingleton(value);
     }
 
-    public InjectorService getCurrentConnection(){
+    public InjectorService getCurrentConnection() {
         Set<Map.Entry<String, InjectorService>> entries = getInjectorEntrySet();
-        if(entries.size() == 0){
+        if (entries.size() == 0) {
             throw new RuntimeException("You don't have a opened connection.");
         }
         return entries.iterator().next().getValue();
