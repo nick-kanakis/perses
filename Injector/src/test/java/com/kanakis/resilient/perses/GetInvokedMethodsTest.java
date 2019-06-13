@@ -55,5 +55,4 @@ public class GetInvokedMethodsTest {
         MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.testApp.TargetClass", "helper", "()Z");
         assertTrue(res.contains(expectedMethodProperties));
     }
-
 }

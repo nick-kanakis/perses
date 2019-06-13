@@ -15,4 +15,6 @@ public interface InjectorService {
     void restoreMethod(AttackProperties properties);
 
     List<MethodProperties> getInvokedMethods(AttackProperties properties) throws Throwable;
+
+    List<MethodProperties> getMethodsInvokedByClass(String classPath) throws Throwable;
 }

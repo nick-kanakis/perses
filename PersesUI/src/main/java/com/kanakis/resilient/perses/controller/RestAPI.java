@@ -46,4 +46,10 @@ public class RestAPI {
         return injectorService.getInvokedMethods(properties);
     }
 
+    @GetMapping("/getMethodOfClass")
+    public List<MethodProperties> getInvokedMethods(@RequestParam String classPath) throws Throwable {
+
+        return injectorService.getMethodsInvokedByClass(classPath);
+    }
+
 }

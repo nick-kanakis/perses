@@ -8,4 +8,14 @@ public class TargetClass {
     private boolean helper() {
         return true;
     }
+
+    private boolean helper2() {
+        return true;
+    }
+
+    private boolean helper3() {
+        return true;
+    }
+
+
 }

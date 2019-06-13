@@ -3,8 +3,8 @@ const searchMethod = () => {
     const classpath = document.getElementById("classPath-input").value;
     const methodName = document.getElementById("methodName-input").value;
     const signature = document.getElementById("signature-input").value;
-    if(!classpath || !methodName)
-        alert("Classpath & methodName must not be empty");
+    if(!classpath)
+        alert("Classpath  must not be empty");
     const methodInfo = {
         url: '/getInvoked',
         classPath:  classpath,

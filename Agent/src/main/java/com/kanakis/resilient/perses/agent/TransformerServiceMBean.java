@@ -110,4 +110,6 @@ public interface TransformerServiceMBean {
      * @param signature The signature of the method
      */
     List<MethodProperties> getInvokedMethods(String className, String methodName, String signature) throws Throwable;
+
+    List<MethodProperties> getMethodsOfClass(String className) throws Throwable;
 }
