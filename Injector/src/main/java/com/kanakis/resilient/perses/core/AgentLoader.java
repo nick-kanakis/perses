@@ -9,7 +9,16 @@ import java.util.Optional;
 public class AgentLoader {
 
     public static void main(String[] args) throws IOException {
-        run("procurement","");
+
+        String applicationName = "procurement";
+
+        if (args != null && args.length > 0) {
+            applicationName = args[0];
+        }
+
+        System.out.println("Using applicationName: " + applicationName);
+
+        run(applicationName,"");
     }
 
     /**
