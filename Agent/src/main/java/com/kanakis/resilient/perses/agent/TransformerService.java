@@ -123,6 +123,16 @@ class TransformerService implements TransformerServiceMBean {
         return MethodManipulation.getInvokedMethods(className, classLoader, methodName, signature);
     }
 
+    @Override
+    public List<MethodProperties> getMethodsOfClass(String className) throws Throwable {
+        Class<?> clazz = locateClass(className);
+        ClassLoader classLoader = clazz.getClassLoader();
+
+
+        return MethodManipulation.getMethodsOfClass(className, classLoader);
+    }
+
+
     /**
      * Registers a transformer and executes the transformation
      *

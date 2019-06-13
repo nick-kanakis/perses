@@ -76,7 +76,6 @@ public class MBeanWrapper implements AutoCloseable {
                     properties.getSignature());
     }
 
-
     public List<MethodProperties> getInvokedMethods(AttackProperties properties) throws Throwable {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
             return mBean.getInvokedMethods(properties.getClassPath(),
@@ -85,6 +84,10 @@ public class MBeanWrapper implements AutoCloseable {
             return mBean.getInvokedMethods(properties.getClassPath(),
                     properties.getMethodName(),
                     properties.getSignature());
+    }
+
+    public List<MethodProperties> getMethodsOfClass(String classPath) throws Throwable {
+        return mBean.getMethodsOfClass(classPath);
     }
 
     /**

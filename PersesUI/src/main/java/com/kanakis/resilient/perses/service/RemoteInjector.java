@@ -33,4 +33,9 @@ public class RemoteInjector  implements InjectorService{
     public List<MethodProperties> getInvokedMethods(AttackProperties properties) throws Throwable {
         return mBeanWrapper.getInvokedMethods(properties);
     }
+
+    @Override
+    public List<MethodProperties> getMethodsInvokedByClass(String classPath) throws Throwable {
+        return mBeanWrapper.getMethodsOfClass(classPath);
+    }
 }

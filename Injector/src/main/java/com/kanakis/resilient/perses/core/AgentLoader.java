@@ -50,7 +50,7 @@ public class AgentLoader {
             }
             jvmPid = jvmProcessOpt.get();
         }
-        String agentAbsolutePath = getAbsolutePathOfAgent();
+        String agentAbsolutePath = "/Users/nikolaoskanakis/Documents/projects/perses/perses-agent.jar";//getAbsolutePathOfAgent();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
         System.out.println("Agent jar path: "+ agentAbsolutePath);
 
@@ -75,7 +75,7 @@ public class AgentLoader {
         String canonicalPath = new File(".").getCanonicalPath();
 
         //The "Injector" is added to the canonical path when we run the unit test
-        if(canonicalPath.endsWith("Injector"))
+        if(canonicalPath.endsWith("Controller"))
             canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "Injector".length());
         return canonicalPath + "/perses-agent.jar";
     }

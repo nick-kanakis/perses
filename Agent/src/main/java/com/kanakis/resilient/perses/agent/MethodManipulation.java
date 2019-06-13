@@ -96,4 +96,27 @@ class MethodManipulation {
     static List<MethodProperties> getInvokedMethods(String className, ClassLoader classLoader, String methodName) {
         return getInvokedMethods(className, classLoader, methodName, ".*?");
     }
+
+
+    static List<MethodProperties> getMethodsOfClass(String className,
+                                                    ClassLoader classLoader) {
+        List<MethodProperties> invokedMethods = new ArrayList<>();
+
+        String binName = className.replace('/', '.');
+        try {
+            ClassPool cPool = new ClassPool(true);
+            cPool.appendClassPath(new LoaderClassPath(classLoader));
+            CtClass ctClazz = cPool.get(binName);
+            for (CtMethod method : ctClazz.getDeclaredMethods()) {
+                invokedMethods.add(new MethodProperties(method.getDeclaringClass().getName(),
+                        method.getName(), method.getSignature()));
+
+            }
+            return invokedMethods;
+        } catch (Exception ex) {
+            System.err.println("Failed to retrieve methods of Class: " + className + " Stack trace follows...");
+            ex.printStackTrace(System.err);
+            return invokedMethods;
+        }
+    }
 }
