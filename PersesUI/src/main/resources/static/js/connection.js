@@ -69,6 +69,8 @@ const closeInjectFailureSection = () => {
 	conSection.classList.remove("hidden-lg");
 	const close = document.getElementById("closeConnectionLi");
 	close.classList.add("hidden-lg");
+	const called = document.getElementById("calledMethodsSection");
+	called.classList.add("hidden-lg");
 }
 
 function connectionError(message) {
