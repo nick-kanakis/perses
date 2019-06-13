@@ -36,13 +36,12 @@ class MethodManipulation {
             CtClass ctClazz = cPool.get(binName);
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
                 if (method.getName().equals(properties.getMethodName()) && (
-                        method.getSignature().matches(properties.getSignature()) ||
-                                method.getSignature().equals(properties.getSignature()))) {
-                    System.out.println("Instrumenting method: "+ method.getName());
+                        method.getSignature().equals(properties.getSignature()) || method.getSignature().matches(properties.getSignature()))) {
+                    System.out.println("Instrumenting method: " + method.getName());
                     ctClazz.removeMethod(method);
                     CtMethod modifiedMethod = properties.getMode().generateCode(method, properties);
                     ctClazz.addMethod(modifiedMethod);
-                    System.out.println( "Method: "+ method.getName() + " instrumented");
+                    System.out.println("Method: " + method.getName() + " instrumented");
                 }
             }
             return ctClazz.toBytecode();
@@ -56,10 +55,10 @@ class MethodManipulation {
     /**
      * Find all invoked methods by the provided method
      *
-     * @param className The internal form target class name
+     * @param className   The internal form target class name
      * @param classLoader The intrumentation provided classloader
-     * @param methodName The target method name
-     * @param signature The target signature
+     * @param methodName  The target method name
+     * @param signature   The target signature
      * @return a {@link List} of the invoked methods.
      */
     static List<MethodProperties> getInvokedMethods(String className,
@@ -76,8 +75,7 @@ class MethodManipulation {
             CtClass ctClazz = cPool.get(binName);
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
                 if (method.getName().equals(methodName) && (
-                        method.getSignature().matches(signature) ||
-                                method.getSignature().equals(signature))) {
+                        method.getSignature().equals(signature) || method.getSignature().matches(signature))) {
                     method.instrument(
                             new ExprEditor() {
                                 public void edit(MethodCall m)
