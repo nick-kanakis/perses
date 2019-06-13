@@ -1,20 +1,17 @@
 package com.kanakis.resilient.perses.core;
 
-import com.kanakis.resilient.perses.agent.TransformerServiceMBean;
 import com.sun.tools.attach.VirtualMachine;
 
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.util.Optional;
 
 public class AgentLoader {
+
+    public static void main(String[] args) throws IOException {
+        run("procurement","");
+    }
+
     /**
      * Creates a java agent jar and attach it to the target application
      *
