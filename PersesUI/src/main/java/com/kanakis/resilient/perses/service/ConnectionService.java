@@ -40,7 +40,6 @@ public class ConnectionService {
                 RemoteInjector remoteInjector = new RemoteInjector(String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", properties.getHost(), properties.getPort()));
                 beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

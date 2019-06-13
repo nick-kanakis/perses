@@ -1,12 +1,16 @@
 const createConnection = () => {
 	const appName = document.getElementById("appName-input").value;
 	const pid = document.getElementById("pid-input").value;
-	if (!appName && !pid)
-		alert("You need to inform at least one");
+	const host = document.getElementById("host-input").value;
+	const port = document.getElementById("port-input").value;
+	if (!appName && !pid && !host && !port)
+		alert("You need to inform at least one configuration");
 	const methodInfo = {
 		url: '/connect',
 		appName: appName,
-		pid: pid
+		pid: pid,
+		host: host,
+		port: port
 	};
 	connect(methodInfo);
 };
@@ -15,11 +19,13 @@ const connect = (methodInfo) => {
 	console.log(methodInfo);
 	axios.post(methodInfo.url, {
 		appName: methodInfo.appName,
-		pid: methodInfo.pid
+		pid: methodInfo.pid,
+		host: methodInfo.host,
+		port: methodInfo.port
 	}, {
 		baseURL: 'http://localhost:8777'
 	}).then(r => {
-		openInjectFailureSection(methodInfo);
+		openInjectFailureSection();
 	}).catch(e => {
 		resultNotOk(e);
 	});
