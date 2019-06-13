@@ -24,23 +24,18 @@ else
 fi
 echo ''
 
-JAR_DIRECTORY='perses'
-echo "2. Creating a jar directory AT ${JAR_DIRECTORY}"
-mkdir -p ${JAR_DIRECTORY}
+echo '2. Downloading the perses-agent.jar'
+wget -O perses-agent.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-agent.jar
 echo ''
 
-echo '3. Downloading the perses-agent.jar'
-wget -O ${JAR_DIRECTORY}/perses-agent.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-agent.jar
+echo '3. Downloading the perses-injector.jar'
+wget -O perses-injector.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-injector-jar-with-dependencies.jar
 echo ''
 
-echo '4. Downloading the perses-injector.jar'
-wget -O ${JAR_DIRECTORY}/perses-injector.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-injector-jar-with-dependencies.jar
+echo '4. Making perses-injector.jar exectuable'
+chmod +x perses-injector.jar
 echo ''
 
-echo '5. Making perses-injector.jar exectuable'
-chmod +x ${JAR_DIRECTORY}/perses-injector.jar
-echo ''
-
-echo '6. Executing the perses-injector application'
-java -jar ${JAR_DIRECTORY}/perses-injector.jar
+echo '5. Executing the perses-injector application'
+java -jar perses-injector.jar
 echo ''
