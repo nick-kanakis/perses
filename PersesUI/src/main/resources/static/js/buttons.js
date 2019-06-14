@@ -22,7 +22,8 @@ const injectLatency = btn => {
         classPath:  btn.getAttribute("classpath"),
         methodName: btn.getAttribute("methodName"),
         signature: btn.getAttribute("signature"),
-        latency: document.getElementById("latencyInput").value
+        latency: document.getElementById("latencyInput").value,
+		rate: document.getElementById("rate-input-latency").value,
     };
     postToPerses(methodInfo, "injectLatency")
 };
@@ -69,15 +70,11 @@ function postToPerses(target, action) {
     }).then(r => {
         resultOk(target, action);
     }).catch(e =>{
-        resultNotOk(e);
+        resultNotOk(e, "You need to choose one method!");
     });
 }
 
 function resultOk(target, action) {
-	const messageAlert = document.getElementById("success-message");
-	messageAlert.innerHTML = '';
-	console.log(messageAlert);
-	const messageSpan = document.createElement("span");
 	let messageText = document.createTextNode('Failure injected in the method ' + target.classPath + '.' + target.methodName);
 	console.log(action);
 	if(action === "injectLatency"){
@@ -86,29 +83,36 @@ function resultOk(target, action) {
 		messageText = document.createTextNode('The default behavior of the methods was restored');
 	}
 
-	messageSpan.appendChild(messageText);
-	messageAlert.appendChild(messageSpan);
-	messageAlert.classList.remove("hidden-lg");
+	const titleParagraph = $('#titleParagraph');
+	titleParagraph.html("<strong>Done!</strong>");
+	titleParagraph.removeClass("text-danger");
 
-    setTimeout(() => {
-		messageAlert.classList.add("hidden-lg");
-    }, 5000)
-}
+	const messageParagraph = $('#messageParagraph');
+	messageParagraph.html(messageText);
+	messageParagraph.removeClass("text-danger");
 
-function resultNotOk(error) {
-	console.log(error);
-	const messageAlert = document.getElementById("error-message");
-	messageAlert.innerHTML = '';
-	console.log(messageAlert);
-	const messageSpan = document.createElement("span");
-	let messageText = document.createTextNode('You should select a method first');
-	messageSpan.appendChild(messageText);
-	messageAlert.appendChild(messageSpan);
-	messageAlert.classList.remove("hidden-lg");
+	$('#messageModal').modal('show');
 
 	setTimeout(() => {
-		messageAlert.classList.add("hidden-lg");
-	}, 5000)
+		$('#messageModal').modal('hide');
+    }, 3000)
+}
+
+function resultNotOk(error, message) {
+	console.log(error);
+	const titleParagraph = $('#titleParagraph');
+	titleParagraph.html("<strong>Ops!</strong>");
+	titleParagraph.addClass("text-danger");
+
+	const messageParagraph = $('#messageParagraph');
+	messageParagraph.html(message);
+	messageParagraph.addClass("text-danger");
+
+	$('#messageModal').modal('show');
+
+	setTimeout(() => {
+		$('#messageModal').modal('hide');
+	}, 3000)
 }
 
 function removeChildNodes(node) {

@@ -18,6 +18,20 @@
 
 <body>
 
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="Message" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="titleParagraph"></h4>
+			</div>
+			<div class="modal-body">
+				<p id="messageParagraph"></p>
+			</div>
+		</div>
+	</div>
+</div>
+
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -122,7 +136,7 @@
 	<div class="row tall-row hidden-lg" id="injectFailureSection">
 		<div class="col-lg-12">
 			<div class="panel panel-danger">
-				<div class="panel-heading"><h3 class="panel-title">Inject failure</h3></div>
+				<div class="panel-heading"><h3 class="panel-title">Search Methods</h3></div>
 				<div class="panel-body">
 					<form class="bs-component">
 						<div class="col-md-12">
@@ -156,6 +170,7 @@
 
 	<!-- Called Methods -->
 	<div class="row tall-row attack-panel hidden-lg" id="calledMethodsSection">
+
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading"><h3 class="panel-title">List of called methods</h3></div>
@@ -164,54 +179,84 @@
 						<ul class="list-group tree" id="root-list" isExpanded="false">
 						</ul>
 					</div>
+					<a class="btn btn-warning" id="restoreBtn" onclick="restoreMethod(this)">Restore</a>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12">
-			<div class="col-md-4" style="padding-left: 0">
-				<div class="input-group">
-					<select class="form-control" id="selectException">
-						<option>OutOfMemoryError</option>
-						<option>Exception</option>
-						<option>InterruptedException</option>
-						<option>ClassNotFoundException</option>
-						<option>IllegalAccessException</option>
-						<option>NoSuchFieldException</option>
-						<option>NoSuchMethodException</option>
-						<option>RuntimeException</option>
-						<option>ClassCastException</option>
-						<option>IllegalArgumentException</option>
-						<option>IllegalThreadStateException</option>
-						<option>NumberFormatException</option>
-						<option>IllegalStateException</option>
-						<option>IndexOutOfBoundsException</option>
-						<option>ArrayIndexOutOfBoundsException</option>
-						<option>StringIndexOutOfBoundsException</option>
-						<option>NullPointerException</option>
-						<option>SecurityException</option>
-						<option>UnsupportedOperationException</option>
-						<option>VirtualMachineError</option>
-						<option>StackOverflowError</option>
-						<option>UnknownError</option>
-					</select>
-					<input class="form-control" id="rate-input" placeholder="rate" value="1.0" type="text">
-					<span class="input-group-btn">
-						<a class="btn btn-danger" id="failureBtn" onclick="injectFailure(this)">Failure</a>
-				  	</span>
+
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading"><h3 class="panel-title">Inject failure</h3></div>
+				<div class="panel-body">
+					<form class="bs-component">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="selectException">Exception*</label>
+								<select class="form-control" id="selectException">
+									<option>OutOfMemoryError</option>
+									<option>Exception</option>
+									<option>InterruptedException</option>
+									<option>ClassNotFoundException</option>
+									<option>IllegalAccessException</option>
+									<option>NoSuchFieldException</option>
+									<option>NoSuchMethodException</option>
+									<option>RuntimeException</option>
+									<option>ClassCastException</option>
+									<option>IllegalArgumentException</option>
+									<option>IllegalThreadStateException</option>
+									<option>NumberFormatException</option>
+									<option>IllegalStateException</option>
+									<option>IndexOutOfBoundsException</option>
+									<option>ArrayIndexOutOfBoundsException</option>
+									<option>StringIndexOutOfBoundsException</option>
+									<option>NullPointerException</option>
+									<option>SecurityException</option>
+									<option>UnsupportedOperationException</option>
+									<option>VirtualMachineError</option>
+									<option>StackOverflowError</option>
+									<option>UnknownError</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="rate-input">Rate*</label>
+								<input class="form-control" value="1.0" type="text" id="rate-input">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<a class="btn btn-danger" id="failureBtn" onclick="injectFailure(this)">Failure</a>
+						</div>
+					</form>
 				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="input-group">
-					<input class="form-control" id="latencyInput" placeholder="latency in ms" type="text">
-					<span class="input-group-btn">
-						<a class="btn btn-primary" id="latencyBtn" onclick="injectLatency(this)">Latency</a>
-				  	</span>
-				</div>
-			</div>
-			<div class="col-md-4" style="padding-right: 0" align="right">
-				<a class="btn btn-warning" id="restoreBtn" onclick="restoreMethod(this)">Restore</a>
 			</div>
 		</div>
+
+		<div class="col-lg-12">
+			<div class="panel panel-warning">
+				<div class="panel-heading"><h3 class="panel-title">Inject latency</h3></div>
+				<div class="panel-body">
+					<form class="bs-component">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="selectException">Latency*</label>
+								<input class="form-control" id="latencyInput" placeholder="latency in ms" type="text">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="rate-input-latency">Rate*</label>
+								<input class="form-control" value="1.0" type="text" id="rate-input-latency">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<a class="btn btn-primary" id="latencyBtn" onclick="injectLatency(this)">Latency</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<div class="row tall-row">
@@ -235,4 +280,5 @@
 </script>
 
 </body>
+
 </html>

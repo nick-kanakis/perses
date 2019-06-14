@@ -4,7 +4,7 @@ const createConnection = () => {
 	const host = document.getElementById("host-input").value;
 	const port = document.getElementById("port-input").value;
 	if (!appName && !pid && !host && !port){
-		connectionError("You need to inform at least one configuration")
+		resultNotOk("Validation","You need to inform at least one configuration")
 	} else {
 		const methodInfo = {
 			url: '/connect',
@@ -29,7 +29,7 @@ const connect = (methodInfo) => {
 		console.log(r);
 		openInjectFailureSection();
 	}).catch(e => {
-		connectionError("Was not possible to create a connection");
+		resultNotOk(e,"Was not possible to create a connection");
 	});
 };
 
@@ -39,7 +39,7 @@ const closeConnection = () => {
 	}).then(r => {
 		closeInjectFailureSection();
 	}).catch(e => {
-		resultNotOk(e);
+		resultNotOk(e, "Sorry, something is bad :(");
 	});
 };
 
@@ -71,19 +71,4 @@ const closeInjectFailureSection = () => {
 	close.classList.add("hidden-lg");
 	const called = document.getElementById("calledMethodsSection");
 	called.classList.add("hidden-lg");
-}
-
-function connectionError(message) {
-	const messageAlert = document.getElementById("error-message");
-	messageAlert.innerHTML = '';
-	console.log(messageAlert);
-	const messageSpan = document.createElement("span");
-	let messageText = document.createTextNode(message);
-	messageSpan.appendChild(messageText);
-	messageAlert.appendChild(messageSpan);
-	messageAlert.classList.remove("hidden-lg");
-
-	setTimeout(() => {
-		messageAlert.classList.add("hidden-lg");
-	}, 5000)
 }
