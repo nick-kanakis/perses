@@ -7,6 +7,7 @@ const addChildrenToRoot = (methodInfo) => {
 
     const rootLi = document.createElement("li");
     rootLi.setAttribute("class", "list-group-item");
+    rootLi.setAttribute("id", "rootLi");
     const methodNameSpan = document.createElement("a");
     methodNameSpan.setAttribute("href", "#a")
     methodNameSpan.setAttribute("class", "methodName");
@@ -37,7 +38,36 @@ const addChildrenToRoot = (methodInfo) => {
     });
 };
 
+const addChildrenToRootNotClickable = (className) => {
+    const section = document.getElementById("calledMethodsSection");
+    section.classList.remove("hidden-lg");
+
+    const rootLu = document.getElementById("root-list");
+    console.log(rootLu);
+
+    const rootLi = document.createElement("li");
+    rootLi.setAttribute("class", "list-group-item list-group-item-success");
+    rootLi.setAttribute("id", "rootLi");
+    const methodNameSpan = document.createElement("span");
+    methodNameSpan.setAttribute("class", "methodName");
+    const methodNamTextNode = document.createTextNode(className);
+    methodNameSpan.appendChild(methodNamTextNode);
+
+    rootLi.appendChild(methodNameSpan);
+    rootLi.setAttribute("title", className);
+    rootLi.setAttribute('isExpanded', 'false');
+
+    rootLu.removeChild(rootLu.firstChild);
+    rootLu.appendChild(rootLi);
+};
+
 const addChildrenToNode = (parentLi, data) => {
+    console.log(data);
+    if(!parentLi){
+        addChildrenToRootNotClickable(data[0].classPath);
+        parentLi = document.getElementById("rootLi");
+    }
+
     if (parentLi.getAttribute('isExpanded')) {
         const isExpanded = parentLi.getAttribute('isExpanded');
         if (isExpanded === 'true') {
