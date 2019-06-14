@@ -7,7 +7,31 @@
 
 ### What is the goal.
 
+Perses is a tool designed to give you insides to your jvm application by dynamically injecting failure/latency at the bytecode level
+with surgical precision. Perses is designed with [Principles of Chaos Engineering][PoC] in mind.
+
+[PoC]: http://principlesofchaos.org/
+
 ### How it works.
+
+![Overview](https://i.ibb.co/f9hVcxn/image.png)
+
+The tool consist of 3 parts:
+
+#### Agent
+
+Agent is the jar what will be loaded inside the JVM and give you access to the internals of your application, intercept and 
+manipulate the bytecode. It exposes a set of MBeans throw JMX so external components can connect and manipulate the bytecode 
+on demand.
+
+#### Injector
+
+Injector is responsible for finding the targeted JVM and loading the Agent jar inside the JVM.
+
+#### UI
+
+UI is the only part that does not need to be in the same environment as the target JVM. It connects throw JMX to the Agent
+and provides an intuitive ui to instrument the attacks. Finally there is a REST API to connect any external component.
 
 ### How to use it.
 
