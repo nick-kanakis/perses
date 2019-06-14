@@ -56,19 +56,36 @@ const checkConnection = () => {
 const openInjectFailureSection = () => {
 	const section = document.getElementById("injectFailureSection");
 	section.classList.remove("hidden-lg");
+
 	const conSection = document.getElementById("connectionSection");
 	conSection.classList.add("hidden-lg");
+
 	const close = document.getElementById("closeConnectionLi");
 	close.classList.remove("hidden-lg");
+
+	const offline = document.getElementById("offlineLi");
+	offline.classList.add("hidden-lg");
+
+	const online = document.getElementById("onlineLi");
+	online.classList.remove("hidden-lg");
 }
 
 const closeInjectFailureSection = () => {
 	const section = document.getElementById("injectFailureSection");
 	section.classList.add("hidden-lg");
+
 	const conSection = document.getElementById("connectionSection");
 	conSection.classList.remove("hidden-lg");
+
 	const close = document.getElementById("closeConnectionLi");
 	close.classList.add("hidden-lg");
+
 	const called = document.getElementById("calledMethodsSection");
 	called.classList.add("hidden-lg");
+
+	const offline = document.getElementById("offlineLi");
+	offline.classList.remove("hidden-lg");
+
+	const online = document.getElementById("onlineLi");
+	online.classList.add("hidden-lg");
 }
