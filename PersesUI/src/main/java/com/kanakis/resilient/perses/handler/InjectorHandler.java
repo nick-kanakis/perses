@@ -19,8 +19,8 @@ public class InjectorHandler {
 
     public InjectorService getInjectorService() {
         Map<String, InjectorService> beansOfType = context.getBeansOfType(InjectorService.class);
-        if (beansOfType.entrySet().size() == 0) {
-            throw new NoSuchBeanDefinitionException("Any InjectorType found");
+        if (beansOfType.entrySet().isEmpty()) {
+            throw new NoSuchBeanDefinitionException("No InjectorType found");
         }
         return beansOfType.entrySet().iterator().next().getValue();
     }

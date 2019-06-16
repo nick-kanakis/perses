@@ -5,6 +5,20 @@
 
 > **Perses** (Ancient Greek: Πέρσης) was the Titan god of destruction. His name is derived from the Ancient Greek word perthō ("to destroy")
 
+
+### Perses status
+
+Perses is under development and not ready for production. We are currently experimenting with different jvm versions and in the near future 
+there will be a Perses version for each major JDK release.  
+
+| JDK Version | Status | Release |
+| :---: | :--- | :---: |
+| 8  | Under development  | - |
+| 9  | Working  | 0.0.0 |
+| 10  | Needs testing  | - |  
+| 11 | Needs testing  | - |
+
+
 ### What is the goal.
 
 Perses is a tool designed to give you insides to your jvm application by dynamically injecting failure/latency at the bytecode level
@@ -36,18 +50,18 @@ and provides an intuitive ui to instrument the attacks. Finally there is a REST 
 ### How to use it.
 
 #### Remote
-To use Perses to connect in a remotely application, you will need to expose the port of JMX and create a connection using the **host** and the **jmx port exposed**.
+To connect to a remote application, you will need to expose a JMX port and create a connection using the **host** and the exposed **jmx port**.
 ##### How to expose a JMX port?
-To expose the JMX port you need some JVM parameters:
+To expose a JMX port you need to add the following JVM parameters:
 ```properties
 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=<JMX_PORT> -Dcom.sun.management.jmxremote.rmi.port=<JMX_PORT> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
 ```
 
 ##### Container World
-Once you have your app running inside a container, you need to install our agent inside it, but this process is very simple. We have a [script](https://github.com/nicolasmanic/perses/blob/master/install_perses.sh) to do this automatically for you!
+If the target app is running inside a container, you will need to load the agent inside the target jvm. This [script](https://github.com/nicolasmanic/perses/blob/master/install_perses.sh) can  automate this step.
 
 ##### Kubernetes World
-Once you are in the K8S world, you need to change your **service.yaml** to expose the JMX port chosen.
+If your application is running in a kubernetes cluster, you need to change your **service.yaml** to expose the chosen JMX port.
 ```yaml
 spec:
   ports:
@@ -59,14 +73,14 @@ spec:
 ``` 
 
 #### Local
-To use Perses to connect in a local application, the only thing that you need is the **application name** **OR** **application PID**.
+To connect to a local running application, you need to provide the **application name** **OR** **application PID**.
 
 #### Create a Connection
 Perses only allow 1 connection per time, so, you need to choose between [local](#local) or [remotely](#remote).
 ![Create a Connection](https://i.ibb.co/zV3b2mZ/image-2.png)
 
 #### Search the Methods
-You have 2 options to search the method that you want to inject the failure or latency.
+You have 2 options when searching for the target method that you want to inject the failure/latency.
 
 - Only fill the **Classpath**.
   - Perses will get all methods of the class that you filled.
@@ -81,7 +95,8 @@ To inject a failure, you need to fill which **exception** you want to inject and
 #### Inject Latency
 To inject a failure, you need to fill the **latency** (milliseconds) you want to inject and the **rate***.
 
-**Note: The rate value is between 0 and 1, so if you choose 0.5 you are saying that Perses need to inject the failure only in 50% of the calls*
+****Note**: The rate value is between 0 and 1 (default), so if you choose 0.5 there is 50% change each time the method is executed
+that the selected attack will be triggered*
 
 #### Restore
 To restore the default behavior of the method, you can click in the button called **Restore**.

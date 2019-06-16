@@ -16,6 +16,7 @@ import com.kanakis.resilient.perses.model.ConnectDTO;
 @Component
 public class ConnectionService {
 
+    private static final String JMX_URL_PATTERN = "service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi";
     private final ConfigurableListableBeanFactory beanFactory;
     private final ApplicationContext context;
 
@@ -35,7 +36,7 @@ public class ConnectionService {
             LocalInjector localInjector = new LocalInjector(properties.getAppName(), properties.getPid());
             beanFactory.registerSingleton(InjectorType.LOCAL.getType(), localInjector);
         } else if (!StringUtils.isEmpty(properties.getHost()) && !StringUtils.isEmpty(properties.getPort())) {
-            RemoteInjector remoteInjector = new RemoteInjector(String.format("service:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", properties.getHost(), properties.getPort()));
+            RemoteInjector remoteInjector = new RemoteInjector(String.format(JMX_URL_PATTERN, properties.getHost(), properties.getPort()));
             beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
         }
     }

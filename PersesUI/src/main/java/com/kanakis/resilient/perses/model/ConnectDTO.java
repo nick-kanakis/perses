@@ -2,7 +2,7 @@ package com.kanakis.resilient.perses.model;
 
 public class ConnectDTO {
 
-    public ConnectDTO(){
+    public ConnectDTO() {
 
     }
 
