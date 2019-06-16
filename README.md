@@ -14,7 +14,7 @@ with surgical precision. Perses is designed with [Principles of Chaos Engineerin
 
 ### How it works.
 
-![Overview](https://i.ibb.co/f9hVcxn/image.png)
+![Overview](https://i.imgur.com/H5uTjD2.png)
 
 The tool consist of 3 parts:
 

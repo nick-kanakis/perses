@@ -33,7 +33,7 @@ public class AgentLoader {
             throw new IllegalArgumentException("Target pid and application name are null");
         }
 
-        System.out.println("Provided Application NAme: "+ applicationName);
+        System.out.println("Provided Application Name: "+ applicationName);
         System.out.println("Provided pid: "+ jvmPid);
         if (jvmPid.isEmpty()) {
             Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
