@@ -15,9 +15,9 @@ there will be a Perses version for each major JDK release.
 | :---: | :--- | :---: |
 | 8  | Under development  | - |
 | 9  | Working  | 0.0.0 |
-| 10  | Needs testing  | - |  
-| 11 | Needs testing  | - |
-| 12 | Needs testing  | - |
+| 10  | Working  | [0.0.10](https://github.com/nicolasmanic/perses/releases/tag/0.0.10) |  
+| 11 | Working  | [0.0.11](https://github.com/nicolasmanic/perses/releases/tag/0.0.11) |
+| 12 | Working  | [0.0.12](https://github.com/nicolasmanic/perses/releases/tag/0.0.12) |
 
 
 ### What is the goal.
