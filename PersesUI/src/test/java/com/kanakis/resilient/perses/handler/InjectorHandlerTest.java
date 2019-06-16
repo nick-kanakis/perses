@@ -81,7 +81,7 @@ public class InjectorHandlerTest {
     @Test
     public void should_return_an_error_because_there_is_no_connection_opened(){
         expectedException.expect(NoSuchBeanDefinitionException.class);
-        expectedException.expectMessage("Any InjectorType found");
+        expectedException.expectMessage("No InjectorType found");
         injectorHandler.getInjectorService();
     }
 
