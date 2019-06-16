@@ -1,4 +1,4 @@
 language: java
-jdk: openjdk9
+jdk: openjdk11
 sudo: false # faster builds
 script: mvn clean package
