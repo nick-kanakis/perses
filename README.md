@@ -17,6 +17,7 @@ there will be a Perses version for each major JDK release.
 | 9  | Working  | 0.0.0 |
 | 10  | Needs testing  | - |  
 | 11 | Needs testing  | - |
+| 12 | Needs testing  | - |
 
 
 ### What is the goal.
