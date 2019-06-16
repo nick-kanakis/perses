@@ -25,11 +25,11 @@ fi
 echo ''
 
 echo '2. Downloading the perses-agent.jar'
-wget -O perses-agent.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-agent.jar
+wget -O perses-agent.jar https://github.com/nicolasmanic/perses/releases/download/$1/perses-agent.jar
 echo ''
 
 echo '3. Downloading the perses-injector.jar'
-wget -O perses-injector.jar https://github.com/nicolasmanic/perses/releases/download/0.0.0/perses-injector-jar-with-dependencies.jar
+wget -O perses-injector.jar https://github.com/nicolasmanic/perses/releases/download/$1/perses-injector-jar-with-dependencies.jar
 echo ''
 
 echo '4. Making perses-injector.jar exectuable'

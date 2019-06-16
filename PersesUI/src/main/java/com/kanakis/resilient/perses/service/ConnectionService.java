@@ -33,12 +33,20 @@ public class ConnectionService {
         }
 
         if (!StringUtils.isEmpty(properties.getAppName()) || !StringUtils.isEmpty(properties.getPid())) {
-            LocalInjector localInjector = new LocalInjector(properties.getAppName(), properties.getPid());
+            LocalInjector localInjector = createLocalInjector(properties);
             beanFactory.registerSingleton(InjectorType.LOCAL.getType(), localInjector);
         } else if (!StringUtils.isEmpty(properties.getHost()) && !StringUtils.isEmpty(properties.getPort())) {
-            RemoteInjector remoteInjector = new RemoteInjector(String.format(JMX_URL_PATTERN, properties.getHost(), properties.getPort()));
+            RemoteInjector remoteInjector = createRemoteInjector(properties);
             beanFactory.registerSingleton(InjectorType.REMOTE.getType(), remoteInjector);
         }
+    }
+
+    public RemoteInjector createRemoteInjector(ConnectDTO properties) throws Exception {
+        return new RemoteInjector(String.format(JMX_URL_PATTERN, properties.getHost(), properties.getPort()));
+    }
+
+    public LocalInjector createLocalInjector(ConnectDTO properties) throws Exception {
+        return new LocalInjector(properties.getAppName(), properties.getPid());
     }
 
     private Set<Map.Entry<String, InjectorService>> getInjectorEntrySet() {
