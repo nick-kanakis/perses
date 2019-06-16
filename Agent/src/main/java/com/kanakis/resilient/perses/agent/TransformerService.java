@@ -38,6 +38,15 @@ class TransformerService implements TransformerServiceMBean {
     }
 
     @Override
+    public void throwException(String className, String methodName, double rate, String exception) {
+        TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
+                .setRate(rate)
+                .setException(exception)
+                .createTransformProperties();
+        transform(className, properties);
+    }
+
+    @Override
     public void throwException(String className, String methodName, String signature, double rate) {
         TransformProperties properties = new TransformPropertiesBuilder(methodName, new FaultMode())
                 .setSignature(signature)

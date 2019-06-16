@@ -34,6 +34,16 @@ public interface TransformerServiceMBean {
      *
      * @param className  The binary name of the target class
      * @param methodName The name of the method to transform
+     * @param rate The rate of this attack default is 1.0.
+     * @param exception The rate of this attack default is {@link OutOfMemoryError}.
+     */
+    void throwException(String className, String methodName, double rate, String exception);
+
+    /**
+     * Transforms the target method to throw exception.
+     *
+     * @param className  The binary name of the target class
+     * @param methodName The name of the method to transform
      * @param signature The signature of the method
      * @param rate The rate of this attack default is 1.0.
      */
@@ -46,7 +56,7 @@ public interface TransformerServiceMBean {
      * @param methodName The name of the method to transform
      * @param signature The signature of the method
      * @param rate The rate of this attack default is 1.0.
-     * @param exception The rate of this attack default is 1.0.
+     * @param exception The rate of this attack default is {@link OutOfMemoryError}.
      */
     void throwException(String className, String methodName, String signature, double rate, String exception);
 

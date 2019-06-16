@@ -43,7 +43,8 @@ public class MBeanWrapper implements AutoCloseable {
         if (properties.getSignature() == null || properties.getSignature().isEmpty())
             mBean.throwException(properties.getClassPath(),
                     properties.getMethodName(),
-                    properties.getRate());
+                    properties.getRate(),
+                    properties.getException());
         else
             mBean.throwException(properties.getClassPath(),
                     properties.getMethodName(),
@@ -105,7 +106,6 @@ public class MBeanWrapper implements AutoCloseable {
      * Return the remote Bean that is used to manipulate the agent
      *
      * @param connectorAddress the address of the connector server to connect to
-     *
      * @throws Exception
      */
     public static MBeanWrapper getRemoteMBean(String connectorAddress) throws Exception {
