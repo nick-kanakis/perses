@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class MethodProperties implements Serializable {
-    String classPath;
-    String methodName;
-    String signature;
+    private String classPath;
+    private String methodName;
+    private String signature;
 
     public MethodProperties(String classPath, String methodName, String signature) {
         this.classPath = classPath;

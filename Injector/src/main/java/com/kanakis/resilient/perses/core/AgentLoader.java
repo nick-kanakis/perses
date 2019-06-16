@@ -10,7 +10,7 @@ public class AgentLoader {
 
     public static void main(String[] args) throws IOException {
 
-        String applicationName = "procurement";
+        String applicationName = "java";
 
         if (args != null && args.length > 0) {
             applicationName = args[0];

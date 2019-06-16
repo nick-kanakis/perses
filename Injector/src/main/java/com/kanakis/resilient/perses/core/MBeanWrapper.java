@@ -95,7 +95,6 @@ public class MBeanWrapper implements AutoCloseable {
      * Return the MBean that is used to manipulate the agent
      *
      * @param jvm the VirtualMachine
-     * @throws Exception
      */
     public static MBeanWrapper getMBean(VirtualMachine jvm) throws Exception {
         String connectorAddress = jvm.startLocalManagementAgent();
@@ -106,7 +105,6 @@ public class MBeanWrapper implements AutoCloseable {
      * Return the remote Bean that is used to manipulate the agent
      *
      * @param connectorAddress the address of the connector server to connect to
-     * @throws Exception
      */
     public static MBeanWrapper getRemoteMBean(String connectorAddress) throws Exception {
         JMXConnector connector = JMXConnectorFactory.connect(new JMXServiceURL(connectorAddress));

@@ -46,7 +46,7 @@ class MethodManipulation {
             }
             return ctClazz.toBytecode();
         } catch (Exception ex) {
-            System.err.println("Failed to compile retransform class [" + binName + "] Stack trace follows...");
+            System.err.println("Failed to compile re-transform class [" + binName + "] Stack trace follows...");
             ex.printStackTrace(System.err);
             return byteCode;
         }
