@@ -1,5 +1,6 @@
 package com.kanakis.resilient.perses.core;
 
+import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.sun.tools.attach.VirtualMachine;
 
 import java.io.File;
@@ -18,7 +19,7 @@ public class AgentLoader {
 
         System.out.println("Using applicationName: " + applicationName);
 
-        run(applicationName,"");
+        run(applicationName, "");
     }
 
     /**
@@ -29,12 +30,12 @@ public class AgentLoader {
      */
     public static VirtualMachine run(String applicationName, String jvmPid) throws IOException {
 
-        if(jvmPid.isEmpty() && applicationName.isEmpty()) {
+        if (jvmPid.isEmpty() && applicationName.isEmpty()) {
             throw new IllegalArgumentException("Target pid and application name are null");
         }
 
-        System.out.println("Provided Application Name: "+ applicationName);
-        System.out.println("Provided pid: "+ jvmPid);
+        System.out.println("Provided Application Name: " + applicationName);
+        System.out.println("Provided pid: " + jvmPid);
         if (jvmPid.isEmpty()) {
             Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
                     .stream()
@@ -52,7 +53,7 @@ public class AgentLoader {
         }
         String agentAbsolutePath = getAbsolutePathOfAgent();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
-        System.out.println("Agent jar path: "+ agentAbsolutePath);
+        System.out.println("Agent jar path: " + agentAbsolutePath);
 
         try {
             VirtualMachine jvm = VirtualMachine.attach(jvmPid);
@@ -70,14 +71,14 @@ public class AgentLoader {
         }
     }
 
-    //todo: find a better way to do it
     private static String getAbsolutePathOfAgent() throws IOException {
-        String canonicalPath = new File(".").getCanonicalPath();
+        String canonicalPath = new File(MethodProperties.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getCanonicalPath();
 
-        //The "Injector" is added to the canonical path when we run the unit test
-        if(canonicalPath.endsWith("Injector"))
-            canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "Injector".length());
-        return canonicalPath + "/perses-agent.jar";
+        if (canonicalPath.endsWith("classes")) {
+            canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "classes".length());
+            return canonicalPath + "/perses-agent.jar";
+        }
+        return canonicalPath;
     }
 
 }

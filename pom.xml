@@ -12,6 +12,7 @@
         <module>Agent</module>
         <module>Injector</module>
         <module>PersesUI</module>
+        <module>perses-lib</module>
     </modules>
 
     <properties>

@@ -32,7 +32,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <outputDirectory>../</outputDirectory>
                     <finalName>perses-agent</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
