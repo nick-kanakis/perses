@@ -64,11 +64,11 @@ public class PersesAttacker {
             return this;
         }
 
-        public PersesAttackerFinal injectException(String exception) {
-            return new PersesAttackerFinal(mBeanWrapper, classPath, method, signature, rate, exception);
+        public PersesAttackerFinal injectException(Class exception) {
+            return new PersesAttackerFinal(mBeanWrapper, classPath, method, signature, rate, exception.getSimpleName());
         }
 
-        public PersesAttackerFinal injectLatency(String latency) {
+        public PersesAttackerFinal injectLatency(long latency) {
             return new PersesAttackerFinal(mBeanWrapper, classPath, method, signature, rate, latency);
         }
     }
@@ -104,7 +104,7 @@ public class PersesAttacker {
             AttackProperties properties = new AttackProperties(this.classPath, this.method, this.signature, this.latency, this.rate, this.exception);
             if (Objects.nonNull(this.exception)) {
                 this.mBeanWrapper.throwException(properties);
-            } else if (this.latency == 0) {
+            } else {
                 this.mBeanWrapper.addLatency(properties);
             }
         }

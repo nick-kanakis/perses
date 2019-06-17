@@ -20,7 +20,6 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kanakis.resilient.PersesAttacker;
 import com.kanakis.resilient.perses.model.ConnectDTO;
 import com.kanakis.resilient.perses.service.ConnectionService;
 import com.kanakis.resilient.perses.service.InjectorService;
@@ -84,20 +83,6 @@ public class InjectorHandlerTest {
         expectedException.expect(NoSuchBeanDefinitionException.class);
         expectedException.expectMessage("No InjectorType found");
         injectorHandler.getInjectorService();
-    }
-
-    @Test
-    public void test_lib() throws Exception {
-        expectedException.expect(Exception.class);
-        expectedException.expectMessage("This is an injected exception by Perses");
-
-        PersesAttacker.loadAgent()
-                .classPath("com.kanakis.resilient.perses.handler.InjectorHandler")
-                .method("test")
-                .injectException("Exception")
-                .attack();
-
-        injectorHandler.test();
     }
 
 }

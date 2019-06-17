@@ -25,8 +25,4 @@ public class InjectorHandler {
         return beansOfType.entrySet().iterator().next().getValue();
     }
 
-    public String test(){
-        return "111";
-    }
-
 }
