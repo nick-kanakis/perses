@@ -1,5 +1,6 @@
 package com.kanakis.resilient.perses.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.handler.InjectorHandler;
-import com.kanakis.resilient.perses.model.ConnectDTO;
+import com.kanakis.resilient.perses.model.ConnectionDTO;
 import com.kanakis.resilient.perses.service.ConnectionService;
 
 @RestController
@@ -54,9 +55,9 @@ public class RestAPI {
     }
 
     @PostMapping("/connect")
-    public ResponseEntity<Void> connect(@RequestBody ConnectDTO properties) throws Exception {
-        connectionService.createConnection(properties);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ConnectionDTO> connect(@RequestBody ConnectionDTO properties) throws Exception {
+        ConnectionDTO connection = connectionService.createConnection(properties);
+        return ResponseEntity.status(HttpStatus.CREATED).body(connection);
     }
 
     @DeleteMapping("/connect")
@@ -65,8 +66,8 @@ public class RestAPI {
     }
 
     @GetMapping("/checkConnection")
-    public void checkConnection() {
-        connectionService.getCurrentConnection();
+    public ResponseEntity<ConnectionDTO> checkConnection() throws IOException {
+        return ResponseEntity.ok().body(connectionService.getCurrentConnectionFromAPI());
     }
 
     @GetMapping("/getMethodOfClass")

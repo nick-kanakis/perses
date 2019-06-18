@@ -1,5 +1,10 @@
 # Perses
+[![Generic badge](https://img.shields.io/badge/Hackathon2019CPH-WINNER-<COLOR>.svg)](https://tradeshift.com/)
 [![Build Status](https://travis-ci.org/nicolasmanic/perses.svg?branch=master)](https://travis-ci.org/nicolasmanic/perses)
+[![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://github.com/nicolasmanic/perses/blob/master/LICENSE)
+[![Gitter](https://badges.gitter.im/perses-app/community.svg)](https://gitter.im/perses-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/nicolasmanic/perses/graphs/commit-activity)
+
 
 ## A project to cause (controlled) destruction to a jvm application 
 
@@ -14,10 +19,10 @@ there will be a Perses version for each major JDK release.
 | JDK Version | Status | Release |
 | :---: | :--- | :---: |
 | 8  | Under development  | - |
-| 9  | Working  | 0.0.0 |
-| 10  | Needs testing  | - |  
-| 11 | Needs testing  | - |
-| 12 | Needs testing  | - |
+| 9  | Working  | [0.0.9](https://github.com/nicolasmanic/perses/releases/tag/0.0.9) |
+| 10  | Working  | [0.0.10](https://github.com/nicolasmanic/perses/releases/tag/0.0.10) |  
+| 11 | Working  | [0.0.11](https://github.com/nicolasmanic/perses/releases/tag/0.0.11) |
+| 12 | Working  | [0.0.12](https://github.com/nicolasmanic/perses/releases/tag/0.0.12) |
 
 
 ### What is the goal.
