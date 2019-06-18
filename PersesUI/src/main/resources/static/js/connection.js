@@ -26,8 +26,7 @@ const connect = (methodInfo) => {
 	}, {
 		baseURL: 'http://localhost:8777'
 	}).then(r => {
-		console.log(r);
-		openInjectFailureSection();
+		openInjectFailureSection(r);
 	}).catch(e => {
 		resultNotOk(e,"Was not possible to create a connection");
 	});
@@ -36,8 +35,8 @@ const connect = (methodInfo) => {
 const closeConnection = () => {
 	axios.delete("/connect", {
 		baseURL: 'http://localhost:8777'
-	}).then(r => {
-		closeInjectFailureSection();
+	}).then(response => {
+		closeInjectFailureSection(response);
 	}).catch(e => {
 		resultNotOk(e, "Sorry, something is bad :(");
 	});
@@ -46,14 +45,16 @@ const closeConnection = () => {
 const checkConnection = () => {
 	axios.get("/checkConnection", {
 		baseURL: 'http://localhost:8777'
-	}).then(r => {
-		openInjectFailureSection();
+	}).then(response => {
+		openInjectFailureSection(response);
 	}).catch(e => {
 		closeInjectFailureSection();
 	});
 };
 
-const openInjectFailureSection = () => {
+const openInjectFailureSection = (response) => {
+	console.log(response.data);
+
 	const section = document.getElementById("injectFailureSection");
 	section.classList.remove("hidden-lg");
 
@@ -68,6 +69,16 @@ const openInjectFailureSection = () => {
 
 	const online = document.getElementById("onlineLi");
 	online.classList.remove("hidden-lg");
+
+	const onlineConnected = document.getElementById("hostConnectedLi");
+	onlineConnected.classList.remove("hidden-lg");
+
+	const messageParagraph = $('#hostConnected');
+	if(response.data.host){
+		messageParagraph.html("Host: " + response.data.host);
+	} else if(response.data.pid){
+		messageParagraph.html("PID: " + response.data.pid);
+	}
 }
 
 const closeInjectFailureSection = () => {
@@ -88,4 +99,7 @@ const closeInjectFailureSection = () => {
 
 	const online = document.getElementById("onlineLi");
 	online.classList.add("hidden-lg");
+
+	const onlineConnected = document.getElementById("hostConnectedLi");
+	onlineConnected.classList.add("hidden-lg");
 }
