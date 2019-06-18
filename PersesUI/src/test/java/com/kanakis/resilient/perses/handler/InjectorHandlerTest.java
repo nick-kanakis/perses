@@ -20,7 +20,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kanakis.resilient.perses.model.ConnectDTO;
+import com.kanakis.resilient.perses.model.ConnectionDTO;
 import com.kanakis.resilient.perses.service.ConnectionService;
 import com.kanakis.resilient.perses.service.InjectorService;
 import com.kanakis.resilient.perses.service.LocalInjector;
@@ -59,7 +59,7 @@ public class InjectorHandlerTest {
 
     @Test
     public void create_local_connection_and_return_it() throws Exception {
-        ConnectDTO properties = new ConnectDTO("", "9999");
+        ConnectionDTO properties = new ConnectionDTO("", "9999");
         doReturn(localInjector).when(connectionService).createLocalInjector(any());
         connectionService.createConnection(properties);
         connectionService.getCurrentConnection();
@@ -70,7 +70,7 @@ public class InjectorHandlerTest {
 
     @Test
     public void create_remote_connection_and_return_it() throws Exception {
-        ConnectDTO properties = new ConnectDTO("localhost", 12345);
+        ConnectionDTO properties = new ConnectionDTO("localhost", 12345);
         doReturn(remoteInjector).when(connectionService).createRemoteInjector(any());
         connectionService.createConnection(properties);
         InjectorService currentConnection = injectorHandler.getInjectorService();

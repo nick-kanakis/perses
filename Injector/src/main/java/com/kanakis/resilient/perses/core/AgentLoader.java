@@ -1,5 +1,6 @@
 package com.kanakis.resilient.perses.core;
 
+import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.sun.tools.attach.VirtualMachine;
 
 import java.io.File;
@@ -70,14 +71,14 @@ public class AgentLoader {
         }
     }
 
-    //todo: find a better way to do it
     private static String getAbsolutePathOfAgent() throws IOException {
-        String canonicalPath = new File(".").getCanonicalPath();
+        String canonicalPath = MethodProperties.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
-        //The "Injector" is added to the canonical path when we run the unit test
-        if(canonicalPath.endsWith("Injector"))
-            canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "Injector".length());
-        return canonicalPath + "/perses-agent.jar";
+        if (canonicalPath.endsWith("classes/")) {
+            canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "classes/".length());
+            return canonicalPath + "/perses-agent.jar";
+        }
+        return canonicalPath;
     }
 
 }
