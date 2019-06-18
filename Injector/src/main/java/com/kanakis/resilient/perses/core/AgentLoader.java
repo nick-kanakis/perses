@@ -4,6 +4,7 @@ import com.sun.tools.attach.VirtualMachine;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.Optional;
 
 public class AgentLoader {
@@ -18,7 +19,7 @@ public class AgentLoader {
 
         System.out.println("Using applicationName: " + applicationName);
 
-        run(applicationName,"");
+        run(applicationName, "");
     }
 
     /**
@@ -29,18 +30,20 @@ public class AgentLoader {
      */
     public static VirtualMachine run(String applicationName, String jvmPid) throws IOException {
 
-        if(jvmPid.isEmpty() && applicationName.isEmpty()) {
+        if (jvmPid.isEmpty() && applicationName.isEmpty()) {
             throw new IllegalArgumentException("Target pid and application name are null");
         }
 
-        System.out.println("Provided Application Name: "+ applicationName);
-        System.out.println("Provided pid: "+ jvmPid);
+        System.out.println("Provided Application Name: " + applicationName);
+        System.out.println("Provided pid: " + jvmPid);
+        String currentJVMPid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+
         if (jvmPid.isEmpty()) {
             Optional<String> jvmProcessOpt = Optional.ofNullable(VirtualMachine.list()
                     .stream()
                     .filter(jvm -> {
                         System.out.println("jvm: " + jvm.displayName());
-                        return jvm.displayName().contains(applicationName);
+                        return jvm.displayName().contains(applicationName) && !currentJVMPid.equals(jvm.id());
                     })
                     .findFirst().get().id());
 
@@ -52,7 +55,7 @@ public class AgentLoader {
         }
         String agentAbsolutePath = getAbsolutePathOfAgent();
         System.out.println("Attaching to target JVM with PID: " + jvmPid);
-        System.out.println("Agent jar path: "+ agentAbsolutePath);
+        System.out.println("Agent jar path: " + agentAbsolutePath);
 
         try {
             VirtualMachine jvm = VirtualMachine.attach(jvmPid);
@@ -75,7 +78,7 @@ public class AgentLoader {
         String canonicalPath = new File(".").getCanonicalPath();
 
         //The "Injector" is added to the canonical path when we run the unit test
-        if(canonicalPath.endsWith("Injector"))
+        if (canonicalPath.endsWith("Injector"))
             canonicalPath = canonicalPath.substring(0, canonicalPath.length() - "Injector".length());
         return canonicalPath + "/perses-agent.jar";
     }
