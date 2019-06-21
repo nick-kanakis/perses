@@ -1,4 +1,14 @@
 language: java
-jdk: openjdk9
-sudo: false # faster builds
-script: mvn clean package
+sudo: false
+
+jobs:
+  include:
+    - stage: test
+      jdk: openjdk9
+      script: mvn clean test
+    - jdk: openjdk10
+      script: mvn clean test
+    - jdk: openjdk11
+      script: mvn clean test
+    - jdk: openjdk12
+      script: mvn clean test
