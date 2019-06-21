@@ -1,5 +1,6 @@
 # Perses
 [![Generic badge](https://img.shields.io/badge/Hackathon2019CPH-WINNER-<COLOR>.svg)](https://tradeshift.com/)
+[![Generic badge](https://img.shields.io/badge/Hackathon2019Global-2ndPLACE-SILVER.svg)](https://tradeshift.com/)
 [![Build Status](https://travis-ci.org/nicolasmanic/perses.svg?branch=master)](https://travis-ci.org/nicolasmanic/perses)
 [![License](https://img.shields.io/pypi/l/ansicolortags.svg)](https://github.com/nicolasmanic/perses/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/perses-app/community.svg)](https://gitter.im/perses-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
