@@ -1,4 +1,85 @@
 language: java
-jdk: openjdk9
-sudo: false # faster builds
-script: mvn clean package
+
+sudo: false
+
+script:
+  - export ENCODED_KEY=C4fY5rT+bEN/LlPeh3OmoJKnb+fskASo11W/o2U7bg9FXXnnWT4zOyR/G/g1YvPd652GH9QCYXm6k3Y8nNkV27aTpZYL252GLWLkfyu5PqyQXfqVInIAFu/Vwm1Dk/v5+DKMqYJ+YZ33ZDm5ykCwwR3H+Z8oQZeEaSgDB8YQZBx9PZR/7gYZxrg2bgjmUwdiQf0eQLF9j/vcZFswKMzR2OdIq3gsktoVoXyJ9r2UWghP9wnwirP4lXuaYGstAkVs/XbPZe544tv5XiIwqGEVWdsa61DVLeyt6zbFdLDg9b8jRfKcK7mSfOsMSg+GEFP+CqW2KvhMHi2Y5/p3mgTqwcIxJT93nLpBw6Dmrwcn6omFMAUKd1GuZazDEj6AdCvDyzi+R+2g8/sGKuNDg3AXEJQrQFj7rtxs/+sP2hJyMorm5itLKc6JdYzVvfEbNydBYArsZqQTolQXUHo1GKmArYDay9NItyjPHLxBbj8R2VaGoSbio3r6F3GMS+3IsH0Rl8X6V1lFuZzAuZ1olZ/6LC2yTUJYvTT30EY0vySebvqH39glfw/GgPyiJxTBlICRmH5mTd2xgV3cGDJpifivcLA+7im8tdFnqgjDtqpGtzKnfoeRPAvW92LkhQA2yIxTILtt07uEuDPzyOPh9CjFvBkUGv5n8YeRCMNPcc69c7o=
+  - export TRAVIS_TAG=1.0.0-test
+
+jobs:
+  include:
+  - stage: test
+    jdk: openjdk9
+    script: mvn clean test
+  - jdk: openjdk10
+    script: mvn clean test
+  - jdk: openjdk11
+    script: mvn clean test
+  - jdk: openjdk12
+    script: mvn clean test
+  - stage: release
+    jdk: openjdk9
+    script: mvn clean package
+    before_deploy:
+      - git tag ${TRAVIS_TAG}-jdk9
+    deploy:
+      provider: releases
+      api_key:
+        secure: ${ENCODED_KEY}
+      file:
+        - perses-agent.jar
+        - Injector/target/perses-injector-jar-with-dependencies.jar
+      skip_cleanup: true
+      on:
+        repo: nicolasmanic/perses
+        #    branch: master
+        tags: true
+  - jdk: openjdk10
+    script: mvn clean test
+    before_deploy:
+      - git tag ${TRAVIS_TAG}-jdk9
+    deploy:
+      provider: releases
+      api_key:
+        secure: ${ENCODED_KEY}
+      file:
+        - perses-agent.jar
+        - Injector/target/perses-injector-jar-with-dependencies.jar
+      skip_cleanup: true
+      on:
+        repo: nicolasmanic/perses
+        #    branch: master
+        tags: true
+  - jdk: openjdk11
+    script: mvn clean test
+    before_deploy:
+      - git tag ${TRAVIS_TAG}-jdk9
+    deploy:
+      provider: releases
+      api_key:
+        secure: ${ENCODED_KEY}
+      file:
+        - perses-agent.jar
+        - Injector/target/perses-injector-jar-with-dependencies.jar
+      skip_cleanup: true
+      on:
+        repo: nicolasmanic/perses
+        #    branch: master
+        tags: true
+  - jdk: openjdk12
+    script: mvn clean test
+    before_deploy:
+      - git tag ${TRAVIS_TAG}-jdk9
+    deploy:
+      provider: releases
+      api_key:
+        secure: ${ENCODED_KEY}
+      file:
+        - perses-agent.jar
+        - Injector/target/perses-injector-jar-with-dependencies.jar
+      skip_cleanup: true
+      on:
+        repo: nicolasmanic/perses
+        #    branch: master
+        tags: true
+
