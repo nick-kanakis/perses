@@ -16,7 +16,7 @@ jobs:
     script: mvn clean test
   - jdk: openjdk12
     script: mvn clean test
-  - stage: release
+  - stage: release_jdk9
     jdk: openjdk9
     script: mvn clean package
     before_deploy:
@@ -33,8 +33,9 @@ jobs:
         repo: nicolasmanic/perses
         branch: master
         tags: true
-  - jdk: openjdk10
-    script: mvn clean test
+  - stage: release_jdk10
+    jdk: openjdk10
+    script: mvn clean package
     before_deploy:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk10
     deploy:
@@ -49,8 +50,9 @@ jobs:
         repo: nicolasmanic/perses
         branch: master
         tags: true
-  - jdk: openjdk11
-    script: mvn clean test
+  - stage: release_jdk11
+    jdk: openjdk11
+    script: mvn clean package
     before_deploy:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk11
     deploy:
@@ -65,8 +67,9 @@ jobs:
         repo: nicolasmanic/perses
         branch: master
         tags: true
-  - jdk: openjdk12
-    script: mvn clean test
+  - stage: release_jdk12
+    jdk: openjdk12
+    script: mvn clean package
     before_deploy:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk12
     deploy:
