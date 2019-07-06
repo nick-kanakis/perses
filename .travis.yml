@@ -17,6 +17,7 @@ jobs:
   - jdk: openjdk12
     script: mvn clean test
   - stage: release_jdk9
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     jdk: openjdk9
     script: mvn clean package
     before_deploy:
@@ -31,9 +32,9 @@ jobs:
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
-        branch: master
         tags: true
   - stage: release_jdk10
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     jdk: openjdk10
     script: mvn clean package
     before_deploy:
@@ -48,9 +49,9 @@ jobs:
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
-        branch: master
         tags: true
   - stage: release_jdk11
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     jdk: openjdk11
     script: mvn clean package
     before_deploy:
@@ -65,9 +66,9 @@ jobs:
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
-        branch: master
         tags: true
   - stage: release_jdk12
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     jdk: openjdk12
     script: mvn clean package
     before_deploy:
