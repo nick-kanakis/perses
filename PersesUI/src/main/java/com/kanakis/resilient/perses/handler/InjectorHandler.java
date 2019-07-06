@@ -1,12 +1,11 @@
 package com.kanakis.resilient.perses.handler;
 
-import java.util.Map;
-
+import com.kanakis.resilient.perses.service.InjectorService;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.kanakis.resilient.perses.service.InjectorService;
+import java.util.Map;
 
 @Component
 public class InjectorHandler {

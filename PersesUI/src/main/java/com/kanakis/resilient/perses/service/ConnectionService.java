@@ -1,9 +1,7 @@
 package com.kanakis.resilient.perses.service;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-
+import com.kanakis.resilient.perses.dto.Connection;
+import com.kanakis.resilient.perses.enums.InjectorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -11,8 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.kanakis.resilient.perses.enums.InjectorType;
-import com.kanakis.resilient.perses.model.ConnectionDTO;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 public class ConnectionService {
@@ -26,8 +25,7 @@ public class ConnectionService {
         this.context = context;
     }
 
-    public ConnectionDTO createConnection(ConnectionDTO properties) throws Exception {
-
+    public Connection createConnection(Connection properties) throws Exception {
         if (getInjectorEntrySet().size() > 0) {
             throw new RuntimeException("You already have a opened connection, close it.");
         }
@@ -43,11 +41,11 @@ public class ConnectionService {
         return getCurrentConnectionFromAPI();
     }
 
-    public RemoteInjector createRemoteInjector(ConnectionDTO properties) throws Exception {
+    public RemoteInjector createRemoteInjector(Connection properties) throws Exception {
         return new RemoteInjector(properties.getHost(), properties.getPort());
     }
 
-    public LocalInjector createLocalInjector(ConnectionDTO properties) throws Exception {
+    public LocalInjector createLocalInjector(Connection properties) throws Exception {
         return new LocalInjector(properties.getAppName(), properties.getPid());
     }
 
@@ -68,16 +66,15 @@ public class ConnectionService {
         return entries.iterator().next().getValue();
     }
 
-    public ConnectionDTO getCurrentConnectionFromAPI() throws IOException {
+    public Connection getCurrentConnectionFromAPI() throws IOException {
         InjectorService currentConnection = getCurrentConnection();
         if(currentConnection instanceof LocalInjector){
             LocalInjector localConnection = (LocalInjector) currentConnection;
-            return new ConnectionDTO(localConnection.getAppName(), localConnection.getPid());
+            return new Connection(localConnection.getAppName(), localConnection.getPid());
         } else if(currentConnection instanceof RemoteInjector){
             RemoteInjector remoteInjector = (RemoteInjector) currentConnection;
-            return new ConnectionDTO(remoteInjector.getHost(), remoteInjector.getPort());
+            return new Connection(remoteInjector.getHost(), remoteInjector.getPort());
         }
-
         return null;
     }
 

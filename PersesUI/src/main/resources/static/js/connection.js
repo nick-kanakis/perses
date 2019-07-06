@@ -42,6 +42,7 @@ const closeConnection = () => {
 	});
 };
 
+//todo: Do I need it ?
 const checkConnection = () => {
 	axios.get("/checkConnection", {
 		baseURL: 'http://localhost:8777'
@@ -53,8 +54,6 @@ const checkConnection = () => {
 };
 
 const openInjectFailureSection = (response) => {
-	console.log(response.data);
-
 	const section = document.getElementById("injectFailureSection");
 	section.classList.remove("hidden-lg");
 
@@ -79,7 +78,7 @@ const openInjectFailureSection = (response) => {
 	} else if(response.data.pid){
 		messageParagraph.html("PID: " + response.data.pid);
 	}
-}
+};
 
 const closeInjectFailureSection = () => {
 	const section = document.getElementById("injectFailureSection");
@@ -102,4 +101,4 @@ const closeInjectFailureSection = () => {
 
 	const onlineConnected = document.getElementById("hostConnectedLi");
 	onlineConnected.classList.add("hidden-lg");
-}
+};

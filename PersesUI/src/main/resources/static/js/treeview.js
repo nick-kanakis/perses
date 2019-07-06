@@ -3,8 +3,6 @@ const addChildrenToRoot = (methodInfo) => {
 	section.classList.remove("hidden-lg");
 
     const rootLu = document.getElementById("root-list");
-    console.log(rootLu);
-
     const rootLi = document.createElement("li");
     rootLi.setAttribute("class", "list-group-item");
     rootLi.setAttribute("id", "rootLi");
@@ -17,6 +15,7 @@ const addChildrenToRoot = (methodInfo) => {
     rootLi.appendChild(methodNameSpan);
     rootLi.setAttribute("title", methodInfo.signature);
     rootLi.setAttribute('isExpanded', 'false');
+    addInfoIfInstrumented(methodInfo, rootLi);
 
     rootLu.removeChild(rootLu.firstChild);
     rootLu.appendChild(rootLi);
@@ -24,8 +23,7 @@ const addChildrenToRoot = (methodInfo) => {
     rootLi.addEventListener("click", e => {
         updateActiveNode(rootLi);
         updateInjectFailureBtn(methodInfo);
-        updateInjectLatencyBtn(methodInfo);
-        updateInjectRestoreBtn(methodInfo);
+
         e.stopPropagation();
 
         getFromPerses({
@@ -38,12 +36,11 @@ const addChildrenToRoot = (methodInfo) => {
     });
 };
 
-const addChildrenToRootNotClickable = (className) => {
+const addRoot = (className) => {
     const section = document.getElementById("calledMethodsSection");
     section.classList.remove("hidden-lg");
 
     const rootLu = document.getElementById("root-list");
-    console.log(rootLu);
 
     const rootLi = document.createElement("li");
     rootLi.setAttribute("class", "list-group-item list-group-item-success");
@@ -62,9 +59,8 @@ const addChildrenToRootNotClickable = (className) => {
 };
 
 const addChildrenToNode = (parentLi, data) => {
-    console.log(data);
     if(!parentLi){
-        addChildrenToRootNotClickable(data[0].classPath);
+        addRoot(data[0].classPath);
         parentLi = document.getElementById("rootLi");
     }
 
@@ -88,7 +84,6 @@ const addChildrenToNode = (parentLi, data) => {
     parentLi.appendChild(nestedUl);
 
     data.forEach(methodInfo => {
-        console.log(methodInfo);
         const nestedLi = document.createElement("li");
         nestedLi.setAttribute("class", "list-group-item");
         nestedLi.setAttribute("style", "border: 0");
@@ -103,6 +98,9 @@ const addChildrenToNode = (parentLi, data) => {
         nestedLi.appendChild(methodNameSpan);
         nestedLi.setAttribute('isExpanded', 'false');
         nestedLi.setAttribute('title', methodInfo.signature);
+
+        addInfoIfInstrumented(methodInfo, nestedLi);
+
         nestedLi.addEventListener("click", e => {
             updateActiveNode(nestedLi);
             updateInjectFailureBtn(methodInfo);
@@ -123,7 +121,6 @@ const addChildrenToNode = (parentLi, data) => {
 let activeNode;
 const updateActiveNode = (node) => {
    if(activeNode !== node) {
-       console.log(node);
        if(activeNode) {
            activeNode.firstChild.classList.remove("list-group-item-danger");
        }
@@ -132,3 +129,12 @@ const updateActiveNode = (node) => {
    }
 };
 
+function addInfoIfInstrumented(methodInfo, node) {
+    if(methodInfo.instrumented) {
+        if (methodInfo.properties.latency > 0) {
+            markNodeAsInstrumented(node, latencyAction);
+        } else {
+            markNodeAsInstrumented(node, failureAction);
+        }
+    }
+}

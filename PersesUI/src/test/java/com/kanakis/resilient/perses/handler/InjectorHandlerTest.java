@@ -1,10 +1,10 @@
 package com.kanakis.resilient.perses.handler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.MockitoAnnotations.initMocks;
-
+import com.kanakis.resilient.perses.dto.Connection;
+import com.kanakis.resilient.perses.service.ConnectionService;
+import com.kanakis.resilient.perses.service.InjectorService;
+import com.kanakis.resilient.perses.service.LocalInjector;
+import com.kanakis.resilient.perses.service.RemoteInjector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,11 +20,10 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kanakis.resilient.perses.model.ConnectionDTO;
-import com.kanakis.resilient.perses.service.ConnectionService;
-import com.kanakis.resilient.perses.service.InjectorService;
-import com.kanakis.resilient.perses.service.LocalInjector;
-import com.kanakis.resilient.perses.service.RemoteInjector;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -59,7 +58,7 @@ public class InjectorHandlerTest {
 
     @Test
     public void create_local_connection_and_return_it() throws Exception {
-        ConnectionDTO properties = new ConnectionDTO("", "9999");
+        Connection properties = new Connection("", "9999");
         doReturn(localInjector).when(connectionService).createLocalInjector(any());
         connectionService.createConnection(properties);
         connectionService.getCurrentConnection();
@@ -70,7 +69,7 @@ public class InjectorHandlerTest {
 
     @Test
     public void create_remote_connection_and_return_it() throws Exception {
-        ConnectionDTO properties = new ConnectionDTO("localhost", 12345);
+        Connection properties = new Connection("localhost", 12345);
         doReturn(remoteInjector).when(connectionService).createRemoteInjector(any());
         connectionService.createConnection(properties);
         InjectorService currentConnection = injectorHandler.getInjectorService();
