@@ -10,8 +10,7 @@
 
 ### Perses status
 
-Perses is under development and not ready for production. We are currently experimenting with different jvm versions and in the near future 
-there will be a Perses version for each major JDK release.  
+Perses is under development. Please feel free to raise any issues you might encounter.  
 
 | JDK Version | Status | Release |
 | :---: | :--- | :---: |
