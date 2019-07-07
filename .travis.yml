@@ -24,6 +24,7 @@ jobs:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk9
     deploy:
       provider: releases
+      name: $TRAVIS_TAG
       api_key: $GITHUB_TOKEN
       overwrite: true
       file:
@@ -42,6 +43,7 @@ jobs:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk10
     deploy:
       provider: releases
+      name: $TRAVIS_TAG
       api_key: $GITHUB_TOKEN
       overwrite: true
       file:
@@ -60,6 +62,7 @@ jobs:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk11
     deploy:
       provider: releases
+      name: $TRAVIS_TAG
       api_key: $GITHUB_TOKEN
       overwrite: true
       file:
@@ -78,6 +81,7 @@ jobs:
       - export TRAVIS_TAG=$TRAVIS_TAG-jdk12
     deploy:
       provider: releases
+      name: $TRAVIS_TAG
       api_key: $GITHUB_TOKEN
       overwrite: true
       file:
