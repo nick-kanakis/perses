@@ -10,7 +10,9 @@ const searchMethod = () => {
             url: '/getMethodOfClass',
             classPath:  classpath
         };
-        getFromPersesAllMethods(methodInfo).then(response => addChildrenToNode(null, response.data)).catch(e => resultNotOk(e));
+        getFromPerses(methodInfo)
+            .then(response => addChildrenToNode(null, response.data))
+            .catch(e => resultNotOk(e));
     } else {
         const methodInfo = {
             url: '/getInvoked',
@@ -18,7 +20,9 @@ const searchMethod = () => {
             methodName:  methodName,
             signature: signature
         };
-        getFromPerses(methodInfo).then(() => addChildrenToRoot(methodInfo)).catch(e => resultNotOk(e));
+        getFromPerses(methodInfo)
+            .then(() => addChildrenToRoot(methodInfo))
+            .catch(e => resultNotOk(e));
     }
 };
 
@@ -28,15 +32,6 @@ const getFromPerses = (target) => {
             classPath: target.classPath,
             methodName: target.methodName,
             signature: target.signature
-        },
-        baseURL: 'http://localhost:8777'
-    });
-};
-
-const getFromPersesAllMethods = (target) => {
-    return axios.get(target.url, {
-        params: {
-            classPath: target.classPath
         },
         baseURL: 'http://localhost:8777'
     });

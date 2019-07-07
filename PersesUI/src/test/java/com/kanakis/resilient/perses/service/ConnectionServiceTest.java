@@ -1,10 +1,6 @@
 package com.kanakis.resilient.perses.service;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.MockitoAnnotations.initMocks;
-
+import com.kanakis.resilient.perses.dto.Connection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,7 +15,10 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kanakis.resilient.perses.model.ConnectionDTO;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -51,7 +50,7 @@ public class ConnectionServiceTest {
 
     @Test
     public void create_local_connection() throws Exception {
-        ConnectionDTO properties = new ConnectionDTO("", "9999");
+        Connection properties = new Connection("", "9999");
         doReturn(localInjector).when(connectionService).createLocalInjector(any());
         connectionService.createConnection(properties);
         InjectorService currentConnection = connectionService.getCurrentConnection();
@@ -61,7 +60,7 @@ public class ConnectionServiceTest {
 
     @Test
     public void create_remote_connection() throws Exception {
-        ConnectionDTO properties = new ConnectionDTO("localhost", 12345);
+        Connection properties = new Connection("localhost", 12345);
         doReturn(remoteInjector).when(connectionService).createRemoteInjector(any());
         connectionService.createConnection(properties);
         InjectorService currentConnection = connectionService.getCurrentConnection();
@@ -73,7 +72,7 @@ public class ConnectionServiceTest {
     public void should_return_error_when_try_to_add_another_connection_with_one_alive() throws Exception {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("You already have a opened connection, close it.");
-        ConnectionDTO properties = new ConnectionDTO("localhost", 12345);
+        Connection properties = new Connection("localhost", 12345);
         doReturn(remoteInjector).when(connectionService).createRemoteInjector(any());
         connectionService.createConnection(properties);
         connectionService.createConnection(properties);
@@ -83,7 +82,7 @@ public class ConnectionServiceTest {
     public void should_close_a_connection() throws Exception {
         expectedException.expect(RuntimeException.class);
         expectedException.expectMessage("You don't have a opened connection.");
-        ConnectionDTO properties = new ConnectionDTO("localhost", 12345);
+        Connection properties = new Connection("localhost", 12345);
         doReturn(remoteInjector).when(connectionService).createRemoteInjector(any());
         connectionService.createConnection(properties);
         connectionService.closeConnection();

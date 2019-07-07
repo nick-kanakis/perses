@@ -1,16 +1,16 @@
-package com.kanakis.resilient.perses.model;
+package com.kanakis.resilient.perses.dto;
 
-public class ConnectionDTO {
+public class Connection {
 
-    public ConnectionDTO() {
+    public Connection() {
     }
 
-    public ConnectionDTO(String host, Integer port) {
+    public Connection(String host, Integer port) {
         this.host = host;
         this.port = port;
     }
 
-    public ConnectionDTO(String appName, String pid) {
+    public Connection(String appName, String pid) {
         this.appName = appName;
         this.pid = pid;
     }

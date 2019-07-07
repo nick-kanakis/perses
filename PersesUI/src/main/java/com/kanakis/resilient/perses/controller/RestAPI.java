@@ -1,8 +1,10 @@
 package com.kanakis.resilient.perses.controller;
 
-import java.io.IOException;
-import java.util.List;
-
+import com.kanakis.resilient.perses.core.AttackProperties;
+import com.kanakis.resilient.perses.dto.Connection;
+import com.kanakis.resilient.perses.dto.Method;
+import com.kanakis.resilient.perses.handler.InjectorHandler;
+import com.kanakis.resilient.perses.service.ConnectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kanakis.resilient.perses.agent.MethodProperties;
-import com.kanakis.resilient.perses.core.AttackProperties;
-import com.kanakis.resilient.perses.handler.InjectorHandler;
-import com.kanakis.resilient.perses.model.ConnectionDTO;
-import com.kanakis.resilient.perses.service.ConnectionService;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class RestAPI {
@@ -44,9 +43,9 @@ public class RestAPI {
     }
 
     @GetMapping("/getInvoked")
-    public List<MethodProperties> getInvokedMethods(@RequestParam String classPath,
-                                                    @RequestParam String methodName,
-                                                    @RequestParam(required = false) String signature) throws Throwable {
+    public List<Method> getInvokedMethods(@RequestParam String classPath,
+                                          @RequestParam String methodName,
+                                          @RequestParam(required = false) String signature) throws Throwable {
         AttackProperties properties = new AttackProperties();
         properties.setClassPath(classPath);
         properties.setMethodName(methodName);
@@ -54,9 +53,14 @@ public class RestAPI {
         return injectorHandler.getInjectorService().getInvokedMethods(properties);
     }
 
+    @GetMapping("/getMethodOfClass")
+    public List<Method> getMethodsInvokedByClass(@RequestParam String classPath) throws Throwable {
+        return injectorHandler.getInjectorService().getMethodsInvokedByClass(classPath);
+    }
+
     @PostMapping("/connect")
-    public ResponseEntity<ConnectionDTO> connect(@RequestBody ConnectionDTO properties) throws Exception {
-        ConnectionDTO connection = connectionService.createConnection(properties);
+    public ResponseEntity<Connection> connect(@RequestBody Connection properties) throws Exception {
+        Connection connection = connectionService.createConnection(properties);
         return ResponseEntity.status(HttpStatus.CREATED).body(connection);
     }
 
@@ -66,13 +70,8 @@ public class RestAPI {
     }
 
     @GetMapping("/checkConnection")
-    public ResponseEntity<ConnectionDTO> checkConnection() throws IOException {
+    public ResponseEntity<Connection> checkConnection() throws IOException {
         return ResponseEntity.ok().body(connectionService.getCurrentConnectionFromAPI());
-    }
-
-    @GetMapping("/getMethodOfClass")
-    public List<MethodProperties> getInvokedMethods(@RequestParam String classPath) throws Throwable {
-        return injectorHandler.getInjectorService().getMethodsInvokedByClass(classPath);
     }
 
 }
