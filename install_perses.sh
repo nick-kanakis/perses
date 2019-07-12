@@ -37,5 +37,5 @@ chmod +x perses-injector.jar
 echo ''
 
 echo '5. Executing the perses-injector application'
-java -jar perses-injector.jar
+java -jar perses-injector.jar $2
 echo ''

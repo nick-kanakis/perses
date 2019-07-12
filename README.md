@@ -30,3 +30,24 @@ Perses is under development. Please feel free to raise any issues you might enco
 | 10  | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk10) |  
 | 11 | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk11) |
 | 12 | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk12) |
+
+### What is the goal.
+
+Perses is a tool designed to give you insides to your jvm application by dynamically injecting failure/latency at the bytecode level
+with surgical precision. Perses is designed with [Principles of Chaos Engineering][PoC] in mind.
+
+[PoC]: http://principlesofchaos.org/
+
+### How to install
+
+All jars are available [here](https://github.com/nicolasmanic/perses/releases). Select the version that matches the target
+application.
+
+1. Add `perses-agent.jar` & `perses-injector-jar-with-dependencies.jar` in the same environment as the target application.
+2. Execute `java -jar perses-injector.jar <TARGET APPLICATION NAME>`.
+3. Execute `java -jar perses.jar`
+4. Visit `localhost:8777`
+
+
+For more information about how **Perses** works under the hood, how to set everything up & how to use it please visit 
+the [wiki](https://github.com/nicolasmanic/perses/wiki).
