@@ -30,6 +30,7 @@ jobs:
       file:
         - perses-agent.jar
         - Injector/target/perses-injector-jar-with-dependencies.jar
+        - PersesUI/target/perses.jar
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
@@ -49,6 +50,7 @@ jobs:
       file:
         - perses-agent.jar
         - Injector/target/perses-injector-jar-with-dependencies.jar
+        - PersesUI/target/perses.jar
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
@@ -68,6 +70,7 @@ jobs:
       file:
         - perses-agent.jar
         - Injector/target/perses-injector-jar-with-dependencies.jar
+        - PersesUI/target/perses.jar
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
@@ -87,6 +90,7 @@ jobs:
       file:
         - perses-agent.jar
         - Injector/target/perses-injector-jar-with-dependencies.jar
+        - PersesUI/target/perses.jar
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
