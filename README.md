@@ -25,11 +25,11 @@ Perses is under development. Please feel free to raise any issues you might enco
 
 | JDK Version | Status | Release |
 | :---: | :--- | :---: |
-| 8  | Working  | [0.0.8](https://github.com/nicolasmanic/perses/releases/tag/0.0.8) |
-| 9  | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk9) |
-| 10  | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk10) |  
-| 11 | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk11) |
-| 12 | Working  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk12) |
+| 8  | OK  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk8) |
+| 9  | OK  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk9) |
+| 10  | OK  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk10) |  
+| 11 | OK  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk11) |
+| 12 | OK  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk12) |
 
 ### What is the goal.
 
