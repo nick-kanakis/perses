@@ -8,20 +8,14 @@ env:
 jobs:
   include:
   - stage: test
-    jdk: openjdk9
-    script: mvn clean test
-  - jdk: openjdk10
-    script: mvn clean test
-  - jdk: openjdk11
-    script: mvn clean test
-  - jdk: openjdk12
+    jdk: openjdk8
     script: mvn clean test
   - stage: release_jdk9
-    if: branch = master
-    jdk: openjdk9
+    if: branch = JDK8
+    jdk: openjdk8
     script: mvn clean package
     before_deploy:
-      - export TRAVIS_TAG=$TRAVIS_TAG-jdk9
+      - export TRAVIS_TAG=$TRAVIS_TAG-jdk8
     deploy:
       provider: releases
       name: $TRAVIS_TAG
@@ -34,65 +28,4 @@ jobs:
       skip_cleanup: true
       on:
         repo: nicolasmanic/perses
-        branch: master
-        tags: true
-  - stage: release_jdk10
-    if: branch = master
-    jdk: openjdk10
-    script: mvn clean package
-    before_deploy:
-      - export TRAVIS_TAG=$TRAVIS_TAG-jdk10
-    deploy:
-      provider: releases
-      name: $TRAVIS_TAG
-      api_key: $GITHUB_TOKEN
-      overwrite: true
-      file:
-        - perses-agent.jar
-        - Injector/target/perses-injector-jar-with-dependencies.jar
-        - PersesUI/target/perses.jar
-      skip_cleanup: true
-      on:
-        repo: nicolasmanic/perses
-        branch: master
-        tags: true
-  - stage: release_jdk11
-    if: branch = master
-    jdk: openjdk11
-    script: mvn clean package
-    before_deploy:
-      - export TRAVIS_TAG=$TRAVIS_TAG-jdk11
-    deploy:
-      provider: releases
-      name: $TRAVIS_TAG
-      api_key: $GITHUB_TOKEN
-      overwrite: true
-      file:
-        - perses-agent.jar
-        - Injector/target/perses-injector-jar-with-dependencies.jar
-        - PersesUI/target/perses.jar
-      skip_cleanup: true
-      on:
-        repo: nicolasmanic/perses
-        branch: master
-        tags: true
-  - stage: release_jdk12
-    if: branch = master
-    jdk: openjdk12
-    script: mvn clean package
-    before_deploy:
-      - export TRAVIS_TAG=$TRAVIS_TAG-jdk12
-    deploy:
-      provider: releases
-      name: $TRAVIS_TAG
-      api_key: $GITHUB_TOKEN
-      overwrite: true
-      file:
-        - perses-agent.jar
-        - Injector/target/perses-injector-jar-with-dependencies.jar
-        - PersesUI/target/perses.jar
-      skip_cleanup: true
-      on:
-        repo: nicolasmanic/perses
-        branch: master
         tags: true
