@@ -12,7 +12,7 @@ if ! [ -x "$(command -v wget)" ]; then
     apt-get update
 
     echo 'Executing apt-get install wget'
-    apt-get install wget
+    apt-get -y install wget
 
     if ! [ -x "$(command -v wget)" ]; then
         echo 'Failed to install wget (!), exiting script'

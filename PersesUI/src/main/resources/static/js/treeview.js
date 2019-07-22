@@ -23,7 +23,7 @@ const addChildrenToRoot = (methodInfo) => {
     rootLi.addEventListener("click", e => {
         updateActiveNode(rootLi);
         updateInjectFailureBtn(methodInfo);
-
+        updateInjectRestoreBtn(methodInfo);
         e.stopPropagation();
 
         getFromPerses({

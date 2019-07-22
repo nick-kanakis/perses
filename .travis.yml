@@ -3,7 +3,7 @@ sudo: false
 
 env:
   global:
-    - TRAVIS_TAG=0.9.0
+    - TRAVIS_TAG=0.9.1
 
 jobs:
   include:
