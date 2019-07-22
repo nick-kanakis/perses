@@ -17,17 +17,13 @@ Perses is designed to enable developpers and QAs to easily reproduce & debug tri
 For more information about how **Perses** works under the hood, how to set everything up & how to use it please visit 
 the [wiki](https://github.com/nicolasmanic/perses/wiki).
 
-### Perses status
+### What is the goal.
 
-Perses is under development. Please feel free to raise any issues you might encounter.  
+Perses is a tool designed to give you insides to your jvm application by dynamically injecting failure/latency at the bytecode level
+with surgical precision. Perses is designed with [Principles of Chaos Engineering][PoC] in mind.
 
-| JDK Version | Release |
-| :---: | :---: |
-| 8  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk8) |
-| 9  | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk9) |
-| 10 | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk10) |  
-| 11 | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk11) |
-| 12 | [0.9.0](https://github.com/nicolasmanic/perses/releases/tag/0.9.0-jdk12) |
+[PoC]: http://principlesofchaos.org/
+
 
 ### How to install
 
