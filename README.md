@@ -17,14 +17,6 @@ Perses is designed to enable developpers and QAs to easily reproduce & debug tri
 For more information about how **Perses** works under the hood, how to set everything up & how to use it please visit 
 the [wiki](https://github.com/nicolasmanic/perses/wiki).
 
-### What is the goal.
-
-Perses is a tool designed to give you insides to your jvm application by dynamically injecting failure/latency at the bytecode level
-with surgical precision. Perses is designed with [Principles of Chaos Engineering][PoC] in mind.
-
-[PoC]: http://principlesofchaos.org/
-
-
 ### How to install
 
 All jars are available [here](https://github.com/nicolasmanic/perses/releases). Select the version that matches the target
