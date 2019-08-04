@@ -1,4 +1,4 @@
-const addChildrenToRoot = (methodInfo) => {
+const addChildrenToRoot = (methodInfo, data) => {
 	const section = document.getElementById("calledMethodsSection");
 	section.classList.remove("hidden-lg");
 
@@ -34,6 +34,8 @@ const addChildrenToRoot = (methodInfo) => {
         }).then(res => addChildrenToNode(rootLi, res.data))
             .catch(error => alert("Could not find method " + error));
     });
+
+    addChildrenToNode(rootLi, data);
 };
 
 const addRoot = (className) => {

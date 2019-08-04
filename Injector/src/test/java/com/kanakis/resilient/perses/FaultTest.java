@@ -94,5 +94,4 @@ public class FaultTest {
         TargetClass c = new TargetClass();
         c.targetMethod();
     }
-
 }
