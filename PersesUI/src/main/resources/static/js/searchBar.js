@@ -21,7 +21,7 @@ const searchMethod = () => {
             signature: signature
         };
         getFromPerses(methodInfo)
-            .then(() => addChildrenToRoot(methodInfo))
+            .then(response => addChildrenToRoot(methodInfo, response.data))
             .catch(e => resultNotOk(e));
     }
 };

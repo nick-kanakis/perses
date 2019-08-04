@@ -1,15 +1,16 @@
 package com.kanakis.resilient.perses.agent;
 
 import javassist.ByteArrayClassPath;
-import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.LoaderClassPath;
+import javassist.NotFoundException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class MethodManipulation {
@@ -37,6 +38,11 @@ class MethodManipulation {
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
                 if (method.getName().equals(properties.getMethodName()) && (
                         method.getSignature().equals(properties.getSignature()) || method.getSignature().matches(properties.getSignature()))) {
+
+                    if(method.isEmpty()) {
+                        throw new RuntimeException("There is no body for method: " + method.getName());
+                    }
+
                     System.out.println("Instrumenting method: " + method.getName());
                     ctClazz.removeMethod(method);
                     CtMethod modifiedMethod = properties.getMode().generateCode(method, properties);
@@ -71,16 +77,23 @@ class MethodManipulation {
         try {
             ClassPool cPool = new ClassPool(true);
             cPool.appendClassPath(new LoaderClassPath(classLoader));
-            //cPool.appendClassPath(new ByteArrayClassPath(binName, byteCode));
             CtClass ctClazz = cPool.get(binName);
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
-                if (method.getName().equals(methodName) && (
+                if (!method.isEmpty() && method.getName().equals(methodName) && (
                         method.getSignature().equals(signature) || method.getSignature().matches(signature))) {
                     method.instrument(
                             new ExprEditor() {
-                                public void edit(MethodCall m)
-                                        throws CannotCompileException {
-                                    invokedMethods.add(new MethodProperties(m.getClassName(), m.getMethodName(), m.getSignature()));
+                                public void edit(MethodCall invokedMethod) {
+                                    try {
+                                        if (!invokedMethod.getMethod().isEmpty()) {
+                                            invokedMethods.add(new MethodProperties(invokedMethod.getClassName(), invokedMethod.getMethodName(), invokedMethod.getSignature()));
+                                        } else {
+                                            System.out.println("There is no body for method: " + invokedMethod.getMethodName());
+                                        }
+                                    } catch (NotFoundException e) {
+                                        System.out.println("Failed to get invoked methods by : " + methodName);
+                                        throw new RuntimeException("Failed to get invoked methods by : " + methodName);
+                                    }
                                 }
                             });
                 }
@@ -107,7 +120,15 @@ class MethodManipulation {
             ClassPool cPool = new ClassPool(true);
             cPool.appendClassPath(new LoaderClassPath(classLoader));
             CtClass ctClazz = cPool.get(binName);
+            if (ctClazz.isInterface()) {
+                System.out.println("Skipping as " + className + " is interface");
+                return Collections.emptyList();
+            }
             for (CtMethod method : ctClazz.getDeclaredMethods()) {
+                if (method.isEmpty()) {
+                    System.out.println("Skipping method " + method.getName() + ", no body found");
+                    return Collections.emptyList();
+                }
                 invokedMethods.add(new MethodProperties(method.getDeclaringClass().getName(),
                         method.getName(), method.getSignature()));
 

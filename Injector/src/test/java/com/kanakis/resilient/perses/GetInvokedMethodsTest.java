@@ -15,7 +15,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-
 public class GetInvokedMethodsTest {
     private static MBeanWrapper mBeanWrapper;
 
@@ -54,5 +53,27 @@ public class GetInvokedMethodsTest {
 
         MethodProperties expectedMethodProperties = new MethodProperties("com.kanakis.resilient.perses.testApp.TargetClass", "helper", "()Z");
         assertTrue(res.contains(expectedMethodProperties));
+    }
+
+    @Test
+    public void should_not_return_methods_of_interface() throws Throwable {
+        AttackProperties properties = new AttackProperties();
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetInterface");
+        properties.setMethodName("targetMethod");
+
+        List<MethodProperties> res = mBeanWrapper.getInvokedMethods(properties);
+
+        assertTrue(res.isEmpty());
+    }
+
+    @Test
+    public void should_not_return_method_without_body() throws Throwable {
+        AttackProperties properties = new AttackProperties();
+        properties.setClassPath("com.kanakis.resilient.perses.testApp.TargetAbstractClass");
+        properties.setMethodName("methodWithoutBody");
+
+        List<MethodProperties> res = mBeanWrapper.getInvokedMethods(properties);
+
+        assertTrue(res.isEmpty());
     }
 }

@@ -2,7 +2,6 @@ package com.kanakis.resilient.perses;
 
 import com.kanakis.resilient.perses.agent.MethodProperties;
 import com.kanakis.resilient.perses.core.AgentLoader;
-import com.kanakis.resilient.perses.core.AttackProperties;
 import com.kanakis.resilient.perses.core.MBeanWrapper;
 import com.sun.tools.attach.VirtualMachine;
 import org.junit.AfterClass;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -35,7 +35,21 @@ public class GetMethodsOfClass {
     public void should_get_methods_of_class() throws Throwable {
         List<MethodProperties> res = mBeanWrapper.getMethodsOfClass("com.kanakis.resilient.perses.testApp.TargetClass");
 
-        assertTrue(res.size() == 4);
+        assertEquals(4, res.size());
+    }
+
+    @Test
+    public void should_not_return_methods_of_interface() throws Throwable {
+        List<MethodProperties> res = mBeanWrapper.getMethodsOfClass("com.kanakis.resilient.perses.testApp.TargetInterface");
+
+        assertTrue(res.isEmpty());
+    }
+
+    @Test
+    public void should_not_return_method_without_body() throws Throwable {
+        List<MethodProperties> res = mBeanWrapper.getMethodsOfClass("com.kanakis.resilient.perses.testApp.TargetAbstractClass");
+
+        assertTrue(res.isEmpty());
     }
 
 }
