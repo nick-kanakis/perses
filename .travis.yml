@@ -96,3 +96,6 @@ jobs:
         repo: nicolasmanic/perses
         branch: master
         tags: true
+cache:
+  directories:
+  - $HOME/.m2
